@@ -26,8 +26,9 @@ Ext.define("jmrc.view.login.LoginController", {
 
 	onlogin : function() {
 		let me = this;
-		var form = this.getView().getForm();
-		var view = this.getView();
+		
+		var form = me.getView().getForm();
+		var view = me.getView();
 		let password = form.getFieldValues()["password"];
 		let id = form.getFieldValues()["id"];
 		let url = form.url;

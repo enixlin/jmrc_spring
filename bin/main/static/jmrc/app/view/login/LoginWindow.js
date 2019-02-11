@@ -7,7 +7,7 @@ Ext.define('jmrc.view.login.LoginWindow', {
 
 	autoShow : true,
 	
-	controller : "login-login",
+
 
 	margin : '5 5 5 5',
 	layout : {type:"hbox",pack:"end"},
@@ -41,20 +41,12 @@ Ext.define('jmrc.view.login.LoginWindow', {
 						  						console.log("div");
 						  						console.log(div);
 						  						panel[0].controller[record.data["id"]]();
-//						  						if(record.data["id"]==1){
-//						  							// this 是这个combo
-//						  							console.log(record.data["id"]);
-//						  							console.log(panel);
-//						  							panel[0].controller.流浪星际();
-//
-//						  							
-//						  						}else{
-//						  							console.log(record.data["id"]);
-//						  							panel[0].controller.旋转几何();
-//						  						}
+
 						  			}
 				  }
 		},
+		
+		
 		
 		{
 		xtype : 'combo',
