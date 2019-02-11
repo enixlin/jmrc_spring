@@ -1,0 +1,7 @@
+com.enixlin.jmrc
+com.enixlin.jmrc.controller
+com.enixlin.jmrc.entity
+com.enixlin.jmrc.mapper
+com.enixlin.jmrc.service
+com.enixlin.jmrc.service.impl
+com.enixlin.jmrc.util

@@ -1,0 +1,441 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh">
+<meta charset="UTF-8">
+<meta http-equiv="x-ua-compatible" content="IE=8;" />
+
+<head><script>if(!WidgetContext){var WidgetContext=top.WidgetContext};if(WidgetContext){WidgetContext.Widget.headStart(window);}</script>
+  <title>广东农信统一门户</title>
+        
+  <link rel="stylesheet" href="/portal/win10_login/css/win10_login-1.0.0.css?v=10002" />
+  <style type="text/css">
+  	.logo_tips{
+  		display: inline-block;
+	    vertical-align: middle;
+	    height:60px;
+	    margin-left: -60px;
+  	}
+  	.logo_tips img{
+	    height:100%;
+  	}
+  	.tradition_themes {
+	    background-position: center 0;
+	}
+	.notice_fixed_box{
+	    width: 100%;
+	    border: 2px solid #C4E3CC;
+	    background-color: #C5E4CD;
+	  }
+	  .notice_fixed_box>div{
+	    display: table-cell;
+	    vertical-align: middle;
+	  }
+	  .notice_fixed_box .fixed_icon>img{
+	    width: 20px;
+	    margin: 5px 8px;
+	  }
+	  .notice_fixed_box .fixed_content{
+	    padding-left: 5px;
+	    width: 2000px;
+	    white-space: nowrap;
+	  }
+	  .notice_fixed_box .fixed_content>a{
+	    color: inherit;
+        font-weight: bold;
+	    text-decoration: underline;
+	  }
+	  .notice_fixed_box .fixed_close{
+	    cursor: pointer;
+	  }
+	  .notice_fixed_box .fixed_close>img{
+	    margin: 5px 10px;
+	    vertical-align: middle;
+	  }
+  </style>
+  <script type="text/javascript">
+        var contextPath = "/portal";
+        var urlStyle = 'login';
+        var OaHostUrl = "http://96.8.8.88:80/COA";
+        
+        var VIS_PORTAL = {
+        	loginPageURL: "win10_login/login.jsp",
+        	serviceURL: "http://96.8.8.88:80/portal/login/index.jsp",
+        	loginFailure: "false",
+        	loginFailuremsg:""
+        }
+        
+		var firstLogin = true;
+  </script>
+  <script src="/portal/win10_login/jquery-1.12.4.min.js?v=10002"></script>
+  
+  
+
+<script>if(!WidgetContext){var WidgetContext=top.WidgetContext};if(WidgetContext){WidgetContext.Widget.headEnd(window);}</script></head>
+
+<body class="tradition_themes">
+
+	
+  	
+    <div class="desktop-header login-header">
+      <div class="header-info ">
+        <div class="mini-head-box">
+          <div class="head-logo-box">
+              <div class="logo-box">
+                 <!--  <span class="logo"></span> -->
+                
+                  <div class="logo_tips"><img src="win10_login/images/logo_tips.png" /></div>
+              </div>
+              
+          </div>
+        </div>
+      
+      </div>
+      
+    </div>
+    <div class="desktop-content" style="">
+      
+      <div class="desktop-main">
+        <div id="mainFrameZone"></div>
+        <div class="grid-container dynamic-grid-container">
+          <ul id="dynamic-grid" class="grid">
+            <li class="position-highlight">
+              <div class="inner"></div>
+            </li>
+          </ul>
+        </div>
+        <div class="grid-container static-grid-container">
+          <ul id="static-grid" class="grid">
+            <li class="position-highlight">
+             <div class="inner"></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div id="alert_box" class="win10_alert_box">
+	    <div class="alert_bg"></div>
+	    <div class="alert_main">
+	      <div class="alert_head">
+	        <div class="title">温馨提示</div>
+	      </div>
+	      <div class="alert_body">
+	        <div class="content"></div>
+
+	        <a href="javascript:;" class="button_link" >确定</a>
+	      </div>
+	    </div>
+	    
+	  </div>
+    
+<!--[if lt IE 8]>
+	<div class="win10_alert_box active">
+	    <div class="alert_bg"></div>
+	    <div class="alert_main">
+	      <div class="alert_head">
+	        <div class="title">温馨提示</div>
+	      </div>
+	      <div class="alert_body">
+	        <div class="content">您的浏览版本过低，无法正常使用本系统，请参考以下文档进行升级</div>
+	        <a target="_blank" href="http://96.8.8.88/COA/columnArticle/articleMessage/portal_message_detail_ForLogin.jsp?articleId=3382&releaseType=1" class="link">新oa系统不支持IE8以下浏览器的解决方法 </a>
+	        <a href="javascript:;" class="button_link" >确定</a>
+	      </div>
+	    </div>
+	    
+	  </div>
+<![endif]-->
+<script src="/portal/win10_login/jquery-ui.min.js?v=10002"></script>
+<script src="/portal/win10_login/gridList-1.0.0.min.js?v=10002"></script>
+<script src="/portal/win10_login/jquery.gridList-1.0.0.min.js?v=10002"></script>
+
+
+
+<script src="/portal/win10_login/win10_login.js?v=10002"></script>
+<script type="text/javascript">
+	var dynamicGridJson = [{
+    "x": 0,
+    "y": 0,
+    "w": 3,
+    "h": 2,
+    "widgetType": "url",
+    "id": "new_list",
+      "icon":"schedule",
+      "widgetType": "url",
+      "url": "/com.portal.win10.getBigPicNews.flow",
+    "showSettings": false,
+    "showRefresh": false
+  },
+  {
+    "x": 3,
+    "y": 0,
+    "w": 1,
+    "h": 1,
+    "id": "speak",
+    "icon":"speak",
+    "widgetType": "url",
+    "url": "/win10_login/widgets/static.jsp?name=领导讲话",
+    "href":"/columnArticle/articleMessage/portalArticleListForCommonForlogin.jsp?columnCode=LDJH&columnType=3",
+    "showSettings": false,
+    "showRefresh": false
+  },
+
+  {
+    "x": 3,
+    "y": 1,
+    "w": 1,
+    "h": 1,
+    "id": "earth",
+    "icon":"earth",
+    "widgetType": "url",
+    "url": "/win10_login/widgets/static.jsp?name=全省信息",
+    "href":"/columnArticle/articleMessage/portalArticleListForLogin.jsp?columnCode=QSXX&columnType=1",
+    "showSettings": false,
+    "showRefresh": false
+  },
+  {
+    "x": 0,
+    "y": 2,
+    "w": 2,
+    "h": 1,
+    "id": "notice",
+    "icon":"notice",
+    "widgetType": "url",
+    
+    "url": "/getOaService.staticNotice.flow",
+    "showSettings": false,
+    "showRefresh": false
+  },
+  {
+    "x": 2,
+    "y": 2,
+    "w": 1,
+    "h": 1,
+    "id": "gold",
+    "icon":"gold",
+    "widgetType": "url",
+    "url": "/win10_login/widgets/static.jsp?name=联社周报",
+    "href":"/columnArticle/articleMessage/portalArticleListForLogin.jsp?columnCode=LSZB&columnType=3",
+    "showSettings": false,
+    "showRefresh": false
+  },
+  {
+    "x": 3,
+    "y": 2,
+    "w": 1,
+    "h": 1,
+    "id": "phone",
+    "icon":"phone",
+    "widgetType": "url",
+    "url": "/win10_login/widgets/static.jsp?name=电子期刊",
+    "href":"/columnArticle/articleMessage/portalArticleListForLogin.jsp?columnCode=DZQK&columnType=1",
+    "showSettings": false,
+    "showRefresh": false
+  },
+  {
+    "x": 0,
+    "y": 3,
+    "w": 1,
+    "h": 1,
+    "id": "calendar",
+    "icon":"calendar",
+    "widgetType": "url",
+    "url": "/win10_login/widgets/static.jsp?name=工作简报",
+    "href":"/columnArticle/articleMessage/portalArticleListForCommonForlogin.jsp?columnCode=GZJB&columnType=3",
+    "showSettings": false,
+    "showRefresh": false
+  },
+  {
+    "x": 1,
+    "y": 3,
+    "w": 1,
+    "h": 1,
+    "id": "book",
+    "icon":"book",
+    "widgetType": "url",
+    "url": "/win10_login/widgets/static.jsp?name=精细化管理",
+    "href":"/columnArticle/articleMessage/portalArticleListForLogin.jsp?columnCode=JXHGL&columnType=1",
+    "showSettings": false,
+    "showRefresh": false
+  },
+  {
+    "x": 2,
+    "y": 3,
+    "w": 2,
+    "h": 1,
+    "id": "images_box",
+    "widgetType": "url",
+    "url": "/com.portal.win10.staticLoginImg.flow",
+    "showSettings": false,
+    "showRefresh": false
+  }
+
+];
+	
+	var staticGridJson = [{
+    "x": 0,
+    "y": 0,
+    "w": 2,
+    "h": 2,
+    "id": "treat",
+    "widgetType": "url",
+    "url": "/win10_login/widgets/static_login.jsp",
+    "showSettings": false,
+    "showRefresh": false
+  },
+  {
+    "x": 0,
+    "y": 2,
+    "w": 2,
+    "h": 1,
+    "id": "new_small_list",
+    "widgetType": "url",
+    "url": "/com.portal.win10.getSmallPicNews.flow",
+    "showSettings": false,
+    "showRefresh": false
+  },
+  {
+    "x": 0,
+    "y": 3,
+    "w": 1,
+    "h": 1,
+    "id": "answer",
+    "widgetType": "url",
+    "url": "/win10_login/widgets/static.jsp?name=帮助",
+    "href":"/columnArticle/articleMessage/portalArticleListForCommonForlogin.jsp?columnCode=BZ&columnType=3",
+    "showSettings": false,
+    "showRefresh": false
+  },
+  {
+    "x": 1,
+    "y": 3,
+    "w": 1,
+    "h": 1,
+    "id": "download",
+    "widgetType": "url",
+    "url": "/win10_login/widgets/static.jsp?name=软件下载",
+    "href":"/win10_login/widgets/staticSoftDownload.jsp",
+    "showSettings": false,
+    "showRefresh": false
+  }
+
+];
+
+
+	if(self!=top){
+		top.location.reload();
+	}
+
+
+	
+	function callbackac(data){
+    	alert(data);
+    }
+    dynamicGridJson=changeHref(dynamicGridJson);
+	
+ 
+        $dynamicGrid.gridList({
+          initialItems: dynamicGridJson,
+          direction: 'vertical',
+          lanes: 4,
+          dragAndDrop: false,
+          widthHeightRatio: 1 / 1
+        });
+      /* },
+      error: function() {
+        alert("error");
+      }
+    })  */
+
+   
+      	staticGridJson=changeHref(staticGridJson);
+        $staticGrid.gridList({
+          initialItems: staticGridJson,
+          direction: 'vertical',
+          lanes: 2,
+          dragAndDrop: false,
+          widthHeightRatio: 1 / 1
+        });
+        
+        
+     /*  },
+      error: function() {
+        alert("error");
+      }
+    }) */
+    
+    //转换href连接地址
+	function changeHref(resp){
+		//模块引入路径
+		var appName = '/portal';
+		var len = resp.length;
+		for(var i=0;i<len;i++){
+			if(resp[i].href != undefined){
+				if( resp[i].id == 'download'){
+					resp[i].href = '/portal' + resp[i].href;
+				}else{
+					resp[i].href = OaHostUrl + resp[i].href;
+				}
+			}
+			resp[i].url = appName + resp[i].url;
+		}
+		return resp;
+	} 
+	//showLoginMessage();
+	
+	/* window.onload = function(){
+    
+         var nowTime = new Date().getTime();
+        var startTime = new Date('2018/06/29 00:00:00').getTime();
+        var endTime = new Date('2018/07/15 23:59:59').getTime()
+        if(nowTime >= startTime &&  nowTime< endTime){
+        	setTimeout(function(){
+        		init();
+        	},600);
+        }
+    
+    } */
+    
+    
+    
+	$.ajax({
+  		url:"/portal/com.primeton.components.renovate.renovateManager.queryRenovateSpotnew.biz.ext",
+      	type:'get',
+      	data:null,
+      	contentType:'text/json',
+      	success:function(text){
+      		if(text.data){
+	      		var adHtml = '<div class="notice_fixed_box" style="display:none;">';
+	          	adHtml += '<div class="fixed_icon"><img src="'+contextPath+'/win10_login/images/notice_icon.png"></div>';
+	          	adHtml += '<div class="fixed_content"><a href="'+text.data.actionUrl+'" target="_blank">'+text.data.renovateTitile+'</a></div>';
+	          	adHtml += '</div>';
+	          	$(".tradition_themes").prepend(adHtml);
+	          	$(".notice_fixed_box").slideDown(300);
+      		}
+      
+      	}
+  })
+    
+	
+	
+	function init(){ 
+		var top = 0;
+		var left = 0;
+		var w = (window.screen.availWidth-10);
+		var h = (window.screen.availHeight-50);
+		var options = "width=" + w + ",height=" + h + ",";
+	    options += "scrollbars=yes,resizable=yes,location=no,menubar=no,toolbar=no,directories=no,top="+top+",left="+left;
+	   
+    	newWin = window.open("/portal/win10_login/widgets/static_subscribe.jsp?v=2","新年致辞", options);
+        newWin.focus();
+		
+	}
+	
+	
+	
+</script>
+<script>if(!WidgetContext){var WidgetContext=top.WidgetContext};if(WidgetContext){WidgetContext.Widget.bodyEnd(window);}</script></body>
+
+</html>
