@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.stereotype.Service;
-
 import com.enixlin.jmrc.entity.Roler;
 import com.enixlin.jmrc.entity.Rule;
 import com.enixlin.jmrc.entity.User;

@@ -1,16 +1,11 @@
 package com.enixlin.jmrc.controller;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.omg.DynamicAny.NameValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.enixlin.jmrc.entity.Roler;
 import com.enixlin.jmrc.entity.User;
 import com.enixlin.jmrc.service.UserService;
-import com.fasterxml.jackson.databind.util.ArrayBuilders;
 
 /**
  * <h1>用户实体控制器</h1><br>

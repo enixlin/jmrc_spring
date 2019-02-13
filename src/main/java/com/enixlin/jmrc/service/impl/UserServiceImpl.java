@@ -1,7 +1,6 @@
 package com.enixlin.jmrc.service.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.enixlin.jmrc.entity.Roler;
 import com.enixlin.jmrc.entity.User;
-import com.enixlin.jmrc.mapper.RolerMapper;
 import com.enixlin.jmrc.mapper.UserMapper;
 import com.enixlin.jmrc.service.UserService;
 
@@ -23,8 +21,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper	userMaper;
-    @Autowired
-    private RolerMapper	rolerMapper;
 
     @Override
     public List<Map<String, Object>> getUserNameAndId() {

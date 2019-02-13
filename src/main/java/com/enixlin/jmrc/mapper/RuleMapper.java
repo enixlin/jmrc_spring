@@ -9,9 +9,7 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import com.enixlin.jmrc.entity.Roler;
 import com.enixlin.jmrc.entity.Rule;
-import com.enixlin.jmrc.entity.User;
 
 @Mapper
 public interface RuleMapper {

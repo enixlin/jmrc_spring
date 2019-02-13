@@ -1,8 +1,5 @@
 package com.enixlin.jmrc.service.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,16 +44,8 @@ public class PolicyDocumentServiceImpl implements PolicyDocumentService {
 	@Override
 	public boolean fetchUpdatePackage(String url) {
 		// TODO Auto-generated method stub
-		File file=new File(url);
 		System.out.println("file path is ...");
-		try {
-			FileInputStream fis=new FileInputStream(file);
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+	
 		
 		return false;
 	}

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.enixlin.jmrc.entity.Roler;
 import com.enixlin.jmrc.entity.Rule;
-import com.enixlin.jmrc.mapper.RolerMapper;
 import com.enixlin.jmrc.service.RolerService;
 
 @RestController

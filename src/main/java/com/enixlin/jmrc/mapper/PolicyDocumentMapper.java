@@ -3,14 +3,12 @@ package com.enixlin.jmrc.mapper;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import flex.messaging.io.ArrayList;
-
 import com.enixlin.jmrc.entity.PolicyDocumentNote;
-import com.enixlin.jmrc.policydocument.*;
+import com.enixlin.jmrc.policydocument.HtmlFile;
+import com.enixlin.jmrc.policydocument.PolicyFileEntity;
 
 @Mapper
 public interface PolicyDocumentMapper {

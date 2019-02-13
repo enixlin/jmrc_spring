@@ -1,21 +1,16 @@
 package com.enixlin.jmrc.service.impl;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
-
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.enixlin.jmrc.entity.Roler;
 import com.enixlin.jmrc.entity.Rule;
 import com.enixlin.jmrc.entity.User;
 import com.enixlin.jmrc.mapper.RolerMapper;
-import com.enixlin.jmrc.mapper.RuleMapper;
 import com.enixlin.jmrc.mapper.UserMapper;
 import com.enixlin.jmrc.service.AuthService;
 

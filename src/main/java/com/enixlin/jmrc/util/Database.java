@@ -1,16 +1,12 @@
 package com.enixlin.jmrc.util;
 
-import java.beans.Statement;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.springframework.stereotype.Component;
 
 import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.Driver;
-import com.mysql.jdbc.PreparedStatement;
 
 @Component
 public class Database {
@@ -30,7 +26,7 @@ public class Database {
     public Object query(String sql, ArrayList<String> list) throws SQLException {
 	if(this.conn!=null) {
 	    // 创建语句
-	    java.sql.Statement st=this.conn.createStatement();
+//	    java.sql.Statement st=this.conn.createStatement();
 	}
 	return list;
 

@@ -10,12 +10,10 @@ import java.net.URL;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.enixlin.jmrc.policydocument.DataFileAccess;
-import com.enixlin.jmrc.service.AuthService;
 
 //import smartbi.net.sf.json.JSONArray;
 //import smartbi.sdk.ClientConnector;
@@ -53,9 +51,7 @@ import com.enixlin.jmrc.service.AuthService;
 public class LoginController {
 
 
-	@Autowired
-	private AuthService authService;
-	// private PolicyDocumentService pd;
+
 
 	/**
 	 * 这个方法输出一个html视图到客户端,这个视图就是用户登录界面

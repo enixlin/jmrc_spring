@@ -10,28 +10,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UTFDataFormatException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.function.BiConsumer;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.Inflater;
 import java.util.zip.InflaterInputStream;
 
-import flex.messaging.io.ArrayList;
 import flex.messaging.io.SerializationContext;
 import flex.messaging.io.amf.ASObject;
 import flex.messaging.io.amf.Amf3Input;
-import flex.messaging.io.amf.translator.ASTranslator;
 
 /**
  * 外汇管理政策数据文件读写类<br>
@@ -47,8 +38,7 @@ public class DataFileAccess {
 	public Map<String, String> StructionMap;// 所有的发文单位
 	public Map<String, ASObject> FileSubTypeMap; // 所有文件的分类列表
 	public java.util.ArrayList<HtmlFile> HtmlFileArr = new java.util.ArrayList<>(); // 数据文件的html编码文件列表，以文件的Did为索引
-	private String DBName;
-	private String Password;
+
 
 	public void createDBTable(String Host, String Port, String DBName, String user, String Password) {
 		String url = this.createDBUrl(Host, Port, DBName);
@@ -126,6 +116,7 @@ public class DataFileAccess {
 		return "jdbc:mysql://" + Host + ":" + Port + "/" + DBName;
 	}
 
+	@SuppressWarnings({ "unchecked" })
 	public void fileToObject(String filePath) {
 
 		// 读取整个升级包文件，以字节数组型式保存
@@ -182,6 +173,8 @@ public class DataFileAccess {
 
 				this.PolicyFileRecordArr.add(pfe);
 			}
+			amf.close();
+			amf_temp.close();
 			System.out.println("读取文件列表完成");
 			System.out.println("共有外汇政策文件：" + ba.length + "份");
 
@@ -195,7 +188,7 @@ public class DataFileAccess {
 			len = amf.readInt();
 			amf.read(bt, 0, len);
 			amf_temp.setInputStream(new ByteArrayInputStream(this.decompress(bt)));
-			this.StructionMap = (Map) amf_temp.readObject();
+			this.StructionMap = (Map<String, String>) amf_temp.readObject();
 
 			// System.out.println(" get struction map complete! ");
 		} catch (Exception e) {
@@ -210,7 +203,7 @@ public class DataFileAccess {
 			amf.read(bt, 0, len);
 			amf_temp.setInputStream(new ByteArrayInputStream(this.decompress(bt)));
 			// Object d=amf_temp.readObject();
-			this.FileSubTypeMap = (Map) amf_temp.readObject();
+			this.FileSubTypeMap =  (Map<String, ASObject>) amf_temp.readObject();
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -3,8 +3,6 @@ package com.enixlin.jmrc.service;
 import java.util.ArrayList;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Select;
-
 import com.enixlin.jmrc.entity.Roler;
 import com.enixlin.jmrc.entity.User;
 

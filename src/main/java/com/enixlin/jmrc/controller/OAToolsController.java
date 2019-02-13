@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.enixlin.jmrc.entity.OATool;
-import com.enixlin.jmrc.entity.User;
 import com.enixlin.jmrc.service.OAToolService;
 @RestController
 @RequestMapping("oatools")
