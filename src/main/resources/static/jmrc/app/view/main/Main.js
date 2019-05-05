@@ -7,10 +7,11 @@
  * application.
  */
 Ext.define("jmrc.view.main.Main", {
-	extend : "Ext.tab.Panel",
+	extend : "Ext.panel.Panel",
 	xtype : "app-main",
 
 	/**
+	 * 需要引入的 类型/自定义组件，通过自动加载机制，引入时只需要引入这个组件的控件view就可以 其他的controller 和 model
 	 * 需要引入的 类型/自定义组件，通过自动加载机制，引入时只需要引入这个组件的控件view就可以 其他的controller 和 model
 	 * 都是自动引入的
 	 */
@@ -19,174 +20,52 @@ Ext.define("jmrc.view.main.Main", {
 	"Ext.window.MessageBox",//
 	"jmrc.view.main.MainController", //
 	"jmrc.view.main.MainModel",//
-	"jmrc.view.main.List", //
-	"jmrc.view.user.UserView", //
-	"jmrc.view.tab.tablayout", //
-	"jmrc.view.oatool.oatool",//
-	"jmrc.view.oatool.calendar.Calendar", //
-	"jmrc.view.oatool.oatool",//
-	"jmrc.view.policydocument.Policydocument",//
-	"jmrc.view.user.UserViewController",//,
-	"jmrc.view.policydocument.notes.Notes",
-	"jmrc.view.policydocument.file.file"
+	// "jmrc.view.user.admin.User",//
+	// "jmrc.view.found.Found",
+	// "jmrc.view.found.FoundList",
+	// "jmrc.view.user.user_add",
+	// "jmrc.view.main.navitree.NaviTree",//
+	// "jmrc.view.main.content.Content",//
+
 	],
 
 	controller : "main",
+
 	viewModel : "main",
+	// renderTo : Ext.getBody(),
+	layout : "border",
+	
 	plugins : "viewport",
-	ui : "navigation",
-
-	tabBarHeaderPosition : 1,
-	titleRotation : 0,
-	tabRotation : 0,
-
-	header : {
-		height : 60,
-		layout : {
-
-			align : "top",
-
-		},
-
-		title : {
-			bind : {
-				text : CFG.getTitleBanner() + " - " + CFG.getVersion(),
-			},
-
-			style : {
-				font : "24px bold",
-				color : "white",
-				margin : "16px 3px 0px 20px"
-			},
-			flex : 0.5,
-
-		},
-		iconCls : "fa-university",
-	// icon:"/jmrc_logo.jpg",
-	},
-	// header : false,
-
-	tabBar : {
-		height : 60,
-		scrollable : true,
-		flex : 1,
-
-		layout : {
-			align : "stretch",
-			overflowHandler : "none"
-		},
-
-		style : {
-			font : "20px bold",
-			color : "white",
-
-		}
-	// items: [{ type: 'button', handler: 'logout', text: '退出登录' }]
-	},
-
-	responsiveConfig : {
-		tall : {
-			headerPosition : "left"
-		},
-		wide : {
-			headerPosition : "top"
-		}
-	},
-
-	// tabStretchMax:true,
-
-	defaults : {
-		bodyPadding : 5,
-
-		tabConfig : {
-			padding : "10px 10px 10px 10px",
-			plugins : "responsive",
-
-			responsiveConfig : {
-				wide : {
-					iconAlign : "left",
-					textAlign : "left"
-				},
-				tall : {
-					iconAlign : "top",
-					textAlign : "center"
-				}
-			}
-		}
-	},
-
-	dockedItems : [ {
+	items : [ {
 		xtype : "container",
-		layout : "hbox",
+		layout : 'border',
+		width : window.innerWidth,
+		height : window.innerHeight,
+		default:{
+		
+		frame : true,
+		},
 		items : [ {
-			xtype : 'textfield',
-			value : "this is a textfield...",
-			width : "30%",
-			margin : "5 10 10 10"
+			region : "north",
+			height : 100,
+			width : "100%",
 		}, {
-			xtype : "container",
-			layout : {
-				type : 'hbox',
-				pack : "center"
-			},
-			width : "70%",
-			defaults : {
-				width : 120,
-				xtype : "button",
-				margin : "5 10 10 10"
-			},
-			items : [ {
-				xtype : "tbfill"
-			}, {
-				text : "",
-				reference : "user_name"
-			}, {
-				text : "角色转换",
-				handler : "showRolerListWindow",
-				defaultAlign : 'right'
-			}, {
-				text : "退出登录",
-				handler : "logout"
-			}, ]
-		} ]
-	}
+			region : "west",
+			xtype : 'navitree',
+			layout : 'auto',
+			width : "20%",
+			split : true
+		}, {
+			region : "center",
+			width : "80%",
+			xtype : 'content',
+			layout : 'fit',
+			id : "contentpanel",
+			tabManager : []
+		}
 
-	],
+		]
 
-// defaults:{
-// width:"100%",
-// },
-// items : [ {
-// xtype : "container",
-// layout : "hbox",
-// width:'100%',
-// //renderTo:Ext.getBody(),
-// items : [ {
-// xtype : "textfield",
-//			
-// value : "textfield"
-// }, {
-// xtype : "container",
-//			
-// layout : {type:"hbox",pack:"center"},
-// defaults:{
-// margin:"5 5 5 5",
-// width:80
-// },
-// items : [ {
-// xtype : "tbfill"
-// }, {
-// xtype:'button',
-// value : "user",
-// //id:"user_name1",
-// reference : "user_name"
-// }, {
-// xtype:'button',
-// value : "角色转换",
-// handler : "showRolerListWindow",
-// defaultAlign : 'right'
-// } ]
-// } ]
-// } ]
+	} ],
 
 });

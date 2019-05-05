@@ -47,7 +47,9 @@ public class UserController {
 	user.setPassword(req.getParameter("password"));
 	user.setStatus(Integer.parseInt(req.getParameter("status")));
 	com.enixlin.jmrc.entity.User u = userService.addUser(user);
-	return u;
+		System.out.println("user");
+
+		return u;
     }
 
     @RequestMapping("/modifyUser")

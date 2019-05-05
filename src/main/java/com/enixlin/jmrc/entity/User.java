@@ -8,6 +8,16 @@ public class User {
     private int status;
     private int rolerId;
     private String rolerName;
+    private boolean isExist;
+
+    public boolean isExist() {
+        return isExist;
+    }
+
+    public void setExist(boolean exist) {
+        isExist = exist;
+    }
+
     public String getRolerName() {
         return rolerName;
     }

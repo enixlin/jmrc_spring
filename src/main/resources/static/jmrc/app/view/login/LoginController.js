@@ -26,12 +26,15 @@ Ext.define("jmrc.view.login.LoginController", {
 
 	onlogin : function() {
 		let me = this;
-		
+		//取得登录框的表单，从表单里读取用户和密码以及表单的提交路径
 		var form = me.getView().getForm();
+		// 取得当前的视图
 		var view = me.getView();
 		let password = form.getFieldValues()["password"];
 		let id = form.getFieldValues()["id"];
 		let url = form.url;
+
+		// 验证表单
 		if (form.isValid()) {
 			Ext.Ajax.request({
 				url : url,

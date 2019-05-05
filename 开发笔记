@@ -1,4 +1,15 @@
 2019年1月12日
 突然间在用sencha generate view 命令时，生成的页面运行出现了这个错误：
 Uncaught Error: [Ext.create] Unrecognized class name / alias:
+延河
+
 找了大半天，原来是app的代码目录搞错了，在spring boot项目中，要修改的是bin目录的前端代码
+
+
+
+登录过程：
+1。logincontrller.java 只是简单输出一个登录页面，没有其他功能，前台向后台/auth/authLogin发送用户验证，成功的话返回一个用户对象，否则返回一个空对象，用户信息写入session和前台的cfg对象的userInfo
+2。根据用户的编号取得用户的所有角色，
+
+
+

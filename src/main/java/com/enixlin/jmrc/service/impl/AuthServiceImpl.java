@@ -47,6 +47,9 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public boolean checkLogin(HttpSession session) {
 	if(session.getAttribute("logined")!=null && (boolean)session.getAttribute("logined")==true) {
+		User u=new User();
+		u.setName((String) session.getAttribute("name"));
+		u.setId((int) session.getAttribute("id"));
 	    return true;
 	}
 	return false;

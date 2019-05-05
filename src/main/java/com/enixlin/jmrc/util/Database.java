@@ -1,16 +1,16 @@
 package com.enixlin.jmrc.util;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.springframework.stereotype.Component;
 
-import com.mysql.jdbc.Connection;
-
 @Component
 public class Database {
-    private java.sql.Connection conn;
+    private   Connection conn;
+
 
     public Connection setConnection() throws SQLException {
 	// 注册jdbc驱动
