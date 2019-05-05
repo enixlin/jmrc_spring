@@ -10,6 +10,12 @@ public class PolicyFileEntity {
 	public String postMechanism;
 	public String content;
 	public int tid;
+	public double postTime;
+	public double effTime;
+	public int state;
+	public int dId;
+	public int cId;
+	public Object [] attaches;
 	public PolicyFileEntity(int wordsCount, String docNum, String link, String sTitle, String title,
 			String postMechanism, String content, int tid, double postTime, double effTime, int state, int dId, int cId,
 			Object[] attaches) {
@@ -33,12 +39,6 @@ public class PolicyFileEntity {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public double postTime;
-	public double effTime;
-	public int state;
-	public int dId;
-	public int cId;
-	public Object [] attaches;
 	public int getWordsCount() {
 		return wordsCount;
 	}

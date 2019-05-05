@@ -16,7 +16,6 @@ Ext.define('jmrc.view.login.LoginWindow', {
 	// border: true,
 
 	items : [ 
-		
 		{
 			xtype:"combo",
 			emptyText : "选择动画",

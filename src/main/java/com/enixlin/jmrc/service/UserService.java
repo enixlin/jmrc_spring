@@ -12,15 +12,16 @@ public interface UserService {
 
     public java.util.List<Map<String, Object>> getUserAllInformation();
 
-    public User getUserById(int id);
 
-    public User addUser(String name, String password);
+    public User getUserById(int id);
+    public User getUserByName(String name);
 
     public User modifyUser(User user);
 
     public User deleteUser(int userId);
 
     public User addUser(User user);
+    public  boolean isExist(User user);
     
     /**
      * 将一组角色赋给一个用户

@@ -138,21 +138,21 @@ Ext.define("jmrc.view.main.MainController", {
      
         console.log("cfg.user information roler name is :");
     	console.log(CFG.getUserInfo().rolerName);
-        me.getReferences().user_name.text = user_name;
+      //  me.getReferences().user_name.text = user_name;
 
-        if(roler_id==undefined || roler_id==0 || roler_name==undefined){
-        
-        	CFG.setUserInfo({id:user_id,name:user_name,rolerId:roler_id,password:null,status:null});
-        	// CFG.setRolerInfo({rolerId:roler_id,rolerName:""});
-        	
-        	
-        	this.choicRoler(user_id).then(function(result) {
-        		
-        	 });
-        }else{
-        	  
-        	this.initAuthor(roler_id,roler_name);
-        }
+//        if(roler_id==undefined || roler_id==0 || roler_name==undefined){
+//        
+//        	CFG.setUserInfo({id:user_id,name:user_name,rolerId:roler_id,password:null,status:null});
+//        	// CFG.setRolerInfo({rolerId:roler_id,rolerName:""});
+//        	
+//        	
+//        	this.choicRoler(user_id).then(function(result) {
+//        		
+//        	 });
+//        }else{
+//        	  
+//        	this.initAuthor(roler_id,roler_name);
+//        }
        
     },
     
@@ -160,27 +160,27 @@ Ext.define("jmrc.view.main.MainController", {
 
 
     // 根据用户角色加载不同的用户功能
-    initAuthor: function(roler_id,roler_name) {
-        let me = this;
-        me.getView().removeAll();
-        let ref = me.getReferences();
-        console.log("根据用户角色加载不同的用户功能");
-        console.log(ref);
-        let user_name = CFG.getUserInfo().name;
-        ref.user_name.setText(user_name+"["+roler_name+"]");
-        console.log(ref.user_name.text);
-        let view = this.getView();
-        Ext.Ajax.request({
-            url: "/auth/getRuleByRoler",
-            params: { id: roler_id,rolerName:roler_name },
-            success: function(result) {
-                let data = eval(result.responseText);
-                data.forEach(element => {
-                    me.getView().add({ title: element["name"], iconCls: element["icon"], items: [{ xtype: element['panel'] }] });
-                });
-            }
-        });
-    }
+//    initAuthor: function(roler_id,roler_name) {
+//        let me = this;
+//        me.getView().removeAll();
+//        let ref = me.getReferences();
+//        console.log("根据用户角色加载不同的用户功能");
+//        console.log(ref);
+//        let user_name = CFG.getUserInfo().name;
+//        ref.user_name.setText(user_name+"["+roler_name+"]");
+//        console.log(ref.user_name.text);
+//        let view = this.getView();
+//        Ext.Ajax.request({
+//            url: "/auth/getRuleByRoler",
+//            params: { id: roler_id,rolerName:roler_name },
+//            success: function(result) {
+//                let data = eval(result.responseText);
+//                data.forEach(element => {
+//                    me.getView().add({ title: element["name"], iconCls: element["icon"], items: [{ xtype: element['panel'] }] });
+//                });
+//            }
+//        });
+//    }
 
 
 });

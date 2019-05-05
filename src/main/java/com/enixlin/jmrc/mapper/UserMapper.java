@@ -1,21 +1,14 @@
 package com.enixlin.jmrc.mapper;
 
-import java.util.ArrayList;
-
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-import org.apache.ibatis.annotations.Param;
-
 import com.enixlin.jmrc.entity.Roler;
 import com.enixlin.jmrc.entity.User;
+import org.apache.ibatis.annotations.*;
 
+import java.util.ArrayList;
+import tk.mybatis.mapper.common.Mapper;
 
-@Mapper
-public interface UserMapper {
+@org.apache.ibatis.annotations.Mapper
+public interface UserMapper  extends Mapper<User> {
 
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     // keyProperty user 实体属性,keyColumn user表字段
@@ -39,6 +32,10 @@ public interface UserMapper {
 	    + " user_roler.roler_id=roler.id "
 	    + "where user_roler.user_id=#{id} ")
     public ArrayList<Roler> getRolerByUser(User user);
+
+
+    @Select ("select * from  user where name=#{name}")
+    public User getUserByName(String name);
 
     // 添加角色到用户
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
