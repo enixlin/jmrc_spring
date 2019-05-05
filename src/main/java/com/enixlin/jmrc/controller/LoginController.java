@@ -61,8 +61,9 @@ public class LoginController {
     public void showLogin(HttpServletResponse hsr) {
     	
     	Excel excel=new Excel();
-    	String path="d:/JMRC_FX_20190401-0429.xls";
-		excel.read(path);
+    	String path="d:/yq.xls";
+    	String sheetName="sheet1";
+		excel.toArrayList(path,sheetName);
     	
     	
         /*
