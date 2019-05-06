@@ -25,8 +25,17 @@ public class ForwardController {
 	//添加远期结售汇签约记录
 	@RequestMapping("/allOrder")
 	public ForwardOrder addOrder(HttpServletRequest res) {
-		fo.add(obj);
+		
+//		ForwardOrder obj=new ForwardOrder();
+//		obj.set
+//		fo.add(obj);
 		return null;
+		
+	}
+	
+	
+	@RequestMapping("/uploadfile")
+	public void updatefile(HttpServletRequest res) {
 		
 	}
 }
