@@ -33,18 +33,17 @@ Ext.define("jmrc.view.main.Main", {
 
 	viewModel : "main",
 	// renderTo : Ext.getBody(),
-	layout : "border",
+	layout : "fit",
 	
 	plugins : "viewport",
+	frame:true,
 	items : [ {
 		xtype : "container",
 		layout : 'border',
-		width : window.innerWidth,
-		height : window.innerHeight,
-		default:{
+		frame:true,
+		width : window.innerWidth*0.98,
+		height : window.innerHeight*0.95,
 		
-		frame : true,
-		},
 		items : [ {
 			region : "north",
 			height : 100,

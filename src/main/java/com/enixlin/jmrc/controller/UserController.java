@@ -24,14 +24,14 @@ import com.enixlin.jmrc.service.UserService;
  */
 @RestController
 @RequestMapping("/user")
-public class UserController {
 
+public class UserController {
     @Autowired
     private UserService userService;
-
     @RequestMapping("/getUsers")
     public ArrayList<User> getUsers() {
-	return userService.getAllUserNameAndId();
+
+		return userService.getAllUserNameAndId();
     }
 
     /**

@@ -1,16 +1,12 @@
 package com.enixlin.jmrc.service.impl;
 
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.groovy.reflection.ParameterTypes;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.enixlin.jmrc.service.BaseService;
-import com.mysql.cj.xdevapi.SessionFactory;
 
 import tk.mybatis.mapper.common.Mapper;
 
@@ -20,8 +16,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 
 	private Class<T> clazz=null;
 	
-	@Autowired
-	private Mapper<T> mapper;
+
 
 	public BaseServiceImpl() {
 		//通过反射来取得T的真正类型	
@@ -32,12 +27,14 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 	}
 
 
-	
+
 	@Override
 	public T add(T obj) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 	@Override
 	public T update(T obj) {
@@ -45,17 +42,23 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 		return null;
 	}
 
+
+
 	@Override
 	public T delete(T obj) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+
+
 	@Override
 	public List<T> getAll() {
 		// TODO Auto-generated method stub
-		return mapper.selectAll();
+		return null;
 	}
+
+
 
 	@Override
 	public T getById(Long id) {
@@ -63,19 +66,24 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 		return null;
 	}
 
+
+
 	@Override
 	public T getByName(String name) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+
+
 	@Override
 	public Boolean isExist(T obj) {
 		// TODO Auto-generated method stub
-		//mapper.selectAll();
-		
-	
-		return true;
+		return null;
 	}
+
+
+	
+
 
 }
