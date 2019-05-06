@@ -1,5 +1,5 @@
 $app-name:  dynamic( 'jmrc' );
-$image-search-path: 'C:/projects/jmrc_spring/src/main/resources/static/jmrc/build/development/jmrc/resources';
+$image-search-path: 'D:/projects/jmrc_spring/src/main/resources/static/jmrc/build/development/jmrc/resources';
 $theme-name:  dynamic( 'theme-triton' );
 $include-cfg: dynamic(true);;
 $include-ext-abstractcomponent: dynamic(true);;
@@ -982,6 +982,9 @@ $include-jmrc-view-tab-tablayoutmodel: dynamic(true);;
 $include-jmrc-view-user-user: dynamic(true);;
 $include-jmrc-view-user-usercontroller: dynamic(true);;
 $include-jmrc-view-user-usermodel: dynamic(true);;
+$include-jmrc-view-user-addui: dynamic(true);;
+$include-jmrc-view-user-adduicontroller: dynamic(true);;
+$include-jmrc-view-user-adduimodel: dynamic(true);;
 $output-paths: ("path": "../resources");
 
 /* ======================== ETC ======================== */
