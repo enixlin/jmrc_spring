@@ -60,10 +60,10 @@ public class LoginController {
     @RequestMapping("/index")
     public void showLogin(HttpServletResponse hsr) {
     	
-    	Excel excel=new Excel();
-    	String path="d:/yq.xls";
-    	String sheetName="sheet1";
-		excel.toArrayList(path,sheetName);
+//    	Excel excel=new Excel();
+//    	String path="d:/yq.xls";
+//    	String sheetName="sheet1";
+//		excel.toArrayList(path,sheetName);
     	
     	
         /*

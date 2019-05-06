@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.enixlin.jmrc.entity.ForwardOrder;
-import com.enixlin.jmrc.service.found.forward.ForwardService;
+import com.enixlin.jmrc.service.found.forward.ForwardOrderService;
 
 /**
  * 远期结售汇台账管理控制器
@@ -25,6 +25,7 @@ public class ForwardController {
 	//添加远期结售汇签约记录
 	@RequestMapping("/allOrder")
 	public ForwardOrder addOrder(HttpServletRequest res) {
+		ForwardOrder obj = null;
 		fo.add(obj);
 		return null;
 		

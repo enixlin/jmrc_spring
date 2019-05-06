@@ -1,6 +1,6 @@
 
 Ext.define('jmrc.view.user.User',{
-    extend: 'Ext.grid.Panel',
+    extend: 'Ext.panel.Panel',
     xtype:"user",
 
     requires: [
@@ -12,8 +12,7 @@ Ext.define('jmrc.view.user.User',{
     viewModel: {
         type: 'user-user'
     },
-    
-    layout:"fit",
-
+    tbar:[{text:"create user"}],
+    items:[{xtype:"grid"}]
 
 });
