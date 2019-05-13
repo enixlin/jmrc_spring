@@ -23,7 +23,7 @@ Ext.define('jmrc.view.policydocument.Policydocument', {
                         { xtype: "textfield", width: 600, fieldLabel: "请输入查询关键字", labelWidth: 150, margin: "5 5 5 5", itemId: "keyWord" },
                         { xtype: "checkbox", width: 200, fieldLabel: "过滤失效文件", id: "effectFileTag", labelWidth: 100, checked: true, margin: "5 5 5 5" },
                         { xtype: "button", width: 100, text: "查询", handler: "query", margin: "5 5 5 5" },
-                        { xtype: "button", width: 100, text: "我的笔记本", margin: "5 5 5 5" },
+                       // { xtype: "button", width: 100, text: "我的笔记本", margin: "5 5 5 5" },
                     ]
                 },
                 {

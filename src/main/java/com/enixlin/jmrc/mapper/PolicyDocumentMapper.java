@@ -13,7 +13,7 @@ import com.enixlin.jmrc.policydocument.PolicyFileEntity;
 @Mapper
 public interface PolicyDocumentMapper {
 
-	@Select("select docNum,title,tid,did,cid,state from policydocument_list where ( content like CONCAT('%',#{param1},'%')  or title like CONCAT('%',#{param1},'%') ) and state<>2 ")
+	@Select("select policydocument_list.*,policydocument_notes.*  from policydocument_list left join policydocument_notes on policydocument_list.dId=policydocument_notes.dId where ( policydocument_list.content like CONCAT('%',#{param1},'%')  or policydocument_list.title like CONCAT('%',#{param1},'%') ) and policydocument_list.state<>2 ")
 	public java.util.ArrayList<PolicyFileEntity> getPolicyFileByKeyWord(String keyword, String state);
 
 	@Select("select docNum,title,tid,did,cid,state from policydocument_list where content like CONCAT('%',#{param1},'%') or title like CONCAT('%',#{param1},'%') ")

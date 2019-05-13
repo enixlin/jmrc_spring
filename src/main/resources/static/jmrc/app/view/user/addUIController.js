@@ -17,16 +17,22 @@ Ext.define('jmrc.view.user.addUIController', {
 					console.log("user name is :"+object[i].name);
 					if(object[i].name==user){
 						console.log("user is exist");
-						tips.setHtml("提示：用户名已存在");
+						tips.setText("提示：用户名已存在");
 						tips.setStyle({
 							fontWeight : 'bold',
 							color : 'red',
 							border : 0,
 						});
+						break;
 					}else{
-						tips.setHtml("提示：用户名可以使用");
+						tips.setText("提示：用户名可以使用");
+						tips.setStyle({
+							fontWeight : 'bold',
+							color : 'green',
+							border : 0,
+						});
 					}
-					tips.setHtml("");
+					
 				}
 			},
 		});

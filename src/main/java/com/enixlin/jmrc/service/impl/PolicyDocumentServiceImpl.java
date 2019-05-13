@@ -39,6 +39,7 @@ public class PolicyDocumentServiceImpl implements PolicyDocumentService {
 			
 			System.out.println("do sigle");
 			return policyDocumentMapper.getPolicyFileByKeyWord(keyword,state);
+//			System.out.println("do sigle");
 		}
 	}
 	@Override

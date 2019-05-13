@@ -34,7 +34,7 @@ Ext.define('jmrc.view.user.addUI',
 					xtype : "form",
 					width : "100%",
 
-					layout : "form",
+					layout : "table",
 					buttons : [ {
 						text : "关闭",
 						handler : "hideAddUI",
@@ -51,10 +51,9 @@ Ext.define('jmrc.view.user.addUI',
 						fieldLabel : '用户名',
 						name : "name",
 						listeners:{
-							
 							change:function( thiss, newValue, oldValue, eOpts ){
 								let addUI=Ext.ComponentQuery.query("addUI")[0];
-								console.log(addUI);
+								//console.log(addUI);
 								addUI.controller.isExist(newValue);
 							}
 						}
@@ -69,7 +68,7 @@ Ext.define('jmrc.view.user.addUI',
 					},{
 						xtype:"label",
 						id:"tips",
-						columns:2,
+						columnWidth:1,
 						text:"tips:"
 					} ]
 				} ]
