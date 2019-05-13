@@ -19,6 +19,7 @@ Ext.define('jmrc.view.user.User', {
 		margin : 5,
 		layout : "fit",
 		frame : true,
+		width:"100%",
 		store : Ext.create("jmrc.store.UserStore"),
 		bbar : {
 			xtype : "pagingtoolbar",
@@ -27,22 +28,22 @@ Ext.define('jmrc.view.user.User', {
 		columns : [ {
 			text : "用户编号",
 			dataIndex : "id",
-			columnWidth : 0.2
+			columnWidth  : .2
 		}, {
 			text : "用户名称",
 			dataIndex : "name",
-			columnWidth : 0.3
+			columnWidth  : 0.3
 		}, {
 			text : "密码",
 			dataIndex : "password",
-			columnWidth : 0.3
+			columnWidth  : 0.3
 		}, {
 			text : "用户状态",
 			dataIndex : "status",
 			columnWidth : 0.1
 		}, {
 			text : "操作",
-			columnWidth : 0.1
+			columnWidth  : 0.1
 		} ]
 	} ]
 

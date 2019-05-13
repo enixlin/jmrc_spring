@@ -23,8 +23,7 @@ import com.enixlin.jmrc.service.UserService;
  *
  */
 @RestController
-@RequestMapping("/user")
-
+@RequestMapping("user")
 public class UserController {
     @Autowired
     private UserService userService;
