@@ -1,4 +1,5 @@
-Ext.define('jmrc.view.policydocument.PolicydocumentController',
+Ext
+		.define('jmrc.view.policydocument.PolicydocumentController',
 				{
 					extend : 'Ext.app.ViewController',
 					alias : 'controller.policydocument-policydocument',
@@ -26,14 +27,18 @@ Ext.define('jmrc.view.policydocument.PolicydocumentController',
 						console.log("documentlist view");
 						let view = me.getView();
 						console.log(view);
-						let parentWidth=view.getWidth()*0.7;
-						let winHeight=view.getHeight();
-						let newFile=Ext.create({xtype:"file",record:record,width:parentWidth,height:window.innerHeight*0.9});
-//						let newFile=Ext.create({xtype:"documentwin",record:record,width:parentWidth,height:winHeight});
+						let parentWidth = view.getWidth() * 0.7;
+						let winHeight = view.getHeight();
+						let newFile = Ext.create({
+							xtype : "file",
+							record : record,
+							width : parentWidth,
+							height : window.innerHeight * 0.9
+						});
+						// let
+						// newFile=Ext.create({xtype:"documentwin",record:record,width:parentWidth,height:winHeight});
 						view.add(newFile);
 						newFile.show();
-						
-						
 
 					}
 

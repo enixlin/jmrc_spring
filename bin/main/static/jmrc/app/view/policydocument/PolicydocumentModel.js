@@ -6,11 +6,9 @@ Ext.define('jmrc.view.policydocument.PolicydocumentModel', {
     },
     stores:{
         policydocumentStore:{
-            fields:['docNum','title','state'],
+            fields:['docNum','title','state','effTime'],
             params:{},
-           
             proxy:{
-               
                 url:"/policydocument/query",
                 type:"ajax"
             }
