@@ -33,10 +33,10 @@ public class SettleRecordController {
 			sr.setCustNumber(ja.get(i).getAsJsonArray().get(1).getAsString());
 			sr.setCustName(ja.get(i).getAsJsonArray().get(2).getAsString());
 			sr.setBusyNumber(ja.get(i).getAsJsonArray().get(3).getAsString());
-			sr.setProductName(ja.get(i).getAsJsonArray().get(4).getAsString());
+			sr.setProductName(ja.get(i).getAsJsonArray().get(6).getAsString());
 			sr.setBusyType(ja.get(i).getAsJsonArray().get(5).getAsString());
-			sr.setBusyCurrency(ja.get(i).getAsJsonArray().get(6).getAsString());
 			sr.setBusyCurrency(ja.get(i).getAsJsonArray().get(7).getAsString());
+			//sr.setBusyCurrency(ja.get(i).getAsJsonArray().get(7).getAsString());
 			//sr.setBusyAmount(new BigDecimal(ja.get(i).getAsJsonArray().get(8).getAsString()));
 			sr.setBusyAmount(new BigDecimal("2000.00"));
 			sr.setBusyDate(ja.get(i).getAsJsonArray().get(9).getAsString());
@@ -61,8 +61,10 @@ public class SettleRecordController {
 			sr.setUsdRate(new BigDecimal("1.00"));
 
 			srs.add(sr);
+		
 		}
 
+		System.out.println("add done");
 	}
 
 }

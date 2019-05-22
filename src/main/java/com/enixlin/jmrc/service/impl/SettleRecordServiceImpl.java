@@ -10,4 +10,10 @@ import com.enixlin.jmrc.service.SettleRecordService;
 public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord> implements SettleRecordService {
 
 	@Autowired SettleRecordMapper settleRecordMapper;
+	
+	@Override
+	public SettleRecord add(SettleRecord reocrd) {
+		settleRecordMapper.insert(reocrd);
+		return reocrd;
+	}
 }

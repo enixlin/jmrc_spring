@@ -7,6 +7,7 @@ public class SettleRecord {
 	private String dataDate;
 	private String custNumber;
 	private String custName;
+	
 	private String busyNumber;
 	private String productName;
 	private String busyType;
