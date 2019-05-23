@@ -7,7 +7,13 @@ public class SettleRecord {
 	private String dataDate;
 	private String custNumber;
 	private String custName;
-	
+	private String custType;
+	public String getCustType() {
+		return custType;
+	}
+	public void setCustType(String custType) {
+		this.custType = custType;
+	}
 	private String busyNumber;
 	private String productName;
 	private String busyType;

@@ -32,13 +32,13 @@ public class SettleRecordController {
 			sr.setDataDate(ja.get(i).getAsJsonArray().get(0).getAsString());
 			sr.setCustNumber(ja.get(i).getAsJsonArray().get(1).getAsString());
 			sr.setCustName(ja.get(i).getAsJsonArray().get(2).getAsString());
-			sr.setBusyNumber(ja.get(i).getAsJsonArray().get(3).getAsString());
+			sr.setCustType(ja.get(i).getAsJsonArray().get(3).getAsString());
+			sr.setBusyNumber(ja.get(i).getAsJsonArray().get(4).getAsString());
 			sr.setProductName(ja.get(i).getAsJsonArray().get(6).getAsString());
 			sr.setBusyType(ja.get(i).getAsJsonArray().get(5).getAsString());
 			sr.setBusyCurrency(ja.get(i).getAsJsonArray().get(7).getAsString());
-			//sr.setBusyCurrency(ja.get(i).getAsJsonArray().get(7).getAsString());
-			//sr.setBusyAmount(new BigDecimal(ja.get(i).getAsJsonArray().get(8).getAsString()));
-			sr.setBusyAmount(new BigDecimal("2000.00"));
+			// 字符串中有逗号，所以要先将符号进行替换
+			sr.setBusyAmount(new BigDecimal(ja.get(i).getAsJsonArray().get(8).getAsString().replace(",", "")));
 			sr.setBusyDate(ja.get(i).getAsJsonArray().get(9).getAsString());
 			sr.setForeignCountry(ja.get(i).getAsJsonArray().get(10).getAsString());
 			sr.setForeignBankCode(ja.get(i).getAsJsonArray().get(11).getAsString());
@@ -57,14 +57,19 @@ public class SettleRecordController {
 			sr.setBelongSubBranchName(ja.get(i).getAsJsonArray().get(24).getAsString());
 			sr.setOperator(ja.get(i).getAsJsonArray().get(25).getAsString());
 			sr.setConfirmer(ja.get(i).getAsJsonArray().get(26).getAsString());
-//			sr.setUsdRate(new BigDecimal(ja.get(i).getAsJsonArray().get(27).getAsString()));
-			sr.setUsdRate(new BigDecimal("1.00"));
-
+			// 字符串中有逗号，所以要先将符号进行替换
+			String rate=ja.get(i).getAsJsonArray().get(27).getAsString().replace(",", "");
+			if(rate.equals("")) {
+				sr.setUsdRate(new BigDecimal("0.15"));
+			}else {
+				sr.setUsdRate(new BigDecimal(rate));
+			}
+			//插入记录
 			srs.add(sr);
-		
+
 		}
 
-		System.out.println("add done");
+		System.out.println(" 所有的记录插入完成");
 	}
 
 }
