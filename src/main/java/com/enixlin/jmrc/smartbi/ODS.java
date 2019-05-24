@@ -15,6 +15,13 @@ public class ODS {
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * 查询所有的贸易融资业务
+	 * @param queryDate1　格式： "2019-05-01"
+	 * @param queryDate2　格式： "2019年5月1日"
+	 * @param ExportNum
+	 * @return
+	 */
 	public JsonArray getAllFTRecord(String queryDate1, String queryDate2, String ExportNum) {
 		NetService ns = new NetService();
 
