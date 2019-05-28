@@ -47,7 +47,6 @@ public class UserController {
 	user.setStatus(Integer.parseInt(req.getParameter("status")));
 	com.enixlin.jmrc.entity.User u = userService.addUser(user);
 		System.out.println("user");
-
 		return u;
     }
 
