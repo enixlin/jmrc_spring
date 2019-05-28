@@ -12,7 +12,7 @@ Ext.define('jmrc.view.user.addUI',
 			},
 
 			width : 400,
-			height : 300,
+			height : 350,
 			listeners : {
 
 				close : {
@@ -28,49 +28,58 @@ Ext.define('jmrc.view.user.addUI',
 
 			items : [ {
 				xtype : "container",
-				layout : "fit",
+				layout : "form",
 
 				items : [ {
 					xtype : "form",
 					width : "100%",
 
-					layout : "table",
+					layout : "form",
 					buttons : [ {
 						text : "关闭",
 						handler : "hideAddUI",
-						style:{color:"red"}
+						style : {
+							color : "red"
+						}
 					}, {
 						text : "保存用户",
+						id:"saveUserButton",
 						handler : "saveUser"
 					} ],
 					defaults : {
 						labelSeparator : ": "
 					},
-					items : [ {
-						xtype : "textfield",
-						fieldLabel : '用户名',
-						name : "name",
-						listeners:{
-							change:function( thiss, newValue, oldValue, eOpts ){
-								let addUI=Ext.ComponentQuery.query("addUI")[0];
-								//console.log(addUI);
-								addUI.controller.isExist(newValue);
-							}
-						}
-					}, {
-						xtype : "textfield",
-						fieldLabel : '密码',
-						name : "password",
-					}, {
-						fieldLabel : '确认密码',
-						name : "passwordConfirm",
-						xtype : "textfield"
-					},{
-						xtype:"label",
-						id:"tips",
-						columnWidth:1,
-						text:"tips:"
-					} ]
+					items : [
+							{
+								xtype : "textfield",
+								fieldLabel : '用户名',
+								name : "name",
+								listeners : {
+									change : function(thiss, newValue,
+											oldValue, eOpts) {
+										let addUI = Ext.ComponentQuery
+												.query("addUI")[0];
+										addUI.controller.isExist(newValue)
+											
+									
+
+									}
+								}
+							//15924150208  18058738020   15905728568
+							}, {
+								xtype : "textfield",
+								fieldLabel : '密码',
+								name : "password",
+							}, {
+								fieldLabel : '确认密码',
+								name : "passwordConfirm",
+								xtype : "textfield"
+							}, {
+								xtype : "label",
+								id : "tips",
+								columnWidth : 2,
+								text : "tips:"
+							} ]
 				} ]
 			} ]
 
