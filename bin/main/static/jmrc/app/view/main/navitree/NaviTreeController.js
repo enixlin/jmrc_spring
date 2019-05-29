@@ -19,9 +19,8 @@ Ext.define('jmrc.view.main.navitree.NaviTreeController', {
 					title : item["name"],
 					closable : true, 
 				} ]);
+				ref[0].setActiveTab(item['panel']);// 激活要跳转的tab
 			}
-
-			// console.log(ref[0].getNamedItems());
 		}
 	}
 
