@@ -19,11 +19,11 @@ public class SettleRecordController {
 
 	@RequestMapping("/batchInsert")
 	public void add() {
-		String startDayNum = "2019-01-01";
-		String StarDayChn = "2019年1月1日";
-		String endDayNum = "2019-05-20";
-		String endDayChn = "2019年5月20日";
-		String ExportNum = "20000";
+		String startDayNum = "2018-01-01";
+		String StarDayChn = "2018年1月1日";
+		String endDayNum = "2018-12-31";
+		String endDayChn = "2018年12月31日";
+		String ExportNum = "60000";
 		ODS ods = new ODS();
 		JsonArray ja = ods.getAllSettleRecord(startDayNum, StarDayChn, endDayNum, endDayChn, ExportNum);
 

@@ -127,7 +127,7 @@ public class ODS {
 	 *            返回的最大记录数
 	 * @return 国际业务流水记录的数组
 	 */
-	public JsonArray getAllSettleRecord(String startDayNum, String StarDayChn, String endDayNum, String endDayChn,
+	public JsonArray getAllSettleRecord(String startDayNum, String startDayChn, String endDayNum, String endDayChn,
 			String ExportNum) {
 
 		NetService ns = new NetService();
@@ -324,12 +324,12 @@ public class ODS {
 		map.clear();
 		map.put("className", "CompositeService");
 		map.put("methodName", "setParamValuesWithRelated");
-		map.put("params", "[" + parameterPanelId + "," + StartDay + ",\"2019-01-01\",\"2019年1月1日\"]");
+		map.put("params", "[" + parameterPanelId + "," + StartDay + ","+startDayNum+","+ startDayChn +" ]");
 		result = ns.HttpPost(url_query, map, encoding);
 		map.clear();
 		map.put("className", "CompositeService");
 		map.put("methodName", "setParamValuesWithRelated");
-		map.put("params", "[" + parameterPanelId + "," + EndDay + ",\"2019-05-20\",\"2019年5月20日\"]");
+		map.put("params", "[" + parameterPanelId + "," + EndDay + ","+endDayNum+","+ endDayChn +" ]");
 		result = ns.HttpPost(url_query, map, encoding);
 		System.out.println("设定参数");
 		// System.out.println(result);
