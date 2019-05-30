@@ -1,5 +1,7 @@
 package com.enixlin.jmrc.mapper;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -13,7 +15,7 @@ import com.enixlin.jmrc.policydocument.PolicyFileEntity;
 @Mapper
 public interface PolicyDocumentMapper {
 
-	@Select("select policydocument_list.*,policydocument_notes.*  from policydocument_list left join policydocument_notes on policydocument_list.dId=policydocument_notes.dId where ( policydocument_list.content like CONCAT('%',#{param1},'%')  or policydocument_list.title like CONCAT('%',#{param1},'%') ) and policydocument_list.state<>2 ")
+	@Select("select docNum,title,state,effTime  from policydocument_list   where ( policydocument_list.content like CONCAT('%',#{param1},'%')  or policydocument_list.title like CONCAT('%',#{param1},'%') ) and policydocument_list.state<>2 ")
 	public java.util.ArrayList<PolicyFileEntity> getPolicyFileByKeyWord(String keyword, String state);
 
 	@Select("select docNum,title,tid,did,cid,state from policydocument_list where content like CONCAT('%',#{param1},'%') or title like CONCAT('%',#{param1},'%') ")
@@ -42,5 +44,8 @@ public interface PolicyDocumentMapper {
 
 	@Select("select * from policydocument_notes where user_id=#{userId} and dId=#{dId}")
 	public PolicyDocumentNote getUserNoteByNoteId(PolicyDocumentNote note);
+
+	@Select("select * from policydocument_notes left join user on  policydocument_notes.user_id=user.id where dId=#{dId}")
+	public ArrayList<PolicyDocumentNote> getPolicyNoteBydId(String dId);
 
 }

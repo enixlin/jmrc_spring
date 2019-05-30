@@ -3,6 +3,7 @@ package com.enixlin.jmrc.controller;
 
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -120,6 +121,14 @@ public class PolicyDocumentController {
 		
 	}
 	
+	
+	@RequestMapping("/getPolicyNoteBydId")
+	public ArrayList<PolicyDocumentNote> getPolicyNoteBydId(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+		String dId=req.getParameter("dId");
+	return	DocumentService.getPolicyNoteBydId(dId);
+		 
+		
+	} 
 	
 	
 	

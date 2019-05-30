@@ -21,10 +21,24 @@ Ext
 						});
 
 					},
-					
-					
-					getNotesBydId:function(dId){
-						alert(dId);
+
+					getNotesBydId : function(dId) {
+						// url:"/policydocument/getPolicyNoteBydId",
+						let me = this;
+						let view = me.getView();
+						let parentWidth = view.getWidth() * 0.7;
+						let winHeight = view.getHeight();
+						let noteList = Ext.create({
+							xtype : "noteslist",
+							dId : dId,
+							width : parentWidth,
+							height : winHeight * 0.9
+						});
+						// let
+						// newFile=Ext.create({xtype:"documentwin",record:record,width:parentWidth,height:winHeight});
+						view.add(noteList);
+						noteList.show();
+
 					},
 					showFile : function(record) {
 

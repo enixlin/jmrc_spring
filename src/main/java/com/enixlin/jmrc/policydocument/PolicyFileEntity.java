@@ -2,6 +2,13 @@ package com.enixlin.jmrc.policydocument;
 
 public class PolicyFileEntity {
 	
+	public int userId;
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 	public int wordsCount;
 	public String docNum;
 	public String link;

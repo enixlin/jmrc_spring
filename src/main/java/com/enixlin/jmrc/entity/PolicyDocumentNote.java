@@ -7,7 +7,14 @@ public class PolicyDocumentNote {
 	 private int id;
 	 private int dId;
 	 private String content;
-	 private int user_id;
+	 private String name;
+	 public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	private int userId;
 	 private Timestamp modify;
 	 private boolean overWrite; //是否要覆盖原有的笔记
 	 
@@ -39,11 +46,12 @@ public class PolicyDocumentNote {
 	public void setContent(String content) {
 		this.content = content;
 	}
+
 	public int getUserId() {
-		return user_id;
+		return userId;
 	}
 	public void setUserId(int userId) {
-		this.user_id = userId;
+		this.userId = userId;
 	}
 	public Timestamp getModify() {
 		return modify;

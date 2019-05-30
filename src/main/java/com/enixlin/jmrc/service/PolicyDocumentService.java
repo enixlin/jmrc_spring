@@ -33,4 +33,6 @@ public interface PolicyDocumentService {
 	
 	public PolicyDocumentNote getUserNoteByNoteId(PolicyDocumentNote note);
 
+	public ArrayList<PolicyDocumentNote> getPolicyNoteBydId(String dId);
+
 }
