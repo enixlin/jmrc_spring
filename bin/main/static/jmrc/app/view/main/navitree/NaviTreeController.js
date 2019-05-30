@@ -17,9 +17,10 @@ Ext.define('jmrc.view.main.navitree.NaviTreeController', {
 					id : item['panel'],
 					xtype : item['panel'],
 					title : item["name"],
+					iconCls :item["icon"],
 					closable : true, 
 				} ]);
-				ref[0].setActiveTab(item['panel']);// 激活要跳转的tab
+				ref[0].setActiveTab(item['panel']);// 激活要跳转的tab,item['panel']是tab的ID
 			}
 		}
 	}

@@ -21,6 +21,11 @@ Ext
 						});
 
 					},
+					
+					
+					getNotesBydId:function(dId){
+						alert(dId);
+					},
 					showFile : function(record) {
 
 						let me = this;

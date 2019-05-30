@@ -39,9 +39,8 @@ public interface PolicyDocumentMapper {
 
 	@Update("update policydocument_notes set dId=#{dId},content=#{content} ,user_id=#{userId},modify_time=#{modify} where id=#{id}")
 	public int savePolicyDocumentNote(PolicyDocumentNote note);
-	
-	
-	@Select("select * from policydocument_notes where user_id=#{userId} and dId=#{dId}") 
+
+	@Select("select * from policydocument_notes where user_id=#{userId} and dId=#{dId}")
 	public PolicyDocumentNote getUserNoteByNoteId(PolicyDocumentNote note);
 
 }

@@ -12,6 +12,7 @@ Ext.define('jmrc.view.main.navitree.NaviTree', {
 
 	store : Ext.create("jmrc.store.TreeStore"),
 	displayField : "name",
+//	iconCls :"icon",
 	//title : "功能菜单",
 	rootVisible : false,
 	listeners : {
@@ -23,6 +24,11 @@ Ext.define('jmrc.view.main.navitree.NaviTree', {
 			}
 		}
 
-	}
+	},
+	   renderer: function(v, metaData, record) {
+           metaData.glyph = record.icon;
+           return v;
+       }
+	
 
 });

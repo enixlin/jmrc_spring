@@ -42,17 +42,20 @@ Ext.define('jmrc.view.policydocument.Policydocument', {
 						xtype : "button",
 						width : 100,
 						text : "查询",
+						iconCls : 'x-fa fa-search-plus',
 						handler : "query",
 						margin : "5 5 5 5"
 					}, {
 						xtype : "button",
 						width : 100,
-						text : "我的笔记本",
+						iconCls : 'x-fa fa-pencil-square-o',
+						text : "笔记本",
 						margin : "5 5 5 5"
 					}, ]
 				},
 				{
 					xtype : "grid",
+					id:"filelistgrid",
 					width : "100%",
 					margin : "5 5 5 5",
 					border : 2,
@@ -70,13 +73,7 @@ Ext.define('jmrc.view.policydocument.Policydocument', {
 								dataIndex : 'effTime',
 								width : "10%",
 								align : "left",
-			// renderer : function(value) {
-			// if (value == null || value == 0) {
-			// return 'null'
-			// } else {
-			// return Ext.util.Format.date(new Date(parseInt(value)),fmt);
-			// }
-			//								}
+								
 							}, {
 								text : "文件号",
 								dataIndex : 'docNum',
@@ -100,15 +97,49 @@ Ext.define('jmrc.view.policydocument.Policydocument', {
 									yesText : 'True',
 									noText : 'False'
 								}
-							}, {
-								text : "备注",
-								width : "10%",
-								align : "center"
-							}, ],
+							},
+							{
+								text : "操作",
+								xtype: 
+
+									'actioncolumn', 
+									items : [{ 
+									iconCls : 'x-fa fa-pencil-square-o',
+									tooltip : '打开该文件的笔记', 
+									//text:"编辑",
+									handler : function(grid, rowIndex, colIndex) { 
+									var record = grid.getStore().getAt(rowIndex); 
+									console.log("record is ...");
+									console.log(record['data']['dId']);
+									console.log("grid is ...");
+									console.log(Ext.getCmp("filelistgrid"));
+										let dId=record['data']['dId'];
+										//文件的编号record['data']['dId']
+										Ext.getCmp("filelistgrid").up().up().controller.getNotesBydId(dId);
+									} 
+									}]
+								
+							}
+							
+							
+							
+							
+							],
 					listeners : {
 						itemclick : function(thiss, record, item, index, e,
 								eOpts) {
-							this.up().up().controller.showFile(record);
+							//if(thiss.){
+								
+							//	this.up().up().controller.showFile(record);
+							//}
+//							console.log("item is ");
+//							console.log(item);
+//							console.log("record['data']['dId'] is ");
+//							console.log(record['data']['dId']);
+//							console.log("index is ");
+//							console.log(index);
+//							console.log("eOpts is ");
+//							console.log(eOpts);
 						}
 					}
 				} ]
