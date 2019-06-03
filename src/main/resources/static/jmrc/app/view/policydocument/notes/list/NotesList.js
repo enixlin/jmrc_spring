@@ -9,8 +9,8 @@ Ext.define('jmrc.view.policydocument.notes.list.NotesList', {
 	viewModel : {
 		type : 'policydocument-notes-list-noteslist'
 	},
-	hide:true,
 
+	closable:true,
 	items : [ {
 		xtype:"grid",
 		id:"notelistgrid",
@@ -19,7 +19,7 @@ Ext.define('jmrc.view.policydocument.notes.list.NotesList', {
          columns: [
              {text: "编号", dataIndex: 'dId', width: "10%", align: "left", editor: "textfield"},
              {text: "文号", dataIndex: 'docNum', width: "20%", align: "left", editor: "textfield"},
-             { text: "<style text-align='center'>标题</style>", dataIndex: 'title', width: "50%", cellWrap: true, align: "left" },
+             { text: "标题", dataIndex: 'title', width: "50%", cellWrap: true, align: "left" },
              { text: "笔记人", dataIndex: 'name', width: "20%", align: "center" },
              //{ text: "备注", width: "10%", align: "center" },
          ],

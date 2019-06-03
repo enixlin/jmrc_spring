@@ -5,10 +5,15 @@ Ext.define('jmrc.view.policydocument.notes.list.NotesListController', {
 	afterRender : function() {
 		let me = this;
 		let view = this.getView();
+		console.log("noteslist ...");
+		console.log(me);
+		console.log(view);
+	
+		view.setTitle("编　号"+view.dId);
 		let store=me.getStore();
-		//store.getProxy().extraParams = {dId:"5022"};
-		//store.reLoad();
-		//let model = view.getModel();
+//		store.getProxy().extraParams = {dId:view.dId};
+//		store.reLoad();
+//		let model = view.getModel();
 		console.log("store is ...");
 		console.log(store);
 

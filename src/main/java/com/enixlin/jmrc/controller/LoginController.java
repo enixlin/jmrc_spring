@@ -69,7 +69,8 @@ public class LoginController {
         /*
          * 以下的内容是输出一个html视图到客户端,这个视图就是用户登录界面
          */
-        String location = "http://110.0.6.100:8888/jmrc/index.html";
+//        String location = "http://110.0.6.100:8888/jmrc/index.html";
+        String location = "http://localhost:8888/jmrc/index.html";
         try {
             hsr.sendRedirect(location);
         } catch (IOException e) {

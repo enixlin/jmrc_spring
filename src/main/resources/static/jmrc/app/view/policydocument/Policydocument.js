@@ -110,7 +110,7 @@ Ext.define('jmrc.view.policydocument.Policydocument', {
 									handler : function(grid, rowIndex, colIndex) { 
 									var record = grid.getStore().getAt(rowIndex); 
 									console.log("record is ...");
-									console.log(record['data']['dId']);
+									console.log(record);
 									console.log("grid is ...");
 									console.log(Ext.getCmp("filelistgrid"));
 										let dId=record['data']['dId'];
