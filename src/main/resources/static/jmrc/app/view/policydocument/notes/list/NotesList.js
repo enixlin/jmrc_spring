@@ -13,7 +13,7 @@ Ext.define('jmrc.view.policydocument.notes.list.NotesList', {
 
 	items : [ {
 		xtype:"grid",
-		
+		id:"notelistgrid",
 		 bind: { store: "{notesListStore}" },//注意Store名称要用大括号括起来
          autoShow: true,
          columns: [

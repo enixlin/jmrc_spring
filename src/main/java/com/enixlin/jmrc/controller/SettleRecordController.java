@@ -1,12 +1,18 @@
 package com.enixlin.jmrc.controller;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.enixlin.jmrc.entity.IndexPerformance;
 import com.enixlin.jmrc.entity.SettleRecord;
+import com.enixlin.jmrc.entity.UnitPerformance;
 import com.enixlin.jmrc.service.SettleRecordService;
 import com.enixlin.jmrc.smartbi.ODS;
 import com.google.gson.JsonArray;
@@ -17,15 +23,28 @@ public class SettleRecordController {
 	@Autowired
 	SettleRecordService srs;
 
+	/**
+	 * 从自助分析抓取数据，并写入本地数据库
+	 * 
+	 * @param startDayNum
+	 * @param startDayChn
+	 * @param endDayNum
+	 * @param endDayChn
+	 * @param ExportNum
+	 */
 	@RequestMapping("/batchInsert")
-	public void add() {
-		String startDayNum = "2018-01-01";
-		String StarDayChn = "2018年1月1日";
-		String endDayNum = "2018-12-31";
-		String endDayChn = "2018年12月31日";
-		String ExportNum = "60000";
+	public void add(HttpServletRequest req, HttpServletResponse res) {
+
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+		String getMax = req.getParameter("getMax");
+		String StartDayChn = changeChineseDateFormat(start);
+		String endDayChn = changeChineseDateFormat(end);
+		String startDayNum = changeLineDateFormat(start);
+		String endDayNum = changeLineDateFormat(end);
 		ODS ods = new ODS();
-		JsonArray ja = ods.getAllSettleRecord(startDayNum, StarDayChn, endDayNum, endDayChn, ExportNum);
+
+		JsonArray ja = ods.getAllSettleRecord(startDayNum, StartDayChn, endDayNum, endDayChn, getMax);
 
 		for (int i = 0; i < ja.size(); i++) {
 			SettleRecord sr = new SettleRecord();
@@ -58,18 +77,64 @@ public class SettleRecordController {
 			sr.setOperator(ja.get(i).getAsJsonArray().get(25).getAsString());
 			sr.setConfirmer(ja.get(i).getAsJsonArray().get(26).getAsString());
 			// 字符串中有逗号，所以要先将符号进行替换
-			String rate=ja.get(i).getAsJsonArray().get(27).getAsString().replace(",", "");
-			if(rate.equals("")) {
-				sr.setUsdRate(new BigDecimal("0.15"));
-			}else {
+			String rate = ja.get(i).getAsJsonArray().get(27).getAsString().replace(",", "");
+			String currency = ja.get(i).getAsJsonArray().get(7).getAsString();
+			if (rate.equals("")  ) {
+				sr.setUsdRate(new BigDecimal("0.0"));
+			} else {
 				sr.setUsdRate(new BigDecimal(rate));
 			}
-			//插入记录
+			// 插入记录
 			srs.add(sr);
 
 		}
 
 		System.out.println(" 所有的记录插入完成");
+	}
+
+	@RequestMapping("/getAllBusyTypeProformance")
+	public ArrayList<IndexPerformance> getAllBusyTypeProformance(HttpServletRequest req, HttpServletResponse res) {
+
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+		return srs.getAllBusyTypeProformance(start, end);
+
+	}
+
+	/**
+	 * 将日期格式转换为中文格式
+	 * 
+	 * @param day //格式：20190930
+	 * @return
+	 */
+	public String changeChineseDateFormat(String day) {
+		return day.substring(0, 4) + "年" + day.substring(4, 6) + "月" + day.substring(6, 8) + "日";
+
+	}
+
+	/**
+	 * 将日期格式转换为横线格式
+	 * 
+	 * @param day //格式：20190930
+	 * @return
+	 */
+	public String changeLineDateFormat(String day) {
+		return day.substring(0, 4) + "-" + day.substring(4, 6) + "-" + day.substring(6, 8);
+
+	}
+	
+	/**
+	 * 取得所有经营单位的实绩
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("/getAllUnitPerformance")
+	public ArrayList<UnitPerformance>  getAllUnitPerformance(HttpServletRequest req,HttpServletResponse res){
+		String start=req.getParameter("start");
+		String end =req.getParameter("end");
+		return srs.getAllUnitPerformance(start,end);
+		
 	}
 
 }
