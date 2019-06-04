@@ -35,4 +35,6 @@ public interface PolicyDocumentService {
 
 	public ArrayList<PolicyDocumentNote> getPolicyNoteBydId(String dId);
 
+	public PolicyDocumentNote queryNoteById(int id);
+
 }

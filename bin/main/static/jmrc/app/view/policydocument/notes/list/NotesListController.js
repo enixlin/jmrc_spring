@@ -8,17 +8,17 @@ Ext.define('jmrc.view.policydocument.notes.list.NotesListController', {
 		console.log("noteslist ...");
 		console.log(me);
 		console.log(view);
-	
-		view.setTitle("编　号"+view.dId);
-		let store=view.getViewModel().data.notesListStore;
-		store.getProxy().extraParams = {dId:view.dId};
-	store.load();
-//		let model = view.getModel();
+
+		view.setTitle("编　号" + view.dId);
+		let store = view.getViewModel().data.notesListStore;
+		store.getProxy().extraParams = {
+			dId : view.dId
+		};
+		store.load();
+		// let model = view.getModel();
 		console.log("store is ...");
 		console.log(store);
 
 	},
-	
-	
 
 });

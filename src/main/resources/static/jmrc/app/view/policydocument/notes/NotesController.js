@@ -43,6 +43,16 @@ Ext.define('jmrc.view.policydocument.notes.NotesController', {
     },
     
     
+    getHtmlContentById:function(Id,cb){
+        Ext.Ajax.request({
+           url:"/policydocument/queryNoteById",
+           params:{"Id":Id},
+           success:function(result){
+            cb(result);
+           }
+        });
+    },
+    
     
     
     saveCustomerNote(){
