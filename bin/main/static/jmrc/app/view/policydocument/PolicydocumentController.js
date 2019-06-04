@@ -53,6 +53,7 @@ Ext
 							xtype : "file",
 							record : record,
 							width : parentWidth,
+							modal:true,
 							height : window.innerHeight * 0.9
 						});
 						// let

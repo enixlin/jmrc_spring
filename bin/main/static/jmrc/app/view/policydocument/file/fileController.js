@@ -19,6 +19,7 @@ Ext.define('jmrc.view.policydocument.file.fileController', {
         	  		
         	  let htmlEditor=Ext.create({
         		  xtype:"htmleditor",
+        		  modal:true,
         		
         		  height:window.innerHeight*0.75,
         		  width:winWidth,
