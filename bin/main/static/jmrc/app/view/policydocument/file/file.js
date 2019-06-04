@@ -1,3 +1,7 @@
+/**
+ * 这是政策文件的显示组件，组件是一个弹出式窗口
+ */
+
 Ext.define('jmrc.view.policydocument.file.file', {
 	extend : 'Ext.window.Window',
 	xtype : 'file',
@@ -13,14 +17,14 @@ Ext.define('jmrc.view.policydocument.file.file', {
 
 	x : 40,
 	y : 100,
-	
+
 	defaults : {
 		margin : "5 5 5 5"
 	},
 	listeners : {
 		resize : function(el, width, height, eOpts) {
-			let htmleditor=this.query("htmleditor");
-			if(htmleditor[0]){				
+			let htmleditor = this.query("htmleditor");
+			if (htmleditor[0]) {
 				htmleditor[0].setWidth(width);
 				htmleditor[0].setHeight(height);
 			}
@@ -35,9 +39,9 @@ Ext.define('jmrc.view.policydocument.file.file', {
 			type : 'hbox',
 			pack : "end"
 		},
-		defaults:{
-			width:100,
-			margin:'5 5 5 5 ',
+		defaults : {
+			width : 100,
+			margin : '5 5 5 5 ',
 		},
 		items : [ {
 			xtype : "button",
@@ -48,8 +52,7 @@ Ext.define('jmrc.view.policydocument.file.file', {
 				color : '#000000'
 			},
 			handler : "printFile"
-		} ,
-		{
+		}, {
 			xtype : "button",
 			text : "打开笔记本",
 			style : {
@@ -58,8 +61,8 @@ Ext.define('jmrc.view.policydocument.file.file', {
 				color : '#000000'
 			},
 			handler : "openNoteBook"
-		} 
-		
+		}
+
 		]
 	} ],
 	maximizable : true,

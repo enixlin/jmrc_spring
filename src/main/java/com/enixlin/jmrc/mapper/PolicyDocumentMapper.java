@@ -15,7 +15,7 @@ import com.enixlin.jmrc.policydocument.PolicyFileEntity;
 @Mapper
 public interface PolicyDocumentMapper {
 
-	@Select("select docNum,title,tid,did,cid,state,effTime  from policydocument_list   where ( policydocument_list.content like CONCAT('%',#{param1},'%')  or policydocument_list.title like CONCAT('%',#{param1},'%') ) and policydocument_list.state<>2 ")
+	@Select("select docNum,title,tid,did,cid,state  from policydocument_list   where ( policydocument_list.content like CONCAT('%',#{param1},'%')  or policydocument_list.title like CONCAT('%',#{param1},'%') ) and policydocument_list.state<>2 ")
 	public java.util.ArrayList<PolicyFileEntity> getPolicyFileByKeyWord(String keyword, String state);
 
 	@Select("select docNum,title,tid,did,cid,state from policydocument_list where content like CONCAT('%',#{param1},'%') or title like CONCAT('%',#{param1},'%') ")
@@ -47,5 +47,8 @@ public interface PolicyDocumentMapper {
 
 	@Select("select * from policydocument_notes left join policydocument_list on  policydocument_notes.dId=policydocument_list.dId left join user on  policydocument_notes.user_id=user.id  where policydocument_notes.dId=#{dId}")
 	public ArrayList<PolicyDocumentNote> getPolicyNoteBydId(String dId);
+
+	@Select("select * from policydocument_notes where id=#{id} ")
+	public PolicyDocumentNote queryNoteById(int id);
 
 }

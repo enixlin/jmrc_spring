@@ -117,6 +117,11 @@ public class PolicyDocumentServiceImpl implements PolicyDocumentService {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public PolicyDocumentNote queryNoteById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 
