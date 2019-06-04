@@ -1,5 +1,6 @@
 Ext
-		.define('jmrc.view.policydocument.PolicydocumentController',
+		.define(
+				'jmrc.view.policydocument.PolicydocumentController',
 				{
 					extend : 'Ext.app.ViewController',
 					alias : 'controller.policydocument-policydocument',
@@ -59,6 +60,47 @@ Ext
 						view.add(newFile);
 						newFile.show();
 
+					},
+
+					// 打开一个用户笔记记录，
+					openUserNote : function(dId, userId,record) {
+						let me = this;
+						let view = me.getView();
+				
+						// 构造一个查询对象
+						let note = {
+							userId : userId,
+							dId : dId,
+							overWrite : false,
+						};
+
+						Ext.Ajax
+								.request({
+									url : "/policydocument/openNotes",
+									method : "post",
+									params : {
+										"dId" : note.dId,
+										"userId" : note.userId,
+										"overWrite" : note.overWrite,
+									},
+									success : function(result) {
+
+										let parentWidth = view.getWidth() * 0.7;
+										let winHeight = view.getHeight();
+										let note = eval("("
+												+ result.responseText + ")");
+										record.data['note'] = note;
+										let noteWindow = Ext.create({
+											xtype : "notes",
+											record : record,
+											width : parentWidth,
+											height : window.innerHeight * 0.9,
+										});
+										view.add(noteWindow);
+										noteWindow.show();
+
+									}
+								});
 					}
 
 				});

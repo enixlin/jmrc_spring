@@ -6,7 +6,21 @@ import java.sql.Timestamp;
 public class PolicyDocumentNote {
 	 private int id;
 	 private int dId;
-	 private String content;
+	 private String title;
+	 private String docNum;
+	 public String getDocNum() {
+		return docNum;
+	}
+	public void setDocNum(String docNum) {
+		this.docNum = docNum;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	private String content;
 	 private String name;
 	 public String getName() {
 		return name;

@@ -110,6 +110,7 @@ public class PolicyDocumentServiceImpl implements PolicyDocumentService {
 	
 	@Override
 	public ArrayList<PolicyDocumentNote> getPolicyNoteBydId(String dId) {
+		System.out.println("did in getNotesBydId function:");
 		System.out.println(dId);
 		System.out.println(policyDocumentMapper.getPolicyNoteBydId(dId));
 		return policyDocumentMapper.getPolicyNoteBydId(dId);

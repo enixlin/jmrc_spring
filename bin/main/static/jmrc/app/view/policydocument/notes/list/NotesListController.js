@@ -10,13 +10,15 @@ Ext.define('jmrc.view.policydocument.notes.list.NotesListController', {
 		console.log(view);
 	
 		view.setTitle("编　号"+view.dId);
-		let store=me.getStore();
-//		store.getProxy().extraParams = {dId:view.dId};
-//		store.reLoad();
+		let store=view.getViewModel().data.notesListStore;
+		store.getProxy().extraParams = {dId:view.dId};
+	store.load();
 //		let model = view.getModel();
 		console.log("store is ...");
 		console.log(store);
 
 	},
+	
+	
 
 });

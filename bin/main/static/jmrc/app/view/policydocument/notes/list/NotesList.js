@@ -24,8 +24,10 @@ Ext.define('jmrc.view.policydocument.notes.list.NotesList', {
              //{ text: "备注", width: "10%", align: "center" },
          ],
          listeners:{
-             itemclick:function ( thiss, record, item, index, e, eOpts ){
-                 this.up().up().controller.showFile(record);
+             cellclick:function (thiss,td,cellindex, record,tr,rowindex,e,eOpts ){
+            	 console.log(record);
+            	 console.log(record);
+                 this.up().up().controller.openUserNote(record.data.dId,record.data.userId,record);
                 }
         }
 		

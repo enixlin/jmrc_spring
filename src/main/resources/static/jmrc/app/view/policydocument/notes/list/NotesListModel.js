@@ -12,9 +12,8 @@ Ext.define('jmrc.view.policydocument.notes.list.NotesListModel', {
             proxy:{
                 url:"/policydocument/getPolicyNoteBydId",
                 type:"ajax",
-                extraParams: {
-                    dId: 0
-                }
+             
+              
             },
            
         }

@@ -45,7 +45,7 @@ public interface PolicyDocumentMapper {
 	@Select("select * from policydocument_notes where user_id=#{userId} and dId=#{dId}")
 	public PolicyDocumentNote getUserNoteByNoteId(PolicyDocumentNote note);
 
-	@Select("select * from policydocument_notes left join user on  policydocument_notes.user_id=user.id where dId=#{dId}")
+	@Select("select * from policydocument_notes left join policydocument_list on  policydocument_notes.dId=policydocument_list.dId left join user on  policydocument_notes.user_id=user.id  where policydocument_notes.dId=#{dId}")
 	public ArrayList<PolicyDocumentNote> getPolicyNoteBydId(String dId);
 
 }
