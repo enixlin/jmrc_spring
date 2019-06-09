@@ -95,8 +95,19 @@ public class SettleRecordController {
 	@RequestMapping("/getAllBusyTypeProformance")
 	public ArrayList<IndexPerformance> getAllBusyTypeProformance(HttpServletRequest req, HttpServletResponse res) {
 
-		String start = req.getParameter("start");
-		String end = req.getParameter("end");
+//		String start = req.getParameter("start");
+//		String end = req.getParameter("end");
+//		if(start.equals(null) || start.equals("")) {
+//			start="20190101";
+//		}
+//		if(end.equals(null) || end.equals("")) {
+//			end="20190501";
+//		}
+		String start="20190101";
+		String end="20190501";
+	
+			
+
 		return srs.getAllBusyTypeProformance(start, end);
 
 	}

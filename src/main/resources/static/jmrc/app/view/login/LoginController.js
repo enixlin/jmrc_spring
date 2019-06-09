@@ -3,18 +3,6 @@ Ext.define("jmrc.view.login.LoginController", {
 	alias : "controller.login-login",
 
 
-//	init : function() {
-//		window.resizeTo(1338, 768);
-//	},
-//	
-
-
-//	afterRender : function() {
-//		let me = this;
-//		let win = me.getReferences().loginwin;
-//		win.setTitle(CFG.getWelcomeMessage());
-//	},
-
 
 
 
