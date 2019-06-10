@@ -28,19 +28,16 @@ Ext.define('jmrc.view.performance.settle.settleController', {
 		let reportTypeId = textfield[0].getValue();
 		let start = textfield[1].getValue();
 		let end = textfield[2].getValue();
-		view.add({
-			xtype : "barChart",
+		let store = me.getViewModel().getStore("allTypeBusyPerformanceStore");
+		console.log("store");
+		console.log(store);
+		let bar = Ext.create("jmrc.view.performance.chart.bar.bar", {
 			width : "100%",
-			height : 300,
-			title : "barChart",
-			x : 10,
-			y : 10
-
+			height : 500,
 		});
+		view.add(bar);
+
 		me.makeReport(me, reportTypeId, start, end);
-		// Ext.create("Ext.window.Window",{
-		// width : 500,
-		// height:300,items:[{xtype:"barChart"}]}).show();
 
 	},
 
@@ -54,10 +51,11 @@ Ext.define('jmrc.view.performance.settle.settleController', {
 		// console.log(store);
 		// store.load({
 		// params : {
+
 		// "start" : start,
 		// "end" : end
 		// }
 		// });
-	}
+	},
 
 });
