@@ -7,10 +7,12 @@ Ext.define('jmrc.view.performance.chart.bar.barModel', {
     stores:{
     	barStore:{
     		fields : [ 'name', 'date', 'performance' ],
-			autoLoad:true,
+		
+	
 			proxy : {
 				url : "/settlerecord/getAllBusyTypeProformance",
 				type : "ajax",
+			
 
 			}
     	}

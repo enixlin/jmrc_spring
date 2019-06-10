@@ -7,7 +7,7 @@ Ext.define('jmrc.view.performance.settle.settleModel', {
 	stores : {
 		reportTypeBoxStore : {
 			fields : [ 'name', 'id' ],
-			params : {},
+			autoLoad:true,
 			proxy : {
 				url : "/report/getReportType",
 				type : "ajax"
@@ -15,7 +15,7 @@ Ext.define('jmrc.view.performance.settle.settleModel', {
 		},
 		allTypeBusyPerformanceStore : {
 			fields : [ 'name', 'date', 'performance' ],
-			autoLoad : true,
+			autoLoad : false,
 			proxy : {
 				url : "/settlerecord/getAllBusyTypeProformance",
 				type : "ajax",

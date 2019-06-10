@@ -9,13 +9,17 @@ Ext.define('jmrc.view.performance.chart.bar.bar', {
 	viewModel : {
 		type : 'performance-chart-bar-bar'
 	},
+	width:"100%",
+	height : window.innerHeight-600,
+	
 
 	items: {
 		xtype : 'cartesian',
 		renderTo : document.body,
 		 reference: 'chart',
 		width : "100%",
-		height : 400,
+		height: 300,
+		
 		bind : {
 			store : "{barStore}"
 		},

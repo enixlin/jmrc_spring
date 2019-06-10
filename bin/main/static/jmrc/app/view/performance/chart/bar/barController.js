@@ -18,13 +18,14 @@ Ext.define('jmrc.view.performance.chart.bar.barController', {
         }
     },
 
+
     onReloadData: function() {
         var chart = this.lookupReference('chart');
         chart.getStore().refreshData();
     },
 
-    // The 'target' here is an object that contains information
-    // about the target value when the drag operation on the column ends.
+   //  The 'target' here is an object that contains information
+     //about the target value when the drag operation on the column ends.
     onEditTipRender: function (tooltip, item, target, e) {
         tooltip.setHtml('Temperature °F: ' + target.yValue.toFixed(1));
     },
@@ -96,16 +97,16 @@ Ext.define('jmrc.view.performance.chart.bar.barController', {
 
     itemAnimationDuration: 0,
 
-    // Disable item's animaton for editing.
+   //  Disable item's animaton for editing.
     onBeginItemEdit: function (chart, interaction, item) {
         var itemsMarker = item.sprite.getMarker(item.category),
-            fx = itemsMarker.getTemplate().fx; // animation modifier
+            fx = itemsMarker.getTemplate().fx;  //animation modifier
 
         this.itemAnimationDuration = fx.getDuration();
         fx.setDuration(0);
     },
 
-    // Restore item's animation when editing is done.
+   //  Restore item's animation when editing is done.
     onEndItemEdit: function (chart, interaction, item, target) {
         var itemsMarker = item.sprite.getMarker(item.category),
             fx = itemsMarker.getTemplate().fx;

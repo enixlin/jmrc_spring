@@ -9,6 +9,7 @@ Ext.define('jmrc.view.performance.settle.settle', {
 	viewModel : {
 		type : 'performance-settle-settle'
 	},
+	scrollable : true,
 
 	// 查询工具栏
 	tbar : [ {
@@ -17,6 +18,7 @@ Ext.define('jmrc.view.performance.settle.settle', {
 		name : "reportType",
 		margin : "5 5 5 5 ",
 		labelAlign : "right",
+		emptyText:"请选择分析报表类型",
 		bind : {
 			store : "{reportTypeBoxStore}"
 		},
@@ -25,7 +27,8 @@ Ext.define('jmrc.view.performance.settle.settle', {
 	}, {
 		xtype : "textfield",
 		fieldLabel : "开始日期：",
-		value : "20190101",
+		value : "2019-01-01",
+		inputType:"date",
 		name : "start",
 		margin : "5 5 5 5 ",
 		labelAlign : "right"
@@ -33,6 +36,7 @@ Ext.define('jmrc.view.performance.settle.settle', {
 		xtype : "textfield",
 		fieldLabel : "结束日期：",
 		name : "end",
+		inputType:"date",
 		margin : "5 5 5 5 ",
 		labelAlign : "right"
 	}, {
@@ -46,7 +50,6 @@ Ext.define('jmrc.view.performance.settle.settle', {
 		handler : "query"
 	} ],
 
-	// chart内容表格显示区
-	
+// chart内容表格显示区
 
 });
