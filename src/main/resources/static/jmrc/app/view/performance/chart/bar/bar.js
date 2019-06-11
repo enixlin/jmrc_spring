@@ -16,7 +16,7 @@ Ext.define('jmrc.view.performance.chart.bar.bar', {
 	items: {
 		xtype : 'cartesian',
 		renderTo : document.body,
-		 reference: 'chart',
+		reference: 'chart',
 		width : "100%",
 		height: 300,
 		
@@ -48,6 +48,7 @@ Ext.define('jmrc.view.performance.chart.bar.bar', {
 			},
 			xField : 'name',
 			yField : 'performance',
+			yValue:"performance",
 		    highlight: {
                 strokeStyle: 'black',
                 fillStyle: 'gold'
@@ -55,7 +56,7 @@ Ext.define('jmrc.view.performance.chart.bar.bar', {
 			 label: {
 	                field: 'performance',
 	                display: 'insideEnd',
-	                renderer: 'onSeriesLabelRender'
+	                //renderer: 'onSeriesLabelRender'
 	            }
 		},
 
