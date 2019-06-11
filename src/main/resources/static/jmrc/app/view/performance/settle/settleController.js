@@ -47,6 +47,7 @@ Ext.define('jmrc.view.performance.settle.settleController', {
 			bar = Ext.create("jmrc.view.performance.chart.bar.bar", {
 				width : "100%",
 				height : 500,
+				data:{title:"业务量分月统计表",xAxis:"月份",yAxis:"业务量(万美元)"}
 			});
 			view.add(bar);
 			//要先插入组件，后续才能找到
@@ -55,6 +56,7 @@ Ext.define('jmrc.view.performance.settle.settleController', {
 				params : {
 					start : start,
 					end : end
+					
 				}
 			});
 			

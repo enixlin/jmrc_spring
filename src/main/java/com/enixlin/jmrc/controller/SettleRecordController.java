@@ -2,6 +2,7 @@ package com.enixlin.jmrc.controller;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -97,12 +98,12 @@ public class SettleRecordController {
 
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
-		if(start.equals(null) || start.equals("")) {
-			start="20190101";
-		}
-		if(end.equals(null) || end.equals("")) {
-			end="20190501";
-		}
+//		if(start.equals(null) || start.equals("")) {
+//			start="20190101";
+//		}
+//		if(end.equals(null) || end.equals("")) {
+//			end="20190501";
+//		}
 //		String start="20190101";
 //		String end="2019031";
 	
@@ -145,6 +146,21 @@ public class SettleRecordController {
 		String start=req.getParameter("start");
 		String end =req.getParameter("end");
 		return srs.getAllUnitPerformance(start,end);
+		
+	}
+	
+	
+	/**
+	 * 取得每月的结算量
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("/getMonthPerformance")
+	public List<IndexPerformance> getMonthPerformance(HttpServletRequest req,HttpServletResponse res){
+		String start=req.getParameter("start");
+		String end=req.getParameter("end");
+		return srs.getMonthPerformance(start,end);
 		
 	}
 

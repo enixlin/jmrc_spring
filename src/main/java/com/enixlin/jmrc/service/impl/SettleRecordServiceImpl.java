@@ -1,6 +1,7 @@
 package com.enixlin.jmrc.service.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,5 +48,14 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord> imple
 		products.add("汇出汇款");
 		products.add("出口信用证");
 		return settleRecordMapper.getAllUnitPerformance(start,end);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.enixlin.jmrc.service.SettleRecordService#getMonthPerformance(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public List<IndexPerformance> getMonthPerformance(String start, String end) {
+		// TODO Auto-generated method stub
+		return settleRecordMapper.getMonthPerformance(start,end);
 	}
 }

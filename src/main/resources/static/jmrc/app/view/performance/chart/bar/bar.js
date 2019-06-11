@@ -17,17 +17,19 @@ Ext.define('jmrc.view.performance.chart.bar.bar', {
 		xtype : 'cartesian',
 		renderTo : document.body,
 		reference: 'chart',
-		width : "100%",
+		width : "40%",
 		height: 300,
-		
+//		title:bind:{data.title},
 		bind : {
-			store : "{barStore}"
+			store : "{monthBarStore}"
 		},
-		axes : [ {
+		axes : [
+			
+			{
 			type : 'numeric',
 			position : 'left',
 			title : {
-				text : '业务量',
+				text :"",
 				fontSize : 15
 			},
 			fields : 'performance'
@@ -35,11 +37,13 @@ Ext.define('jmrc.view.performance.chart.bar.bar', {
 			type : 'category',
 			position : 'bottom',
 			title : {
-				text : '国际业务产品',
+				text :"",
 				fontSize : 15
 			},
 			fields : 'name'
-		} ],
+		} 
+		
+		],
 		series : {
 			type : 'bar',
 			subStyle : {
