@@ -8,7 +8,7 @@ Ext.define('jmrc.view.performance.settle.settleController', {
 		let view = me.getView();
 		let textfield = view.query("textfield");
 		textfield[1].setValue("2019-01-01");
-	
+
 		let reportType = textfield[0].getValue();
 		let start = textfield[1].getValue();
 		let date = new Date();
@@ -18,7 +18,7 @@ Ext.define('jmrc.view.performance.settle.settleController', {
 		// 10以下的数在前面补充零
 		month < 10 ? (month = "0" + month) : month;
 		day < 10 ? (day = ("0" + day)) : day;
-		let end = textfield[2].setValue(year+"-" + month+"-" + day);
+		let end = textfield[2].setValue(year + "-" + month + "-" + day);
 
 	},
 
@@ -28,38 +28,44 @@ Ext.define('jmrc.view.performance.settle.settleController', {
 		let textfield = view.query("textfield");
 		let reportTypeName = textfield[0].getDisplayValue();
 		let reportTypeId = textfield[0].getValue();
-		let start = textfield[1].getValue().replace(/-/g,"");
-		let end = textfield[2].getValue().replace(/-/g,"");
+		let start = textfield[1].getValue().replace(/-/g, "");
+		let end = textfield[2].getValue().replace(/-/g, "");
 		let store = me.getViewModel().getStore("allTypeBusyPerformanceStore");
 		console.log("store");
 		console.log(store);
 		let bar = null || view.query("barChart")[0];
 		if (bar != null) {
-			let barStore=view.query("cartesian")[0].getStore();
+			let barStore = view.query("cartesian")[0].getStore();
 			barStore.load({
 				params : {
 					start : start,
 					end : end
 				}
 			});
-		
+
 		} else {
 			bar = Ext.create("jmrc.view.performance.chart.bar.bar", {
 				width : "100%",
 				height : 500,
-				data:{title:"业务量分月统计表",xAxis:"月份",yAxis:"业务量(万美元)"}
+				margin:'10 10 10 10',
+				data : {
+					title : "业务量分月统计表",
+					xAxis : "月份",
+					yAxis : "业务量(万美元)",
+					st : "monthBarStore"
+				}
 			});
 			view.add(bar);
-			//要先插入组件，后续才能找到
-			let barStore=view.query("cartesian")[0].getStore();
+			// 要先插入组件，后续才能找到
+			let barStore = view.query("cartesian")[0].getStore();
 			barStore.load({
 				params : {
 					start : start,
 					end : end
-					
+
 				}
 			});
-			
+
 		}
 
 		me.makeReport(me, reportTypeId, start, end);

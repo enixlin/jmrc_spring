@@ -14,6 +14,13 @@ Ext.define('jmrc.view.performance.chart.bar.barModel', {
 				url : "/settlerecord/getMonthPerformance",
 				type : "ajax",
 			}
+		},
+		getAllBusyTypeProformance : {
+			fields : [ 'name', 'date', 'performance' ],
+			proxy : {
+				url : "/settlerecord/getAllBusyTypeProformance",
+				type : "ajax",
+			}
 		}
 	}
 

@@ -19,10 +19,8 @@ Ext.define('jmrc.view.performance.chart.bar.bar', {
 		reference: 'chart',
 		width : "40%",
 		height: 300,
-//		title:bind:{data.title},
-		bind : {
-			store : "{monthBarStore}"
-		},
+
+		insetPadding:'5 10 10 10',
 		axes : [
 			
 			{
@@ -47,20 +45,24 @@ Ext.define('jmrc.view.performance.chart.bar.bar', {
 		series : {
 			type : 'bar',
 			subStyle : {
-				fill : [ '#388FAD' ],
+				fill : [ '#abcdef' ],
 				stroke : '#1F6D91'
 			},
 			xField : 'name',
 			yField : 'performance',
 			yValue:"performance",
 		    highlight: {
-                strokeStyle: 'black',
+                strokeStyle: 'light',
                 fillStyle: 'gold'
             },
 			 label: {
 	                field: 'performance',
 	                display: 'insideEnd',
-	                //renderer: 'onSeriesLabelRender'
+	                renderer: 'onSeriesLabelRender'
+	            },
+	            tooltip:{
+	            	trackMouse:true,
+	            	renderer:"onTooltipRender"
 	            }
 		},
 
