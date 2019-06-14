@@ -9,10 +9,21 @@ Ext.define('jmrc.view.performance.chart.bar.bar', {
 	viewModel : {
 		type : 'performance-chart-bar-bar'
 	},
-	width:"100%",
+	width:"40%",
 	height : window.innerHeight-600,
 	
-
+	  tbar: [
+	        
+	        {
+	            text: 'Preview',
+	            platformConfig: {
+	                desktop: {
+	                    text: 'Download'
+	                }
+	            },
+	            handler: 'onDownload'
+	        },
+	    ],
 	items: {
 		xtype : 'cartesian',
 		renderTo : document.body,

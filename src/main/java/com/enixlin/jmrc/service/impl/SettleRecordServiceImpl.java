@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.enixlin.jmrc.entity.IndexPerformance;
+import com.enixlin.jmrc.entity.SettleRange;
 import com.enixlin.jmrc.entity.SettleRecord;
 import com.enixlin.jmrc.entity.UnitPerformance;
 import com.enixlin.jmrc.mapper.SettleRecordMapper;
@@ -56,6 +57,25 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord> imple
 	@Override
 	public List<IndexPerformance> getMonthPerformance(String start, String end) {
 		// TODO Auto-generated method stub
+		
 		return settleRecordMapper.getMonthPerformance(start,end);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.enixlin.jmrc.service.SettleRecordService#getsettleRange()
+	 */
+	@Override
+	public List<SettleRange> getsettleRange() {
+		// TODO Auto-generated method stub
+		return settleRecordMapper.getsettleRange();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.enixlin.jmrc.service.SettleRecordService#getAllProduct()
+	 */
+	@Override
+	public List<String> getAllProduct() {
+		// TODO Auto-generated method stub
+		return settleRecordMapper.getAllProduct();
 	}
 }

@@ -34,6 +34,7 @@ Ext.define('jmrc.view.performance.settle.settleController', {
 		console.log("store");
 		console.log(store);
 		let bar = null || view.query("barChart")[0];
+		let pie = null || view.query("pieChart")[1];
 		if (bar != null) {
 			let barStore = view.query("cartesian")[0].getStore();
 			barStore.load({
@@ -47,7 +48,7 @@ Ext.define('jmrc.view.performance.settle.settleController', {
 			bar = Ext.create("jmrc.view.performance.chart.bar.bar", {
 				width : "100%",
 				height : 500,
-				margin:'10 10 10 10',
+				margin : '10 10 10 10',
 				data : {
 					title : "业务量分月统计表",
 					xAxis : "月份",
@@ -55,20 +56,53 @@ Ext.define('jmrc.view.performance.settle.settleController', {
 					st : "monthBarStore"
 				}
 			});
-			view.add(bar);
-			// 要先插入组件，后续才能找到
-			let barStore = view.query("cartesian")[0].getStore();
-			barStore.load({
+		}
+
+		if (pie != null) {
+			let pieStore = view.query("polar")[0].getStore();
+			pieStore.load({
 				params : {
 					start : start,
 					end : end
-
 				}
 			});
 
+		} else {
+			pie = Ext.create("jmrc.view.performance.chart.pie.pie", {
+				width : "100%",
+				height : 500,
+				margin : '10 10 10 10',
+				data : {
+					title : "业务分类统计表",
+				
+					st : "getAllBusyTypeProformance"
+				}
+			});
 		}
 
-		me.makeReport(me, reportTypeId, start, end);
+		view.add(bar);
+		view.add(pie);
+
+		// 要先插入组件，后续才能找到
+		let barStore = view.query("cartesian")[0].getStore();
+		barStore.load({
+			params : {
+				start : start,
+				end : end
+
+			}
+		});
+
+		let pieStore = view.query("polar")[0].getStore();
+		pieStore.load({
+			params : {
+				start : start,
+				end : end
+
+			}
+		});
+
+		// me.makeReport(me, reportTypeId, start, end);
 
 	},
 

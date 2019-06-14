@@ -2,6 +2,32 @@ Ext.define('jmrc.view.performance.chart.bar.barController', {
 	extend : 'Ext.app.ViewController',
 	alias : 'controller.performance-chart-bar-bar',
 
+	
+	onPreview:function(){
+		 if (Ext.isIE8) {
+	            Ext.Msg.alert('Unsupported Operation', 'This operation requires a newer version of Internet Explorer.');
+	            return;
+	        }
+	        var chart = this.lookupReference('chart');
+	        chart.preview();
+
+	},
+	
+	onDownload: function() {
+        if (Ext.isIE8) {
+            Ext.Msg.alert('Unsupported Operation', 'This operation requires a newer version of Internet Explorer.');
+            return;
+        }
+        var chart = this.lookupReference('chart');
+        if (Ext.os.is.Desktop) {
+            chart.download({
+                filename: 'Redwood City Climate Data Chart'
+            });
+        } else {
+            chart.preview();
+        }
+    },
+	
 	afterRender : function() {
 		let me = this;
 		let polar = me.getView().query("cartesian")[0];
