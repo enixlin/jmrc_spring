@@ -24,6 +24,7 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 	ArrayList<UnitPerformance> getAllUnitPerformance(String start, String end);
 
 	/**
+	 * 取得每月的业务量
 	 * @author linzhenhuan  </br>
 	 *　方法说明：　　　　　　　　　　　</br>
 	 * @param start
@@ -32,7 +33,7 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 	 *List<IndexPerformance>
 	 * 创建时间：2019年6月11日
 	 */
-	@Select("select sum(usd_Rate * busy_Amount)/10000 as performance,left(busy_date,6) as name  from settle_record where busy_Date>=#{start} and busy_Date<=#{end}  GROUP BY name  ")
+	@Select("select sum(usd_Rate * busy_Amount)/10000 as performance,count(busy_date) as times,left(busy_date,6) as name  from settle_record where busy_Date>=#{start} and busy_Date<=#{end}  GROUP BY name  ")
 	 List<IndexPerformance> getMonthPerformance(@Param("start")String start, @Param("end")String end);
 
 	/**

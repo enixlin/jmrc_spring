@@ -30,5 +30,12 @@ public class IndexPerformance {
 	private String name;
 	private BigDecimal performance;
 	private String date;
+	private int times;
+	public int getTimes() {
+		return times;
+	}
+	public void setTimes(int times) {
+		this.times = times;
+	}
 
 }

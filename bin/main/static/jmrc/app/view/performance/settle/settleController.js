@@ -30,11 +30,13 @@ Ext.define('jmrc.view.performance.settle.settleController', {
 		let reportTypeId = textfield[0].getValue();
 		let start = textfield[1].getValue().replace(/-/g, "");
 		let end = textfield[2].getValue().replace(/-/g, "");
+		
+		
 		let store = me.getViewModel().getStore("allTypeBusyPerformanceStore");
-		console.log("store");
-		console.log(store);
+		
 		let bar = null || view.query("barChart")[0];
-		let pie = null || view.query("pieChart")[1];
+		let pie = null || view.query("pieChart")[0];
+		
 		if (bar != null) {
 			let barStore = view.query("cartesian")[0].getStore();
 			barStore.load({
@@ -53,9 +55,11 @@ Ext.define('jmrc.view.performance.settle.settleController', {
 					title : "业务量分月统计表",
 					xAxis : "月份",
 					yAxis : "业务量(万美元)",
-					st : "monthBarStore"
+					st : "monthBarStore",
+				
 				}
 			});
+			view.add(bar);
 		}
 
 		if (pie != null) {
@@ -74,14 +78,14 @@ Ext.define('jmrc.view.performance.settle.settleController', {
 				margin : '10 10 10 10',
 				data : {
 					title : "业务分类统计表",
-				
+
 					st : "getAllBusyTypeProformance"
 				}
 			});
+			view.add(pie);
 		}
 
-		view.add(bar);
-		view.add(pie);
+	
 
 		// 要先插入组件，后续才能找到
 		let barStore = view.query("cartesian")[0].getStore();
@@ -101,8 +105,6 @@ Ext.define('jmrc.view.performance.settle.settleController', {
 
 			}
 		});
-
-		// me.makeReport(me, reportTypeId, start, end);
 
 	},
 

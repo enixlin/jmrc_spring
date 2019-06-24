@@ -9,49 +9,49 @@ Ext.define('jmrc.view.performance.chart.bar.bar', {
 	viewModel : {
 		type : 'performance-chart-bar-bar'
 	},
-	width:"40%",
-	height : window.innerHeight-600,
-	
-	  tbar: [
-	        
-	        {
-	            text: 'Preview',
-	            platformConfig: {
-	                desktop: {
-	                    text: 'Download'
-	                }
-	            },
-	            handler: 'onDownload'
-	        },
-	    ],
-	items: {
+	width : "100%",
+	height : window.innerHeight - 600,
+
+	tbar : [
+
+	{
+		text : 'Preview',
+		platformConfig : {
+			desktop : {
+				text : 'Download'
+			}
+		},
+		handler : 'onDownload'
+	}, ],
+	items : [ {
 		xtype : 'cartesian',
 		renderTo : document.body,
-		reference: 'chart',
-		width : "40%",
-		height: 300,
+		reference : 'chart',
+		width : "100%",
+		height : 300,
 
-		insetPadding:'5 10 10 10',
+		insetPadding : '5 10 10 10',
 		axes : [
-			
-			{
+
+		{
 			type : 'numeric',
 			position : 'left',
 			title : {
-				text :"",
+				text : "",
 				fontSize : 15
 			},
-			fields : 'performance'
+			fields : 'performance',
+			minimum : 0
 		}, {
 			type : 'category',
 			position : 'bottom',
 			title : {
-				text :"",
+				text : "",
 				fontSize : 15
 			},
 			fields : 'name'
-		} 
-		
+		}
+
 		],
 		series : {
 			type : 'bar',
@@ -61,27 +61,53 @@ Ext.define('jmrc.view.performance.chart.bar.bar', {
 			},
 			xField : 'name',
 			yField : 'performance',
-			yValue:"performance",
-		    highlight: {
-                strokeStyle: 'light',
-                fillStyle: 'gold'
-            },
-			 label: {
-	                field: 'performance',
-	                display: 'insideEnd',
-	                renderer: 'onSeriesLabelRender'
-	            },
-	            tooltip:{
-	            	trackMouse:true,
-	            	renderer:"onTooltipRender"
-	            }
+			yValue : "performance",
+			highlight : {
+				strokeStyle : 'light',
+				fillStyle : 'gold'
+			},
+			label : {
+				field : 'performance',
+				display : 'insideEnd',
+				renderer : 'onSeriesLabelRender'
+			},
+			tooltip : {
+				trackMouse : true,
+				renderer : "onTooltipRender"
+			}
 		},
 
-           
-        
-      
-        animation: Ext.isIE8 ? false : true,
+		animation : Ext.isIE8 ? false : true,
+	},
+
+	// 以下是柱形图下方的表格
+	{
+		xtype : "grid",
+		bind : {
+			store : "{monthBarStore}"
+		},
+		width : "100%",
+		height : 300,
+
+		columns : [ {
+			text : "月份",
+			dataIndex : "name",
+		},
+
+		{
+			text : "业务笔数",
+			dataIndex : "times"
+		},
+
+		{
+			text : "金额",
+			dataIndex : "performance",
+			renderer : function(value) {
+				return Ext.util.Format.number(value, "0,000.00");;
+				}
+		} ]
 	}
-    
+
+	]
 
 });

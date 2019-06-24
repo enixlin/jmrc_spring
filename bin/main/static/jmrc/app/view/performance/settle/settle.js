@@ -10,6 +10,11 @@ Ext.define('jmrc.view.performance.settle.settle', {
 		type : 'performance-settle-settle'
 	},
 	scrollable : true,
+	 layout: {
+	        type: 'table',
+	        // The total column count must be specified here
+	        columns: 2
+	    },
 
 	// 查询工具栏
 	tbar : [ {

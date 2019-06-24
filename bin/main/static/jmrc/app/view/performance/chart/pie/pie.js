@@ -9,7 +9,7 @@ Ext.define('jmrc.view.performance.chart.pie.pie', {
 	viewModel : {
 		type : 'performance-chart-pie-pie'
 	},
-	width : 300,
+	width : "100%",
 	height : window.innerHeight - 600,
 	tbar : [ "<-", {
 		text : "preview",
@@ -21,17 +21,21 @@ Ext.define('jmrc.view.performance.chart.pie.pie', {
 		reference : 'chart',
 		// theme: 'default-gradients',
 		renderTo : document.body,
-		width : '100%',
+		width : "100%",
 		height : 500,
 		insetPadding : 50,
 		innerPadding : 20,
 		legend : {
-			docked : 'left'
+			docked : 'left',
+			height:400,
+			resizable:true,
+			scrollable:true,
 		},
 		interactions : [ 'rotate' ],
 		sprites : [ {
 			type : 'text',
 			text : 'Pie Charts - Basic',
+			scrollable:true,
 			fontSize : 22,
 			width : 100,
 			height : 30,
@@ -41,6 +45,7 @@ Ext.define('jmrc.view.performance.chart.pie.pie', {
 		} ],
 		series : [ {
 			type : 'pie',
+			width:"100%",
 			angleField : 'performance',
 			label : {
 				field : 'name',
