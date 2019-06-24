@@ -48,9 +48,7 @@ Ext
 							x : 150,
 							y : 15
 						};
-						// axes[0].setTitle(me.getView()["config"]["data"]["yAxis"]);
-						// axes[1].setTitle(me.getView()["config"]["data"]["xAxis"]);
-						// bar[0].setTitle(me.getView()["config"]["data"]["title"]);
+
 						// 设定标题
 						polar.setSprites(sprites);
 						// 设定bar图的store

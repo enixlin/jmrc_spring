@@ -9,7 +9,7 @@ Ext.define('jmrc.view.performance.chart.pie.pie', {
 	viewModel : {
 		type : 'performance-chart-pie-pie'
 	},
-	width : "100%",
+	width : 300,
 	height : window.innerHeight - 600,
 	tbar : [ "<-", {
 		text : "preview",
