@@ -5,8 +5,13 @@ Ext.define('jmrc.view.policydocument.file.fileController', {
     afterRender:function(){
          let me=this;
          let view=me.getView();
-      
          let record1=view.record;
+         let container=me.getView().query("container")[1];
+         
+         //container.insert(0,"->");
+         container.insert(0,{xtype:"textfield",fieldLabel:"文号",width:500,value:record1.data["docNum"]})
+         console.log(container);
+      
          let windowTitle="  ***【原文】****  "+record1.data["title"];
          let winWidth=view.getWidth();
          let winHeight=view.getHeight()*0.98;

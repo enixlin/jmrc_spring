@@ -3,8 +3,6 @@ package com.enixlin.jmrc.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.enixlin.jmrc.util.Excel;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -70,7 +68,7 @@ public class LoginController {
          * 以下的内容是输出一个html视图到客户端,这个视图就是用户登录界面
          */
 //        String location = "http://110.0.6.100:8888/jmrc/index.html";
-        String location = "http://localhost:8888/jmrc/index.html";
+        String location = "/jmrc/index.html";
         try {
             hsr.sendRedirect(location);
         } catch (IOException e) {

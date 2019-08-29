@@ -1,15 +1,10 @@
 package com.enixlin.jmrc.entity.found.forward;
 
-import java.text.DecimalFormat;
 import java.math.*;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import tk.mybatis.mapper.annotation.KeySql;
 
 /**
  * 远期结售汇风险系数实体类

@@ -3,12 +3,9 @@ package com.enixlin.jmrc.service.impl;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.enixlin.jmrc.service.BaseService;
-
-import tk.mybatis.mapper.common.Mapper;
 
 @Service
 //这里一定要是抽象类，否则构造函数里this调用的就是子类实例

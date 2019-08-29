@@ -21,6 +21,15 @@ Ext.define('jmrc.view.performance.settle.settleModel', {
 				type : "ajax",
 
 			}
+		},
+		allUnitSettlePerformance:{
+			fields : [ 'name', 'date', 'performance' ],
+			autoLoad : false,
+			proxy : {
+				url : "/settlerecord/allUnitSettlePerformance",
+				type : "ajax",
+	
+			}
 		}
 	}
 

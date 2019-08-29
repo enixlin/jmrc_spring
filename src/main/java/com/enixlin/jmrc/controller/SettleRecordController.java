@@ -2,6 +2,7 @@ package com.enixlin.jmrc.controller;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,8 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.enixlin.jmrc.entity.IndexPerformance;
+import com.enixlin.jmrc.entity.MonthPerformace;
+import com.enixlin.jmrc.entity.Product;
 import com.enixlin.jmrc.entity.SettleRange;
 import com.enixlin.jmrc.entity.SettleRecord;
+import com.enixlin.jmrc.entity.Task;
+import com.enixlin.jmrc.entity.Unit;
 import com.enixlin.jmrc.entity.UnitPerformance;
 import com.enixlin.jmrc.service.SettleRecordService;
 import com.enixlin.jmrc.smartbi.ODS;
@@ -108,23 +113,40 @@ public class SettleRecordController {
 		System.out.println(" 所有的记录插入完成");
 	}
 
+	/**
+	 * 取得所有的国际业务产品笔数和金额
+	 * 
+	 * @author linzhenhuan </br>
+	 *         方法说明： </br>
+	 * @param req
+	 * @param res
+	 * @return ArrayList<IndexPerformance> 创建时间：2019年7月27日
+	 */
 	@RequestMapping("/getAllBusyTypeProformance")
 	public ArrayList<IndexPerformance> getAllBusyTypeProformance(
 			HttpServletRequest req, HttpServletResponse res) {
 
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
-//		if(start.equals(null) || start.equals("")) {
-//			start="20190101";
-//		}
-//		if(end.equals(null) || end.equals("")) {
-//			end="20190501";
-//		}
-//		String start="20190101";
-//		String end="2019031";
-
 		return srs.getAllBusyTypeProformance(start, end);
+	}
 
+	/**
+	 * 取得所有的国际结算统计口径产品的业务笔数和金额
+	 * 
+	 * @author linzhenhuan </br>
+	 *         方法说明： </br>
+	 * @param req
+	 * @param res
+	 * @return ArrayList<IndexPerformance> 创建时间：2019年7月27日
+	 */
+	@RequestMapping("/getAllBusySettleTypeProformance")
+	public ArrayList<IndexPerformance> getAllBusySettleTypeProformance(
+			HttpServletRequest req, HttpServletResponse res) {
+
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+		return srs.getAllBusySettleTypeProformance(start, end);
 	}
 
 	/**
@@ -152,22 +174,6 @@ public class SettleRecordController {
 	}
 
 	/**
-	 * 取得所有经营单位的实绩
-	 * 
-	 * @param req
-	 * @param res
-	 * @return
-	 */
-	@RequestMapping("/getAllUnitPerformance")
-	public ArrayList<UnitPerformance> getAllUnitPerformance(
-			HttpServletRequest req, HttpServletResponse res) {
-		String start = req.getParameter("start");
-		String end = req.getParameter("end");
-		return srs.getAllUnitPerformance(start, end);
-
-	}
-
-	/**
 	 * 取得每月的结算量
 	 * 
 	 * @param req
@@ -184,14 +190,13 @@ public class SettleRecordController {
 	}
 
 	/**
-	 *取得统计口径的所有记录
-	 * @author linzhenhuan  </br>
-	 *　方法说明：　　　　　　　　　　　</br>
+	 * 取得统计口径的所有记录
+	 * 
+	 * @author linzhenhuan </br>
+	 *         方法说明： </br>
 	 * @param req
 	 * @param res
-	 * @return
-	 *List<SettleRange>
-	 * 创建时间：2019年6月13日
+	 * @return List<SettleRange> 创建时间：2019年6月13日
 	 */
 	@RequestMapping("/getsettleRange")
 	public List<SettleRange> getsettleRange(HttpServletRequest req,
@@ -199,10 +204,199 @@ public class SettleRecordController {
 		return srs.getsettleRange();
 
 	}
-	
-	
-	@RequestMapping("/getAllProduct")
-	public List<String> getAllProduct(HttpServletRequest req,HttpServletResponse res){
-		return srs.getAllProduct();
+
+	@RequestMapping("/getAllProductFromSettleRecord")
+	public ArrayList<String> getAllProductFromSettleRecord(
+			HttpServletRequest req,
+			HttpServletResponse res) {
+		ArrayList<String> products = srs.getAllProductFromSettleRecord();
+		return products;
 	}
+
+	@RequestMapping("/getSettleRangeProduct")
+	public ArrayList<Product> getSettleRangeProduct(HttpServletRequest req,
+			HttpServletResponse res) {
+		ArrayList<Product> products = srs.getSettleRangeProduct();
+		return products;
+	}
+
+	@RequestMapping("/saveSettleRangeProduct")
+	public int saveSettleRangeProduct(HttpServletRequest req,
+			HttpServletResponse res) {
+		int count = 0;
+//	String[] products=req.getParameter("array").split(",", 0);
+
+		return count = 0;
+	}
+
+	/**
+	 * 取得经营单位或客户的业务实绩
+	 * 
+	 * @author linzhenhuan </br>
+	 *         方法说明： </br>
+	 * @param req
+	 * @param res
+	 * @return ArrayList<UnitPerformance> 创建时间：2019年7月26日
+	 */
+	@RequestMapping("/getUnitPerformance")
+	public ArrayList<UnitPerformance> getUnitPerformance(HttpServletRequest req,
+			HttpServletResponse res) {
+		return null;
+
+	}
+
+	/**
+	 * 
+	 * 
+	 * @author linzhenhuan </br>
+	 *         方法说明： </br>
+	 * @param req
+	 * @param res
+	 * @return ArrayList<Task> 创建时间：2019年7月26日
+	 */
+	@RequestMapping("/getAllUnitTask")
+	public HashMap<String, ArrayList<Task>> getAllUnitTask(
+			HttpServletRequest req,
+			HttpServletResponse res) {
+
+		ArrayList<String> allUnitNames = this.getAllUnitName();
+
+		return null;
+
+	}
+
+	@RequestMapping("/getTaskByUnitName")
+	public ArrayList<Task> getTaskByUnitName(HttpServletRequest req,
+			HttpServletResponse res) {
+		return null;
+
+	}
+
+	/**
+	 * 取得所有的一级支行名称
+	 * 
+	 * @author linzhenhuan </br>
+	 *         方法说明： </br>
+	 * @return ArrayList<String> 创建时间：2019年7月26日
+	 */
+	@RequestMapping("/getAllUnitName")
+	public ArrayList<String> getAllUnitName() {
+		return srs.getAllUnitName();
+
+	}
+
+	/**
+	 * 取得所有的一级支行名称
+	 * 
+	 * @author linzhenhuan </br>
+	 *         方法说明： </br>
+	 * @return ArrayList<String> 创建时间：2019年7月26日
+	 */
+	@RequestMapping("/getAllUnitInfo")
+	public ArrayList<Unit> getAllUnitInfo() {
+		return srs.getAllUnitInfo();
+
+	}
+
+	/**
+	 * 查询出某一时间段内的全行国际结算量产品明细
+	 * 
+	 * @author linzhenhuan </br>
+	 *         方法说明： </br>
+	 * @param req
+	 * @param res
+	 * @return ArrayList<IndexPerformance> 创建时间：2019年7月28日
+	 */
+	@RequestMapping("/getSettleTypeProformanceByDate")
+	public ArrayList<IndexPerformance> getSettleTypeProformanceByDate(
+			HttpServletRequest req, HttpServletResponse res) {
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+		return srs.getSettleTypeProformanceByDate(start, end);
+	}
+
+	/**
+	 * 获得指定时间段的国际结算流水记录明细
+	 * 
+	 * @author linzhenhuan </br>
+	 *         方法说明： </br>
+	 * @param req
+	 * @param res
+	 * @return ArrayList<SettleRecord> 创建时间：2019年7月29日
+	 */
+	@RequestMapping("/getDateRangeDetail")
+	public ArrayList<SettleRecord> getDateRangeDetail(HttpServletRequest req,
+			HttpServletResponse res) {
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+		String product = req.getParameter("product");
+		return srs.getDateRangeDetail(start, end, product);
+	}
+
+	/**
+	 * 取得机构或客户的业务指标数据
+	 * 
+	 * @author linzhenhuan </br>
+	 *         方法说明： </br>
+	 * @param req
+	 * @param res
+	 * @return ArrayList<IndexPerformance> 创建时间：2019年7月30日
+	 */
+	@RequestMapping("/getUnitIndexPerformance")
+	public ArrayList<IndexPerformance> getUnitIndexPerformance(
+			HttpServletRequest req, HttpServletResponse res) {
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+		ArrayList<Product> products = srs.getSettleRangeProduct();
+		String unitType = req.getParameter("unitType");
+		Unit unit = new Unit();
+		unit.setName(req.getParameter("name"));
+		return srs.getUnitIndexPerformance(start, end, unit, products);
+	}
+
+	@RequestMapping("/getAllUnitPerformance")
+	public ArrayList<HashMap<String, Object>> getAllUnitPerformance(
+			HttpServletRequest req, HttpServletResponse res) {
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+		return srs.getAllUnitPerformance(start, end);
+	}
+
+	@RequestMapping("/getAllClientPerformance")
+	public ArrayList<HashMap<String, Object>> getAllClientPerformance(
+			HttpServletRequest req, HttpServletResponse res) {
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+		String clientType = req.getParameter("clientType");
+		return srs.getAllClientPerformance(start, end, clientType);
+	}
+
+	/**
+	 * 取得客户或机构的国际结算量分月明细
+	 * 
+	 * @author linzhenhuan </br>
+	 *         方法说明： </br>
+	 * @param req
+	 * @param res
+	 * @return ArrayList<MonthPerformace> 创建时间：2019年8月3日
+	 */
+	@RequestMapping("/getUnitMonthPerformace")
+	public ArrayList<MonthPerformace> getUnitMonthPerformace(
+			HttpServletRequest req, HttpServletResponse res) {
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+		ArrayList<Product> products = srs.getSettleRangeProduct();
+		String unitType = req.getParameter("unitType");
+		Unit unit = new Unit();
+		unit.setName(req.getParameter("name"));
+		unit.setId(req.getParameter("uid"));
+		unit.setType(unitType);
+		return srs.getUnitMonthPerformace(unit, start, end);
+	}
+
+	public ArrayList<HashMap<String, Object>> exportAllClientPerformance(
+			HttpServletRequest req, HttpServletResponse res) {
+return null;
+	}
+
 }

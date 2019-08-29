@@ -4,25 +4,15 @@
 	"version": "1.0.0.0",
 	"framework": "ext",
 	"toolkit": "classic",
-	"theme": "theme-triton",/**
-     * The list of required packages (with optional versions; default is "latest").
-     *
-     * For example,
-     *
-     *      "requires": [
-     *          "charts"
-     *      ]
-     */
+	"theme": "theme-triton",
 	"requires": [
 		"font-awesome",
 		"ext-locale"
+		
 	],
 	"locale": "zh_CN",
-	//
-	
-	/**
-     * The relative path to the application's markup file (html, jsp, asp, etc.).
-     */
+
+
 	"indexHtmlPath": "index.html",/**
      * Comma-separated string with the paths of directories or files to search. Any classes
      * declared in these locations will be available in your class "requires" or in calls

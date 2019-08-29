@@ -48,17 +48,20 @@ Ext.define("jmrc.view.main.Main", {
 			region : "north",
 			height : 100,
 			width : "100%",
+			border:true,
 		}, {
 			region : "west",
 			xtype : 'navitree',
 			layout : 'auto',
-			width : "20%",
-			split : true
+			width : "12%",
+			border:true,
+			split : true,
 		}, {
 			region : "center",
-			width : "80%",
+			width : "85%",
 			xtype : 'content',
 			layout : 'fit',
+			border:true,
 			id : "contentpanel",
 			tabManager : []
 		}

@@ -19,7 +19,7 @@ public class Database {
 	String url = "jdbc:mysql://localhost:3306/jmrc";
 	String user = "linzhenuan";
 	String password = "enixlin1981";
-	Connection conn = (Connection) DriverManager.getConnection(url, user, password);
+	Connection conn = DriverManager.getConnection(url, user, password);
 	return conn;
     }
 

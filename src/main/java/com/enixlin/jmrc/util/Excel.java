@@ -2,7 +2,6 @@ package com.enixlin.jmrc.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashMap;
 
 import org.apache.poi.EncryptedDocumentException;
@@ -10,8 +9,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-
-import flex.messaging.io.ArrayList;
 
 public class Excel {
 

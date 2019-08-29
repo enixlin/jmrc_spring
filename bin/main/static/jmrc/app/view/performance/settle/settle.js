@@ -10,11 +10,11 @@ Ext.define('jmrc.view.performance.settle.settle', {
 		type : 'performance-settle-settle'
 	},
 	scrollable : true,
-	 layout: {
-	        type: 'table',
-	        // The total column count must be specified here
-	        columns: 2
-	    },
+	layout : {
+		type : 'table',
+		// The total column count must be specified here
+		columns : 1
+	},
 
 	// 查询工具栏
 	tbar : [ {
@@ -23,25 +23,59 @@ Ext.define('jmrc.view.performance.settle.settle', {
 		name : "reportType",
 		margin : "5 5 5 5 ",
 		labelAlign : "right",
-		emptyText:"请选择分析报表类型",
+		labelWidth:80,
+		emptyText : "请选择分析报表类型",
 		bind : {
 			store : "{reportTypeBoxStore}"
 		},
 		displayField : "name", // 显示的字段，用函数getDisplayValue()获取
-		valueField : "id" // 取值的字段，用函数getValue()获取
+		valueField : "name", // 取值的字段，用函数getValue()获取
+		listeners : {
+			change : function(me, newValue, oldValue, eOpts) {
+
+			}
+		}
 	}, {
+		xtype : "combo",
+		emptyText : "请选择分析层次",
+		width:150,
+		name : "level",
+		displayField : "name", // 显示的字段，用函数getDisplayValue()获取
+		valueField : "name", // 取值的字段，用函数getValue()获取
+		store : {
+			fields : [ 'code', 'name' ],
+			data : [ {
+				"code" : 1,
+				"name" : "全行"
+			}, {
+				"code" : 2,
+				"name" : "经营单位"
+			}, {
+				"code" : 3,
+				"name" : "客户"
+			},{
+				"code" : 4,
+				"name" : "产品"
+			} ]
+		},
+
+	},
+
+	{
 		xtype : "textfield",
 		fieldLabel : "开始日期：",
+		labelWidth:70,
 		value : "2019-01-01",
-		inputType:"date",
+		inputType : "date",
 		name : "start",
 		margin : "5 5 5 5 ",
 		labelAlign : "right"
 	}, {
 		xtype : "textfield",
+		labelWidth:70,
 		fieldLabel : "结束日期：",
 		name : "end",
-		inputType:"date",
+		inputType : "date",
 		margin : "5 5 5 5 ",
 		labelAlign : "right"
 	}, {

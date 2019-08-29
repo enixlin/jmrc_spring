@@ -7,9 +7,18 @@ Ext.define('jmrc.view.performance.config.configModel', {
     
     stores:{
     	allProductStore:{
-    		fields : [ 'name', 'id', 'IsRange' ],
+    		fields : [ 'name' ],
+    		autoLoad:true,
 			proxy : {
-				url : "/settlerecord/getAllProduct",
+				url : "/settlerecord/getAllProductFromSettleRecord",
+				type : "ajax",
+			}
+    	},
+    	rangeProductStore:{
+    		fields : [ 'name','id','description','isSettleRange' ],
+    		autoLoad:true,
+			proxy : {
+				url : "/settlerecord/getSettleRangeProduct",
 				type : "ajax",
 			}
     	}

@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 //@EnableJpaRepositories
 @MapperScan("com.exinlin.jmrc.mapper")
 //@EnableScheduling
-
 public class JmrcSpringApplication {
 
 	public static void main(String[] args) {
