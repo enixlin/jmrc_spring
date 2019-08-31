@@ -3,6 +3,7 @@ package com.enixlin.jmrc.service.impl;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,20 +103,20 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 		ArrayList<HashMap<String, Object>> all_unit = new ArrayList<>();
 		// 以全部经营单位的任务数组为基础，分别插入经营单位的当年实绩和去年同期实绩
 		for (int i = 0, len2 = unitTasks_year.size(); i < len2; i++) {
-			HashMap<String, Object> unitPerformance = new HashMap<>();
+			LinkedHashMap<String, Object> unitPerformance = new LinkedHashMap();
 			DecimalFormat df = new DecimalFormat("0.00");
-			int amount = 0;
+			float amount = 0;
 			int times = 0;
-			int amount_pre = 0;
+			float amount_pre = 0;
 			int times_pre = 0;
 
 			// 第一步插入全年任务数据，应该将这个放在历遍的最外层,因为不是所有的经营单位都有实绩，但
 			// 所有的经营单位都会设定一个任务
-			unitPerformance.put("branchCode",
+			unitPerformance.put("行号",
 					unitTasks_year.get(i).get("branch_code"));
-			unitPerformance.put("branchName",
+			unitPerformance.put("行名",
 					unitTasks_year.get(i).get("branch_name"));
-			unitPerformance.put("year_task",
+			unitPerformance.put("年度任务",
 					unitTasks_year.get(i).get("task_amount"));
 
 			// 季度任务比例
@@ -126,14 +127,14 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 			// 季度任务数
 			int task_season = task_year * percent / 100;
 			// 插入季度任务数
-			unitPerformance.put("season_task", task_season);
+			unitPerformance.put("季度任务", task_season);
 
 			// 第二步，历遍当期业绩数组，如果机构号相同的话，就插入当期机构业绩
 			for (int n = 0, len = all.size(); n < len; n++) {
 				if (all.get(n).get("branchCode")
 						.equals(unitTasks_year.get(i).get("branch_code"))) {
 					// 当期实绩
-					amount = (int) Float
+					amount =  Float
 							.parseFloat(all.get(n).get("amount").toString());
 					times = (int) Float
 							.parseFloat(all.get(n).get("times").toString());
@@ -145,23 +146,24 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 			for (int m = 0, len1 = all_pre.size(); m < len1; m++) {
 				if (unitTasks_year.get(i).get("branch_code")
 						.equals(all_pre.get(m).get("branchCode"))) {
-					amount_pre = (int) Float.parseFloat(
+					amount_pre =  Float.parseFloat(
 							all_pre.get(m).get("amount").toString());
 					times_pre = (int) Float
 							.parseFloat(all_pre.get(m).get("times").toString());
 
 				}
 			}
-			unitPerformance.put("amount", amount);
-			unitPerformance.put("times", times);
-			unitPerformance.put("taskCompleteYear",
+			
+			unitPerformance.put("任务完成率（年）",
 					(float) amount / (float) task_year * 100);
-			unitPerformance.put("taskCompleteSeason",
+			unitPerformance.put("任务完成率（季）",
 					(float) amount / (float) task_season * 100);
-			unitPerformance.put("amount_pre", amount_pre);
-			unitPerformance.put("times_pre", times_pre);
-			unitPerformance.put("amount_compare", amount - amount_pre);
-			unitPerformance.put("times_compare", times - times_pre);
+			unitPerformance.put("笔数", times);
+			unitPerformance.put("金额", amount);
+			unitPerformance.put("笔数（去年）", times_pre);
+			unitPerformance.put("金额（去年）", amount_pre);
+			unitPerformance.put("笔数同比", times - times_pre);
+			unitPerformance.put("金额同比", amount - amount_pre);
 
 			// 将单个经营单位的数据写入
 			all_unit.add(unitPerformance);
@@ -415,7 +417,8 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 		ArrayList<HashMap<String, Object>> all_client = new ArrayList<>();
 
 		for (int i = 0, len = clients.size(); i < len; i++) {
-			HashMap<String, Object> client = new HashMap<>();
+//			HashMap<String, Object> client = new HashMap<>();
+			LinkedHashMap<String, Object> client = new LinkedHashMap();
 			String custCode = (String) clients.get(i).get("custCode");
 			String custName = (String) clients.get(i).get("custName");
 			String branchCode = (String) clients.get(i).get("branchCode");

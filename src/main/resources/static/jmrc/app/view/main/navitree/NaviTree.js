@@ -15,6 +15,7 @@ Ext.define('jmrc.view.main.navitree.NaviTree', {
 //	iconCls :"icon",
 	//title : "功能菜单",
 	rootVisible : false,
+	useArrows:true,
 	listeners : {
 		itemclick : {
 			// element:'el',

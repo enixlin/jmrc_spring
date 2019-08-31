@@ -13,6 +13,9 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
       width: window.innerWidth * 0.8,
       height: window.innerHeight * 0.65,
       plugins: "gridfilters",
+    //   plugins: {
+        // gridexporter: true
+    //   },
       border: 2,
       scrollable: true,
       listeners: {}
@@ -35,15 +38,17 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
 
         // 现在开始历遍store的所有字段
         for (let n = 0, len = fields.length; n < len; n++) {
-          //跳过id 和xuhao
-          // if (fields[n].name == "id") {
-          //   continue;
+          // 跳过id 和xuhao
+          // if (fields[n].name ==
+          // "id") {
+          // continue;
           // }
-          // if (fields[n].name == "xuhao") {
-          //   continue;
+          // if (fields[n].name ==
+          // "xuhao") {
+          // continue;
           // }
-          //选从字段的数据类型开始分类：字符类和数字类
-          //一、字符类
+          // 选从字段的数据类型开始分类：字符类和数字类
+          // 一、字符类
           if (fields[n].type == "string") {
             if (fields[n].name == "<center>机构号</center>") {
               cos.push({
@@ -63,7 +68,9 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
                 width: 100,
                 sortable: true,
                 dataIndex: fields[n].dataIndex,
-                renderer:function(value){return value.replace("（一级支行）","").replace("本部","")},
+                renderer: function(value) {
+                  return value.replace("（一级支行）", "").replace("本部", "");
+                },
                 filter: {
                   type: "string"
                 }
@@ -96,7 +103,7 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
             }
           }
 
-          //二、数字类
+          // 二、数字类
           if (fields[n].type == "number") {
             if (fields[n].name.indexOf("金额") != -1) {
               if (fields[n].name.indexOf("同比") != -1) {
@@ -133,7 +140,7 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
                 });
               }
             } else {
-              //这个if判断的是笔数
+              // 这个if判断的是笔数
               if (fields[n].name.indexOf("同比") != -1) {
                 cos.push({
                   header: fields[n].name,
@@ -194,8 +201,6 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
                     .controller.showUnitMonthBarChart(unit, start, end)
                 );
               }
-
-              
             }
           ]
         });
@@ -213,19 +218,19 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
             }
           ]
         });
-           // 为表格的columns数组添加操作列
-           cos.push({
-            width: 40,
-            xtype: "actioncolumn",
-            align: "center",
-            items: [
-              {
-                iconCls: "x-fa fa-list",
-                tooltip: "业务流水",
-               // text: " 1"
-              }
-            ]
-          });
+        // 为表格的columns数组添加操作列
+        cos.push({
+          width: 40,
+          xtype: "actioncolumn",
+          align: "center",
+          items: [
+            {
+              iconCls: "x-fa fa-list",
+              tooltip: "业务流水"
+              // text: " 1"
+            }
+          ]
+        });
 
         grid.setColumns(cos);
         msgTip.hide(); // 加载完成，关闭提示框
@@ -234,14 +239,14 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
     });
   },
 
-
-
-
-  //导出表格
-  exportExcel:function(){
-      let me=this;
-      let store=me.getViewModel().getStore("allClientPerformanceStore");
-      console.log(store);
-      
+  // 导出表格
+  exportExcel: function() {
+	  	let me = this;
+	    let view = me.getView();
+	    let startDay = me.getView()["config"]["data"]["start"];
+	    let endDay = me.getView()["config"]["data"]["end"];
+	    let clientType="c";
+	    window.open("_blank",);
+	   
   }
 });

@@ -253,5 +253,14 @@ Ext.define("jmrc.view.performance.detail.detailController", {
       }
     });
     win.add(bar);
+  },
+  
+  exportExcel:function(){
+	    let me = this;
+	    let view = me.getView();
+	    let startDay = me.getView()["config"]["data"]["start"];
+	    let endDay = me.getView()["config"]["data"]["end"];
+	    let url="/settlerecord/exportAllUnitPerformance?start="+startDay+"&end="+endDay+"&clientType=c";
+	    window.open(url);
   }
 });

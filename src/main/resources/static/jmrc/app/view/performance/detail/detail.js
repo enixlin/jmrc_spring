@@ -12,7 +12,8 @@ Ext.define('jmrc.view.performance.detail.detail', {
 
 	tbar : [ "->", {
 		xtype : "button",
-		text : "导出表格"
+		text : "导出表格",
+			handler:"exportExcel",
 	} ],
 	// width:window.innerWidth,
 	// heigth:window.innerHeight*.5,
