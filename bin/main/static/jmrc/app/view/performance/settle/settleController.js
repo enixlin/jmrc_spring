@@ -53,7 +53,6 @@ Ext.define("jmrc.view.performance.settle.settleController", {
     console.log("barChart");
   },
 
-
   makeAnalysis: function(reportTypeName, level, start, end) {
     if (reportTypeName == "国际结算分析") {
       if (level == "全行") {
@@ -64,9 +63,13 @@ Ext.define("jmrc.view.performance.settle.settleController", {
         this.analysis_settle_unit(start, end);
       }
       if (level == "客户") {
-          console.log("unit");
-          this.analysis_settle_client(start, end);
-        }
+        console.log("unit");
+        this.analysis_settle_client(start, end);
+      }
+      if (level == "测试") {
+        console.log("test");
+        this.analysis_settle_test(start, end);
+      }
     }
   },
 
@@ -80,7 +83,7 @@ Ext.define("jmrc.view.performance.settle.settleController", {
   analysis_settle_total: function(start, end) {
     let view = this.getView();
     let bar = Ext.create("jmrc.view.performance.chart.bar.bar", {
-      width: window.innerWidth ,
+      width: window.innerWidth,
       data: {
         title: "国际结算业务量分月统计图",
         xAxis: "月份",
@@ -122,14 +125,14 @@ Ext.define("jmrc.view.performance.settle.settleController", {
     console.log(view);
     let grid = {
       xtype: "recordDetailGrid",
-      width:"100%",
-     // layout:"fit",
-      scrollable:true,
+      width: "100%",
+      // layout:"fit",
+      scrollable: true,
       data: {
-          st: "allUnitPerformanceStore",
-          start: start,
-          end: end
-        }
+        st: "allUnitPerformanceStore",
+        start: start,
+        end: end
+      }
     };
     view.add(grid);
   },
@@ -146,15 +149,54 @@ Ext.define("jmrc.view.performance.settle.settleController", {
     console.log(view);
     let grid = {
       xtype: "clientdetail",
-      width:"100%",
+      width: "100%",
       //layout:"fit",
-      scrollable:true,
+      scrollable: true,
       data: {
-          st: "allClientPerformanceStore",
-          start: start,
-          end: end
-        }
+        st: "allClientPerformanceStore",
+        start: start,
+        end: end
+      }
     };
     view.add(grid);
+  },
+  analysis_settle_test: function(start, end) {
+    let view = this.getView();
+
+    console.log("analysis_settle_test view");
+    console.log(view);
+    //测试的分月明细
+    let chart = {
+      xtype: "basebar",
+      width: window.innerWidth * 0.8,
+      //layout:"fit",
+      scrollable: true,
+      data: {
+        st: "UnitSettleMonthPerformanceStore",
+        //图表布局
+        layout: "hbox",
+        //图表的宽度
+        width: 400,
+        //图表的高度
+        height: 500,
+        //图表的标题
+        title: "分月国际结算量统计表\r\n \t\t\t（单位：万美元）",
+        xtitle: "月份",
+        ytitle: "国际结算业务量",
+        //横轴绑定的字段
+        xAxis: "month",
+        //竖轴绑定的字段
+        yAxis: "amount",
+        //柱状图的类型：分产品柱状图，分时柱状图
+        barChartType: "timeRangeBarChart",
+        //柱状图显示的数据对象：全行、经营单位、客户、产品
+        //对象的结构如下
+        unit: { name: "总行营业部", code: "08310", unitType: "unit" },
+        start: start,
+        end: end
+      }
+    };
+    //    let chart={xtype:"button",text:"button"};
+    view.add(chart);
   }
 });

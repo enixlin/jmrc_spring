@@ -3,6 +3,29 @@ Ext.define('jmrc.view.performance.chart.bar.barModel', {
 	alias : 'viewmodel.performance-chart-bar-bar',
 
 	stores : {
+
+
+		unitSettleMonthStore:{
+			fields : [ {
+				name : '月份',
+				type : 'string',
+				mapping : "month",
+			}, {
+				name : '业务笔数',
+				type : 'number',
+				mapping : "times",
+			}, {
+				name : '业务金额<br>(万美元)',
+				type : 'number',
+				mapping : "amount",
+			}, ],
+			autoLoad : true,
+			proxy : {
+				url : "/settlerecord/getUnitSettleMonthPerformace",
+				type : "ajax",
+
+			},
+		},
 		
 		unitMonthBarStore : {
 			fields : [ {

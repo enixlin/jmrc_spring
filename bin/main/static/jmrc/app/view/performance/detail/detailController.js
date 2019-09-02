@@ -10,10 +10,10 @@ Ext.define("jmrc.view.performance.detail.detailController", {
     let st = me.getView()["config"]["data"]["st"];
     let bindStore = me.getViewModel().getStore(st);
     let grid = Ext.create("Ext.grid.Panel", {
-      width: window.innerWidth*0.8,
-      
-      height: window.innerHeight*0.65,
-     border:2,
+      width: window.innerWidth * 0.8,
+
+      height: window.innerHeight * 0.65,
+      border: 2,
       scrollable: true,
       listeners: {}
     });
@@ -26,7 +26,7 @@ Ext.define("jmrc.view.performance.detail.detailController", {
       params: {
         start: startDay,
         end: endDay,
-        unitType: "经营单位",
+        unitType: "经营单位"
       },
       callback: function(records, options, success) {
         // 根据数据集的filed数组，确定表格的列
@@ -45,27 +45,25 @@ Ext.define("jmrc.view.performance.detail.detailController", {
               sortable: true,
               dataIndex: fields[n].dataIndex,
               renderer: function(value) {
-              
-                  if (value >= 100) {
-                    return (
-                      "<font color=green></font><span style='color:green;'>" +
-                      Ext.util.Format.number(value, "0,000.00")  +
-                      "%</font>"
-                    );
-                  } else if (value < 50) {
-                    return (
-                      "<font color=red></font><span style='color:red;'>" +
-                      Ext.util.Format.number(value, "0,000.00")  +
-                      "%</font>"
-                    );
-                  } else {
-                    return (
-                      "<font color=blue></font><span style='color:blue;'>" +
-                      Ext.util.Format.number(value, "0,000.00") +
-                      "%</font>"
-                    );
-                  }
-                
+                if (value >= 100) {
+                  return (
+                    "<font color=green></font><span style='color:green;'>" +
+                    Ext.util.Format.number(value, "0,000.00") +
+                    "%</font>"
+                  );
+                } else if (value < 50) {
+                  return (
+                    "<font color=red></font><span style='color:red;'>" +
+                    Ext.util.Format.number(value, "0,000.00") +
+                    "%</font>"
+                  );
+                } else {
+                  return (
+                    "<font color=blue></font><span style='color:blue;'>" +
+                    Ext.util.Format.number(value, "0,000.00") +
+                    "%</font>"
+                  );
+                }
               }
             });
 
@@ -75,7 +73,7 @@ Ext.define("jmrc.view.performance.detail.detailController", {
             if (fields[n].name == "<center>机构名称</center>") {
               cos.push({
                 header: fields[n].name,
-                width:120,
+                width: 120,
                 sortable: true,
                 dataIndex: fields[n].dataIndex,
                 renderer: function(value) {
@@ -85,7 +83,7 @@ Ext.define("jmrc.view.performance.detail.detailController", {
             } else {
               cos.push({
                 header: fields[n].name,
-                width:80,
+                width: 80,
                 sortable: true,
                 dataIndex: fields[n].dataIndex
               });
@@ -119,7 +117,7 @@ Ext.define("jmrc.view.performance.detail.detailController", {
               } else {
                 cos.push({
                   header: fields[n].name,
-                  width:80,
+                  width: 80,
                   sortable: true,
                   dataIndex: fields[n].dataIndex,
                   renderer: function(value) {
@@ -177,17 +175,16 @@ Ext.define("jmrc.view.performance.detail.detailController", {
               tooltip: "分月明细",
               handler: function(view, rowIndex, colIndex, item, e, record) {
                 let unit = {
-                  name: record.data.branchName,
-                  id: record.data.branchCode
+                  name: record.data["行名"],
+                  id: record.data["行号"]
                 };
                 let start = view.up().up()["config"]["data"]["start"];
                 let end = view.up().up()["config"]["data"]["end"];
-                console.log(
-                  view
-                    .up()
-                    .up()
-                    .controller.showUnitMonthBarChart(unit, start, end)
-                );
+
+                view
+                  .up()
+                  .up()
+                  .controller.showUnitMonthBarChart(unit, start, end);
               }
 
               // handler:function(){alert("分月明细")}
@@ -231,36 +228,64 @@ Ext.define("jmrc.view.performance.detail.detailController", {
   },
 
   showUnitMonthBarChart: function(unit, start, end) {
-    let view = this.getView();
+    let me = this;
+    let view = me.getView();
+
     let win = Ext.create("Ext.window.Window", {
-      width: window.innerWidth*0.6,
-      height: window.innerHeight*0.7,
-      maximizable: true,
-      scrollable: true
+      width: window.innerWidth * 0.8,
+      height: window.innerHeight * 0.5
     });
-    view.add(win);
-    win.show();
-    let bar = Ext.create("jmrc.view.performance.chart.bar.bar", {
-      width: window.innerWidth * 0.5,
+    //测试的分月明细
+    let chart = {
+      xtype: "basebar",
+      width: window.innerWidth * 0.8,
+      //layout:"fit",
+      scrollable: true,
       data: {
-        title: unit.name.replace("(一级支行)", "").replace("本部","") + "国际结算量分月明细",
-        st: "unitMonthBarStore",
-        name: unit.name,
-        uid: unit.id,
-        unitType: "经营单位",
+        st: "UnitSettleMonthPerformanceStore",
+        //图表布局
+        layout: "hbox",
+        //图表的宽度
+        width: 400,
+        //图表的高度
+        height: 500,
+        //图表的标题
+        title: "分月国际结算量统计表\r\n \t\t\t（单位：万美元）",
+        xtitle: "月份",
+        ytitle: "国际结算业务量",
+        //横轴绑定的字段
+        xAxis: "<center>月份</center>",
+        //竖轴绑定的字段
+        yAxis: "<center>金额</center>",
+        //柱状图的类型：分产品柱状图，分时柱状图
+        barChartType: "timeRangeBarChart",
+        exportUrl:"/settlerecord/exportUnitPerformance",
+        //柱状图显示的数据对象：全行、经营单位、客户、产品
+        //对象的结构如下
+        unit: { name: unit.name, code: unit.id, unitType: "unit" },
         start: start,
         end: end
       }
-    });
-    win.add(bar);
+    };
+    win.add(chart);
+    view.add(win);
+    win.show();
   },
-  
-  exportExcel:function(){
-	    let me = this;
-	    let view = me.getView();
-	    let startDay = me.getView()["config"]["data"]["start"];
-	    let endDay = me.getView()["config"]["data"]["end"];
-	    let url="/settlerecord/exportAllUnitPerformance?start="+startDay+"&end="+endDay+"&clientType=c";
-	    window.open(url);
+
+  /**
+   * 导出表格到EXCEL文件并下载
+   */
+  exportExcel: function() {
+    let me = this;
+    let view = me.getView();
+    let startDay = me.getView()["config"]["data"]["start"];
+    let endDay = me.getView()["config"]["data"]["end"];
+    let url =
+      "/settlerecord/exportAllUnitPerformance?start=" +
+      startDay +
+      "&end=" +
+      endDay +
+      "&clientType=c";
+    window.open(url);
   }
 });

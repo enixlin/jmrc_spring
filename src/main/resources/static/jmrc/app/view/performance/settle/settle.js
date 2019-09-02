@@ -56,7 +56,10 @@ Ext.define('jmrc.view.performance.settle.settle', {
 			},{
 				"code" : 4,
 				"name" : "产品"
-			} ]
+			} ,{
+				"code" : 5,
+				"name" : "测试"
+			}]
 		},
 
 	},

@@ -2,6 +2,7 @@ package com.enixlin.jmrc.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.enixlin.jmrc.entity.IndexPerformance;
@@ -29,7 +30,7 @@ public interface SettleRecordService extends BaseService<SettleRecord> {
 	 *ArrayList<UnitPerformance>
 	 * 创建时间：2019年7月31日
 	 */
-	public ArrayList<HashMap<String, Object>>  getAllUnitPerformance(
+	public ArrayList<LinkedHashMap<String, Object>>  getAllUnitPerformance(
 			String start,
 			String end);
 
@@ -193,6 +194,33 @@ public interface SettleRecordService extends BaseService<SettleRecord> {
 	 */
 	public ArrayList<HashMap<String, Object>> getAllClientPerformance(
 			String start, String end,String clientType);
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param unit
+	 * @param unitType
+	 * @param start
+	 * @param end
+	 * @return
+	 *ArrayList<MonthPerformace>
+	 * 创建时间：2019年8月31日
+	 */
+	public ArrayList<LinkedHashMap<String, Object>> getUnitSettleMonthPerformance(Unit unit,
+			String start, String end);
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param unit
+	 * @param start
+	 * @param end
+	 * @return
+	 *ArrayList<LinkedHashMap<String,Object>>
+	 * 创建时间：2019年9月2日
+	 */
+	public ArrayList<LinkedHashMap<String, Object>> getClientSettleMonthPerformance(
+			Unit unit, String start, String end);
 	
 	
 

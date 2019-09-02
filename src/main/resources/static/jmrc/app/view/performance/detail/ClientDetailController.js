@@ -13,9 +13,9 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
       width: window.innerWidth * 0.8,
       height: window.innerHeight * 0.65,
       plugins: "gridfilters",
-    //   plugins: {
-        // gridexporter: true
-    //   },
+      //   plugins: {
+      // gridexporter: true
+      //   },
       border: 2,
       scrollable: true,
       listeners: {}
@@ -189,8 +189,8 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
               tooltip: "分月明细",
               handler: function(view, rowIndex, colIndex, item, e, record) {
                 let unit = {
-                  name: record.data.branchName,
-                  id: record.data.branchCode
+                  name: record.data.custName,
+                  id: record.data.custCode
                 };
                 let start = view.up().up()["config"]["data"]["start"];
                 let end = view.up().up()["config"]["data"]["end"];
@@ -198,7 +198,7 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
                   view
                     .up()
                     .up()
-                    .controller.showUnitMonthBarChart(unit, start, end)
+                    .controller.showClientMonthBarChart(unit, start, end)
                 );
               }
             }
@@ -241,12 +241,55 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
 
   // 导出表格
   exportExcel: function() {
-	  	let me = this;
-	    let view = me.getView();
-	    let startDay = me.getView()["config"]["data"]["start"];
-	    let endDay = me.getView()["config"]["data"]["end"];
-	    let clientType="c";
-	    window.open("_blank",);
-	   
+    let me = this;
+    let view = me.getView();
+    let startDay = me.getView()["config"]["data"]["start"];
+    let endDay = me.getView()["config"]["data"]["end"];
+    let clientType = "c";
+    window.open("_blank");
+  },
+
+  showClientMonthBarChart: function(unit, start, end) {
+    let me = this;
+    let view = me.getView();
+
+    let win = Ext.create("Ext.window.Window", {
+      width: window.innerWidth * 0.8,
+      height: window.innerHeight * 0.5
+    });
+    //测试的分月明细
+    let chart = {
+      xtype: "basebar",
+      width: window.innerWidth * 0.8,
+      //layout:"fit",
+      scrollable: true,
+      data: {
+        st: "ClientSettleMonthPerformanceStore",
+        //图表布局
+        layout: "hbox",
+        //图表的宽度
+        width: 400,
+        //图表的高度
+        height: 500,
+        //图表的标题
+        title: "分月国际结算量统计表\r\n \t\t\t（单位：万美元）",
+        xtitle: "月份",
+        ytitle: "国际结算业务量",
+        //横轴绑定的字段
+        xAxis: "<center>月份</center>",
+        //竖轴绑定的字段
+        yAxis: "<center>金额</center>",
+        //柱状图的类型：分产品柱状图，分时柱状图
+        barChartType: "timeRangeBarChart",
+        //柱状图显示的数据对象：全行、经营单位、客户、产品
+        //对象的结构如下
+        unit: { name: unit.name, code: unit.id, unitType: "unit" },
+        start: start,
+        end: end
+      }
+    };
+    win.add(chart);
+    view.add(win);
+    win.show();
   }
 });

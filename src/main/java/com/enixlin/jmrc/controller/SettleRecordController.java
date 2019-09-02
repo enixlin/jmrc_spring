@@ -1,31 +1,22 @@
 package com.enixlin.jmrc.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFEvaluationWorkbook;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.RegionUtil;
 import org.apache.poi.ss.util.WorkbookUtil;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +33,7 @@ import com.enixlin.jmrc.entity.Unit;
 import com.enixlin.jmrc.entity.UnitPerformance;
 import com.enixlin.jmrc.service.SettleRecordService;
 import com.enixlin.jmrc.smartbi.ODS;
+import com.enixlin.jmrc.util.ExcelTool;
 import com.google.gson.JsonArray;
 
 @RestController
@@ -375,7 +367,7 @@ public class SettleRecordController {
 	}
 
 	@RequestMapping("/getAllUnitPerformance")
-	public ArrayList<HashMap<String, Object>> getAllUnitPerformance(
+	public ArrayList<LinkedHashMap<String, Object>> getAllUnitPerformance(
 			HttpServletRequest req, HttpServletResponse res) {
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
@@ -413,9 +405,10 @@ public class SettleRecordController {
 		unit.setType(unitType);
 		return srs.getUnitMonthPerformace(unit, start, end);
 	}
-
+	
+	
 	/**
-	 * 导出客户国际结算量统计表格
+	 * 取得客户或机构的国际结算量分月明细
 	 * 
 	 * @author linzhenhuan </br>
 	 * 方法说明： </br>
@@ -423,28 +416,47 @@ public class SettleRecordController {
 	 * @param res
 	 * @return ArrayList<MonthPerformace> 创建时间：2019年8月3日
 	 */
-	@RequestMapping("/exportAllClientPerformance")
-	public ArrayList<HashMap<String, Object>> exportAllClientPerformance(
+	@RequestMapping("/getUnitSettleMonthPerformance")
+	public ArrayList<LinkedHashMap<String, Object>> getUnitSettleMonthPerformance(
 			HttpServletRequest req, HttpServletResponse res) {
-		ArrayList<HashMap<String, Object>> allClientPerformance = this
-				.getAllClientPerformance(req, res);
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
-		String file = "clientperformance-" + start + "-" + end + ".xls";
-		this.exportToexcel(allClientPerformance, file);
-
-		try {
-			this.downloadFileByOutputStream(file, res);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return allClientPerformance;
+		ArrayList<Product> products = srs.getSettleRangeProduct();
+		String unitType = req.getParameter("unitType");
+		Unit unit = new Unit();
+		unit.setId(req.getParameter("uid"));
+		unit.setType(unitType);
+		return srs.getUnitSettleMonthPerformance(unit, start, end);
 	}
+	
+	
+	
+//	getClientSettleMonthPerformance
+	
+	
+	/**
+	 * 取得客户国际结算量分月明细
+	 * 
+	 * @author linzhenhuan </br>
+	 * 方法说明： </br>
+	 * @param req
+	 * @param res
+	 * @return ArrayList<MonthPerformace> 创建时间：2019年8月3日
+	 */
+	@RequestMapping("/getClientSettleMonthPerformance")
+	public ArrayList<LinkedHashMap<String, Object>> getClientSettleMonthPerformance(
+			HttpServletRequest req, HttpServletResponse res) {
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+		ArrayList<Product> products = srs.getSettleRangeProduct();
+		String unitType = req.getParameter("unitType");
+		Unit unit = new Unit();
+		unit.setId(req.getParameter("uid"));
+		unit.setType(unitType);
+		return srs.getClientSettleMonthPerformance(unit, start, end);
+	}
+
+
 
 	/**
 	 * 导出经营单位国际结算量统计表格
@@ -456,17 +468,22 @@ public class SettleRecordController {
 	 * @return ArrayList<MonthPerformace> 创建时间：2019年8月3日
 	 */
 	@RequestMapping("/exportAllUnitPerformance")
-	public ArrayList<HashMap<String, Object>> exportAllUnitPerformance(
+	public ArrayList<LinkedHashMap<String, Object>> exportAllUnitPerformance(
 			HttpServletRequest req, HttpServletResponse res) {
-		ArrayList<HashMap<String, Object>> allUnitPerformance = this
+		ArrayList<LinkedHashMap<String, Object>> allUnitPerformance = this
 				.getAllUnitPerformance(req, res);
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
-		String file = "unitperformance-" + start + "-" + end + ".xls";
-		this.exportToexcel(allUnitPerformance, file);
+		
+		String file = "经营单位国际结算统计表-" + start + "-" + end + ".xls";
+		String unit="单位：万美元,笔,百分比";
+		String title="经营单位国际结算统计表";
+		ExcelTool et=new ExcelTool();
+//		et.exportToexcel(allUnitPerformance, file);
+		et.exportToexcel(allUnitPerformance, file, start, end, unit, title);
 
 		try {
-			this.downloadFileByOutputStream(file, res);
+			et.downloadFileByOutputStream(file, res);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -477,138 +494,44 @@ public class SettleRecordController {
 
 		return allUnitPerformance;
 	}
-
+	
 	/**
-	 * 将数据写入excel文件中
+	 * 导出经营单位国际结算量统计表格
 	 * 
 	 * @author linzhenhuan </br>
 	 * 方法说明： </br>
-	 * @param obj
-	 * @param excelPath void 创建时间：2019年8月29日
+	 * @param req
+	 * @param res
+	 * @return ArrayList<MonthPerformace> 创建时间：2019年8月3日
 	 */
-	public void exportToexcel(ArrayList<HashMap<String, Object>> obj,
-			String excelPath) {
-		HSSFWorkbook wb = new HSSFWorkbook();
-		HSSFSheet sheet = wb.createSheet(excelPath);
-		if (obj.size() == 0) {
-			return;
-		}
-		// 先将hashmap的键值取出来，做表头
-		int nRowNum = 0;
-		HSSFRow row = sheet.createRow(nRowNum);
-		nRowNum++;
-		int columnNum = 0;
-		for (String key : obj.get(0).keySet()) {
-			row.createCell(columnNum).setCellValue(key);
-			columnNum++;
-		}
-		// 将数据写入
-		for (HashMap<String, Object> record : obj) {
-			HSSFRow rowData = sheet.createRow(nRowNum);
-			int m = 0;
-			for (String key : record.keySet()) {
-				HSSFCell cell = rowData.createCell(m);
-				// 在这里可以做格式化判断，将数值格式化
-				if (key.contains("金额") || key.contains("笔数")|| key.contains("度任务")) {
-					
-						if (key.contains("金额")) {
-							cell.setCellValue(Double.valueOf(record.get(key).toString()));
-							CellStyle cellStyle = wb.createCellStyle(); // 创建单元格样式
-							cellStyle.setAlignment(HorizontalAlignment.RIGHT); // 设置单元格水平方向对其方式
-							cellStyle.setVerticalAlignment(VerticalAlignment.CENTER); // 设置单元格垂直方向对其方式
-							HSSFDataFormat format = wb.createDataFormat();
-								cellStyle.setDataFormat(format.getFormat("#,##0.00_);[Red](#,##0.00)"));
-							cell.setCellStyle(cellStyle); // 设置单元格样式
-						}
-						if (key.contains("笔数")) {
-							cell.setCellValue(Double.valueOf(record.get(key).toString()));
-							CellStyle cellStyle = wb.createCellStyle(); // 创建单元格样式
-							cellStyle.setAlignment(HorizontalAlignment.RIGHT); // 设置单元格水平方向对其方式
-							cellStyle.setVerticalAlignment(VerticalAlignment.CENTER); // 设置单元格垂直方向对其方式
-							HSSFDataFormat format = wb.createDataFormat();
-							cellStyle.setDataFormat(format.getFormat("#,##0_);[Red](#,##0)"));
-							cell.setCellStyle(cellStyle); // 设置单元格样式
-						}
-						if (key.contains("度任务")) {
-							cell.setCellValue(Double.valueOf(record.get(key).toString()));
-							CellStyle cellStyle = wb.createCellStyle(); // 创建单元格样式
-							cellStyle.setAlignment(HorizontalAlignment.RIGHT); // 设置单元格水平方向对其方式
-							cellStyle.setVerticalAlignment(VerticalAlignment.CENTER); // 设置单元格垂直方向对其方式
-							HSSFDataFormat format = wb.createDataFormat();
-							cellStyle.setDataFormat(format.getFormat("#,##0_);[Red](#,##0)"));
-							cell.setCellStyle(cellStyle); // 设置单元格样式
-						}
-					
+	@RequestMapping("/exportUnitPerformance")
+	public ArrayList<LinkedHashMap<String, Object>> exportUnitPerformance(
+			HttpServletRequest req, HttpServletResponse res) {
+		ArrayList<LinkedHashMap<String, Object>> allUnitPerformance = this
+				.getUnitSettleMonthPerformance(req, res);
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+		String unitName=req.getParameter("name");
+		String unitCode=req.getParameter("code");
+		
+		String file = unitName+"国际结算统计表-" + start + "-" + end + ".xls";
+		String unit="单位：万美元,笔";
+		String title=unitName+"国际结算统计表";
+		ExcelTool et=new ExcelTool();
+//		et.exportToexcel(allUnitPerformance, file);
+		et.exportToexcel(allUnitPerformance, file, start, end, unit, title);
 
-				}else if(key.contains("完成率")) {
-					cell.setCellValue(Double.valueOf(record.get(key).toString()));
-					CellStyle cellStyle = wb.createCellStyle(); // 创建单元格样式
-					cellStyle.setAlignment(HorizontalAlignment.RIGHT); // 设置单元格水平方向对其方式
-					cellStyle.setVerticalAlignment(VerticalAlignment.CENTER); // 设置单元格垂直方向对其方式
-					
-					if(cell.getNumericCellValue()>=100) {
-						HSSFDataFormat format = wb.createDataFormat();
-						cellStyle.setDataFormat(format.getFormat("[green]#,##0.00"));
-					}else if(cell.getNumericCellValue()>=50) {
-						HSSFDataFormat format = wb.createDataFormat();
-						cellStyle.setDataFormat(format.getFormat("[blue]#,##0.00"));
-					}else {
-						HSSFDataFormat format = wb.createDataFormat();
-						cellStyle.setDataFormat(format.getFormat("[Red]#,##0.00"));
-					}
-					
-					cell.setCellStyle(cellStyle); // 设置单元格样式
-				}
-				else { 
-					
-					cell.setCellValue(String.valueOf(record.get(key)));
-				}
-
-
-				m++;
-			}
-			nRowNum++;
-		}
 		try {
-			wb.write(new File(excelPath));
+			et.downloadFileByOutputStream(file, res);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-	}
-
-	/**
-	 * 下载文件，通过OutputStream流
-	 * 
-	 * @param response
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 */
-
-	private void downloadFileByOutputStream(String file,
-			HttpServletResponse response)
-			throws FileNotFoundException, IOException {
-		// 1.获取要下载的文件的绝对路径
-		String realPath = file;
-		// 2.获取要下载的文件名
-		String fileName = realPath.substring(realPath.lastIndexOf("\\") + 1);
-		// 3.设置content-disposition响应头控制浏览器以下载的形式打开文件
-		response.setHeader("content-disposition",
-				"attachment;filename=" + fileName);
-		// 4.获取要下载的文件输入流
-		InputStream in = new FileInputStream(realPath);
-		int len = 0;
-		// 5.创建数据缓冲区
-		byte[] buffer = new byte[1024];
-		// 6.通过response对象获取OutputStream流
-		OutputStream out = response.getOutputStream();
-		// 7.将FileInputStream流写入到buffer缓冲区
-		while ((len = in.read(buffer)) > 0) {
-			// 8.使用OutputStream将缓冲区的数据输出到客户端浏览器
-			out.write(buffer, 0, len);
-		}
-		in.close();
+		return allUnitPerformance;
 	}
 
 }

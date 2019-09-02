@@ -78,7 +78,7 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 	}
 
 	@Override
-	public ArrayList<HashMap<String, Object>> getAllUnitPerformance(
+	public ArrayList<LinkedHashMap<String, Object>> getAllUnitPerformance(
 			String start,
 			String end) {
 		// 取得国际结算的产品口径
@@ -100,7 +100,15 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 				.getUnitPerformance(compareDate(start), compareDate(end),
 						products);
 
-		ArrayList<HashMap<String, Object>> all_unit = new ArrayList<>();
+		ArrayList<LinkedHashMap<String, Object>> all_unit = new ArrayList<>();
+
+		float amount_sum = 0;
+		float amount_pre_sum = 0;
+		int times_sum = 0;
+		int times_pre_sum = 0;
+		float task_year_sum = 0;
+		float task_season_sum = 0;
+
 		// 以全部经营单位的任务数组为基础，分别插入经营单位的当年实绩和去年同期实绩
 		for (int i = 0, len2 = unitTasks_year.size(); i < len2; i++) {
 			LinkedHashMap<String, Object> unitPerformance = new LinkedHashMap();
@@ -129,15 +137,20 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 			// 插入季度任务数
 			unitPerformance.put("季度任务", task_season);
 
+			task_year_sum = task_year_sum + task_year;
+			task_season_sum = task_season_sum + task_season;
+
 			// 第二步，历遍当期业绩数组，如果机构号相同的话，就插入当期机构业绩
 			for (int n = 0, len = all.size(); n < len; n++) {
 				if (all.get(n).get("branchCode")
 						.equals(unitTasks_year.get(i).get("branch_code"))) {
 					// 当期实绩
-					amount =  Float
+					amount = Float
 							.parseFloat(all.get(n).get("amount").toString());
 					times = (int) Float
 							.parseFloat(all.get(n).get("times").toString());
+					amount_sum = amount_sum + amount;
+					times_sum = times_sum + times;
 					break;
 				}
 			}
@@ -146,14 +159,16 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 			for (int m = 0, len1 = all_pre.size(); m < len1; m++) {
 				if (unitTasks_year.get(i).get("branch_code")
 						.equals(all_pre.get(m).get("branchCode"))) {
-					amount_pre =  Float.parseFloat(
+					amount_pre = Float.parseFloat(
 							all_pre.get(m).get("amount").toString());
 					times_pre = (int) Float
 							.parseFloat(all_pre.get(m).get("times").toString());
+					amount_pre_sum = amount_pre_sum + amount_pre;
+					times_pre_sum = times_pre_sum + times_pre;
 
 				}
 			}
-			
+
 			unitPerformance.put("任务完成率（年）",
 					(float) amount / (float) task_year * 100);
 			unitPerformance.put("任务完成率（季）",
@@ -169,6 +184,28 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 			all_unit.add(unitPerformance);
 
 		}
+
+		LinkedHashMap<String, Object> unitPerformance = new LinkedHashMap();
+		DecimalFormat df = new DecimalFormat("0.00");
+		unitPerformance.put("行号",
+				"");
+		unitPerformance.put("行名",
+				"全行合计");
+		unitPerformance.put("年度任务",
+				task_year_sum);
+		unitPerformance.put("季度任务",
+				task_season_sum);
+		unitPerformance.put("任务完成率（年）",
+				(float) amount_sum / (float) task_year_sum * 100);
+		unitPerformance.put("任务完成率（季）",
+				(float) amount_sum / (float) task_season_sum * 100);
+		unitPerformance.put("笔数", times_sum);
+		unitPerformance.put("金额", amount_sum);
+		unitPerformance.put("笔数（去年）", times_pre_sum);
+		unitPerformance.put("金额（去年）", amount_pre_sum);
+		unitPerformance.put("笔数同比", times_sum - times_pre_sum);
+		unitPerformance.put("金额同比", amount_sum - amount_pre_sum);
+		all_unit.add(unitPerformance);
 
 		return all_unit;
 	}
@@ -398,7 +435,7 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 	 */
 	@Override
 	public ArrayList<HashMap<String, Object>> getAllClientPerformance(
-			String start, String end,String clientType) {
+			String start, String end, String clientType) {
 
 		// 取得国际结算的产品口径
 		ArrayList<Product> products = settleRecordMapper
@@ -412,7 +449,7 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 						products);
 		// 从start-1,到end取得所有的客户的列表
 		ArrayList<HashMap<String, Object>> clients = settleRecordMapper
-				.getClients(compareDate(start), end, products,clientType);
+				.getClients(compareDate(start), end, products, clientType);
 
 		ArrayList<HashMap<String, Object>> all_client = new ArrayList<>();
 
@@ -441,11 +478,11 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 					break;
 				}
 			}
-			
-			for(int k =0,lenk=Preformance_pre.size();k<lenk;k++) {
+
+			for (int k = 0, lenk = Preformance_pre.size(); k < lenk; k++) {
 				String custCode_pre = (String) Preformance_pre.get(k)
 						.get("custCode");
-				if(custCode.equals(custCode_pre)) {
+				if (custCode.equals(custCode_pre)) {
 					amount_pre = (float) Float.parseFloat(Preformance_pre.get(k)
 							.get("amount").toString());
 					times_pre = (int) Float
@@ -454,24 +491,61 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 					break;
 				}
 			}
-			//客户有同期业绩或同期业绩
-			if(times!=0 || times_pre!=0) {
-			client.put("xuhao",i);
-			client.put("custCode",custCode);
-			client.put("custName",custName);
-			client.put("branchCode",branchCode);
-			client.put("branchName",branchName);
-			client.put("amount",amount);
-			client.put("times",times);
-			client.put("amount_pre",amount_pre);
-			client.put("times_pre",times_pre);
-			client.put("times_compare",times-times_pre);
-			client.put("amount_compare",amount-amount_pre);
-			all_client.add(client);
+			// 客户有同期业绩或同期业绩
+			if (times != 0 || times_pre != 0) {
+				client.put("xuhao", i);
+				client.put("custCode", custCode);
+				client.put("custName", custName);
+				client.put("branchCode", branchCode);
+				client.put("branchName", branchName);
+				client.put("amount", amount);
+				client.put("times", times);
+				client.put("amount_pre", amount_pre);
+				client.put("times_pre", times_pre);
+				client.put("times_compare", times - times_pre);
+				client.put("amount_compare", amount - amount_pre);
+				all_client.add(client);
 			}
 
 		}
 
 		return all_client;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.enixlin.jmrc.service.SettleRecordService#getUnitSettleMonthPerformace
+	 * (com.enixlin.jmrc.entity.Unit, java.lang.String, java.lang.String,
+	 * java.lang.String)
+	 */
+	@Override
+	public ArrayList<LinkedHashMap<String, Object>> getUnitSettleMonthPerformance(
+			Unit unit,
+			String start, String end) {
+		// TODO Auto-generated method stub
+		// 分两种情况，一是单个经营单位，二是全行
+		if (unit.getType().equals("unit")) {
+			ArrayList<Product> products = this.getSettleRangeProduct();
+			return settleRecordMapper.getUnitSettleMonthPerformance(unit,
+					products, start, end);
+		}else {
+			ArrayList<Product> products = this.getSettleRangeProduct();
+			return settleRecordMapper.getTotalSettleMonthPerformance(unit,
+					products, start, end);
+		}
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.enixlin.jmrc.service.SettleRecordService#getClientSettleMonthPerformance(com.enixlin.jmrc.entity.Unit, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public ArrayList<LinkedHashMap<String, Object>> getClientSettleMonthPerformance(
+			Unit unit, String start, String end) {
+		ArrayList<Product> products = this.getSettleRangeProduct();
+		return settleRecordMapper.getClientSettleMonthPerformance(unit,
+				products, start, end);
 	}
 }

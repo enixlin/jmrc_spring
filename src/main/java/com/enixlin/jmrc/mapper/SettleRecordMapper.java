@@ -2,6 +2,7 @@ package com.enixlin.jmrc.mapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
@@ -344,7 +345,7 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 
 	@Select("select * from settle_task_percent where expiry=#{expiry} and season=#{season}")
 	ArrayList<HashMap<String, Object>> getUnitTasks_season(
-			@Param("expiry") String expiry,@Param("season") int season);
+			@Param("expiry") String expiry, @Param("season") int season);
 
 	/**
 	 * 取得经营单位的国际结算量实绩（用于填充国际结算业务任务完成率表）
@@ -378,14 +379,12 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 			@Param("products") ArrayList<Product> products);
 
 	/**
-	 * @author linzhenhuan  </br>
-	 *　方法说明：　　　　　　　　　　　</br>
+	 * @author linzhenhuan </br>
+	 * 方法说明： </br>
 	 * @param compareDate
 	 * @param compareDate2
 	 * @param products
-	 * @return
-	 *ArrayList<HashMap<String,Object>>
-	 * 创建时间：2019年8月25日
+	 * @return ArrayList<HashMap<String,Object>> 创建时间：2019年8月25日
 	 */
 	@Select("<script>"
 			+ "select belong_branch_name as branchName,"
@@ -405,17 +404,17 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 			+ " group by custCode "
 			+ " order by branchCode desc "
 			+ "</script>")
-	ArrayList<HashMap<String, Object>> getClientPerformance(@Param("start")String start,
-			@Param("end")String end, @Param("products")ArrayList<Product> products);
+	ArrayList<HashMap<String, Object>> getClientPerformance(
+			@Param("start") String start,
+			@Param("end") String end,
+			@Param("products") ArrayList<Product> products);
 
 	/**
-	 * @author linzhenhuan  </br>
-	 *　方法说明：　　　　　　　　　　　</br>
+	 * @author linzhenhuan </br>
+	 * 方法说明： </br>
 	 * @param compareDate
 	 * @param end
-	 * @return
-	 *ArrayList<HashMap<String,Object>>
-	 * 创建时间：2019年8月25日
+	 * @return ArrayList<HashMap<String,Object>> 创建时间：2019年8月25日
 	 */
 	@Select("<script>"
 			+ "select cust_Name as custName,"
@@ -435,7 +434,99 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 			+ " group by custCode "
 			+ " order by branchCode desc "
 			+ "</script>")
-	ArrayList<HashMap<String, Object>> getClients(@Param("start")String start,
-			@Param("end")String end, @Param("products")ArrayList<Product> products,@Param("clientType") String clietnType);
+	ArrayList<HashMap<String, Object>> getClients(@Param("start") String start,
+			@Param("end") String end,
+			@Param("products") ArrayList<Product> products,
+			@Param("clientType") String clietnType);
+
+	/**
+	 * @author linzhenhuan </br>
+	 * 方法说明： </br>
+	 * @param unit
+	 * @param products
+	 * @param start
+	 * @param end void 创建时间：2019年8月31日
+	 */
+	@Select("<script>"
+			+ "select "
+			+ "left(busy_date,6) as month ,"
+			+ "sum(busy_amount * usd_rate)/10000 as amount,"
+			+ "count(busy_amount) as times "
+			+ "from settle_record "
+			+ "where "
+			+ "product_Name in "
+			+ "<foreach collection='products' item='item' open='(' close=')' separator=','>"
+			+ "'${item.getName}'"
+			+ "</foreach> "
+			+ " and "
+			+ "busy_date&gt;=${start} and busy_date&lt;=${end} "
+			+ " and "
+			+ "belong_branch_code=${unit.getId}"
+			+ " group by month "
+			+ " order by month asc "
+			+ "</script>")
+	ArrayList<LinkedHashMap<String, Object>> getUnitSettleMonthPerformance(@Param("unit") Unit unit,
+			@Param("products") ArrayList<Product> products,
+			@Param("start") String start, @Param("end") String end);
+
+	/**
+	 * @author linzhenhuan </br>
+	 * 方法说明： </br>
+	 * @param unit
+	 * @param products
+	 * @param start
+	 * @param end void 创建时间：2019年8月31日
+	 */
+	@Select("<script>"
+			+ "select "
+			+ "left(busy_date,6) as month ,"
+			+ "sum(busy_amount * usd_rate)/10000 as amount,"
+			+ "count(busy_amount) as times "
+			+ "from settle_record "
+			+ "where "
+			+ "product_Name in "
+			+ "<foreach collection='products' item='item' open='(' close=')' separator=','>"
+			+ "'${item.getName}'"
+			+ "</foreach> "
+			+ " and "
+			+ "busy_date&gt;=${start} and busy_date&lt;=${end} "
+			+ " and "
+			+ "cust_number=${unit.getId}"
+			+ " group by month "
+			+ " order by month asc "
+			+ "</script>")
+	ArrayList<LinkedHashMap<String, Object>> getClientSettleMonthPerformance(@Param("unit") Unit unit,
+			@Param("products") ArrayList<Product> products,
+			@Param("start") String start, @Param("end") String end);
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param unit
+	 * @param products
+	 * @param start
+	 * @param end
+	 * @return
+	 *ArrayList<LinkedHashMap<String,Object>>
+	 * 创建时间：2019年8月31日
+	 */
+	@Select("<script>"
+			+ "select "
+			+ "id as name , "
+			+ "left(busy_date,6) as month ,"
+			+ "sum(busy_amount * usd_rate)/10000 as amount,"
+			+ "count(busy_amount) as times "
+			+ "from settle_record "
+			+ "where "
+			+ "product_Name in "
+			+ "<foreach collection='products' item='item' open='(' close=')' separator=','>"
+			+ "'${item.getName}'"
+			+ "</foreach> "
+			+ " and "
+			+ "busy_date&gt;=${start} and busy_date&lt;=${end} "
+			+ " group by month "
+			+ " order by month desc "
+			+ "</script>")
+	ArrayList<LinkedHashMap<String, Object>> getTotalSettleMonthPerformance(
+			@Param("unit")Unit unit, @Param("products")ArrayList<Product> products, @Param("start")String start, @Param("end")String end);
 
 }
