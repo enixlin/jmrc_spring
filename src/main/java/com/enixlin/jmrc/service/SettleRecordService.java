@@ -221,6 +221,14 @@ public interface SettleRecordService extends BaseService<SettleRecord> {
 	 */
 	public ArrayList<LinkedHashMap<String, Object>> getClientSettleMonthPerformance(
 			Unit unit, String start, String end);
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 *void
+	 * 创建时间：2019年9月3日
+	 */
+	public void fixedSettleRecord();
 	
 	
 

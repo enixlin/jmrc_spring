@@ -123,6 +123,11 @@ public class SettleRecordController {
 		}
 
 		System.out.println(" 所有的记录插入完成");
+		fixedSettleRecord();
+	}
+	
+	public void fixedSettleRecord() {
+		srs.fixedSettleRecord();
 	}
 
 	/**

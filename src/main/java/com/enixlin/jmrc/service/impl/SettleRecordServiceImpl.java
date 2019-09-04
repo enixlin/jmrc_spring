@@ -548,4 +548,20 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 		return settleRecordMapper.getClientSettleMonthPerformance(unit,
 				products, start, end);
 	}
+
+	/* (non-Javadoc)
+	 * @see com.enixlin.jmrc.service.SettleRecordService#fixedSettleRecord()
+	 */
+	@Override
+	public void fixedSettleRecord() {
+		// TODO Auto-generated method stub
+		settleRecordMapper.fixedSettleRecord_input();
+		System.out.println("更正跨境人民币汇入");
+		settleRecordMapper.fixedSettleRecord_output();
+		System.out.println("更正跨境人民币汇出");
+		settleRecordMapper.fixedSettleRecord_delete_1();
+		settleRecordMapper.fixedSettleRecord_delete_2();
+		System.out.println("删除多余跨境人民币记录");
+		
+	}
 }

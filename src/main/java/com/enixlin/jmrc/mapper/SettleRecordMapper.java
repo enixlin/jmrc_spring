@@ -529,4 +529,32 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 	ArrayList<LinkedHashMap<String, Object>> getTotalSettleMonthPerformance(
 			@Param("unit")Unit unit, @Param("products")ArrayList<Product> products, @Param("start")String start, @Param("end")String end);
 
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 *void
+	 * 创建时间：2019年9月3日
+	 */
+	@Select("update settle_record set product_name='跨境人民币汇入' where busy_currency='cny' and product_name='汇入汇款'")
+	void fixedSettleRecord_input();
+
+	@Select("update settle_record set product_name='跨境人民币汇出' where busy_currency='cny' and product_name='汇出汇款'")
+	void fixedSettleRecord_output();
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 *void
+	 * 创建时间：2019年9月3日
+	 */
+	@Select("delete  FROM settle_record where busy_Currency='cny' and cust_Number=''  and (product_Name='跨境人民币汇入' or product_Name='跨境人民币汇出')")
+	void fixedSettleRecord_delete_1(); 
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 *void
+	 * 创建时间：2019年9月3日
+	 */
+	@Select("delete  FROM settle_record where busy_Currency='cny' and cust_name='江门农村商业银行股份有限公司'  and (product_Name='跨境人民币汇入' or product_Name='跨境人民币汇出')")
+	void fixedSettleRecord_delete_2(); 
 }
