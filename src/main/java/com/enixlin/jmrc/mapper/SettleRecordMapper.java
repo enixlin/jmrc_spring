@@ -556,5 +556,8 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 	 * 创建时间：2019年9月3日
 	 */
 	@Select("delete  FROM settle_record where busy_Currency='cny' and cust_name='江门农村商业银行股份有限公司'  and (product_Name='跨境人民币汇入' or product_Name='跨境人民币汇出')")
-	void fixedSettleRecord_delete_2(); 
+	void fixedSettleRecord_delete_2();
+
+	@Select("select distinct product_name from settle_record")
+	ArrayList<LinkedHashMap<String, Object>> getAllProductsFromSettleRecord();
 }

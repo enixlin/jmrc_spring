@@ -229,7 +229,7 @@ public interface SettleRecordService extends BaseService<SettleRecord> {
 	 * 创建时间：2019年9月3日
 	 */
 	public void fixedSettleRecord();
-	
-	
 
+
+    ArrayList<LinkedHashMap<String, Object>> getAllProductsFromSettleRecord();
 }
