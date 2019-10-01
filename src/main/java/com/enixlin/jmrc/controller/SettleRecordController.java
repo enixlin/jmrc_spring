@@ -1,23 +1,5 @@
 package com.enixlin.jmrc.controller;
 
-import com.enixlin.jmrc.entity.*;
-import com.enixlin.jmrc.service.SettleRecordService;
-import com.enixlin.jmrc.smartbi.ODS;
-import com.enixlin.jmrc.util.ExcelTool;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import org.apache.commons.collections4.map.HashedMap;
-import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -25,7 +7,28 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.enixlin.jmrc.entity.IndexPerformance;
+import com.enixlin.jmrc.entity.MonthPerformace;
+import com.enixlin.jmrc.entity.Product;
+import com.enixlin.jmrc.entity.SettleRange;
+import com.enixlin.jmrc.entity.SettleRecord;
+import com.enixlin.jmrc.entity.Task;
+import com.enixlin.jmrc.entity.Unit;
+import com.enixlin.jmrc.entity.UnitPerformance;
+import com.enixlin.jmrc.service.SettleRecordService;
+import com.enixlin.jmrc.smartbi.ODS;
+import com.enixlin.jmrc.util.ExcelTool;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 @RestController
 @RequestMapping("settlerecord")
@@ -39,6 +42,7 @@ public class SettleRecordController {
 	@RequestMapping("/batchInsert")
 	public void add(HttpServletRequest req, HttpServletResponse res) {
 
+		
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
 		String getMax = req.getParameter("getMax");
