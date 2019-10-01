@@ -17,78 +17,99 @@ Ext.define("jmrc.view.performance.config.configController", {
   afterRender: function() {
     let me = this;
     let view = me.getView();
-    let promise = new Promise(function(resolve, reject) {
-      let allProductStore = me.getViewModel().getStore("allProductStore");
-      allProductStore.load(function(records, operation, success) {
-        if (success) {
-        	let m=this;
-          for (let n = 0, len = records.length; n < len; n++) {
-            me.AllProducts.push(records[n]);
-          }
-          console.log("all function is done");
-        resolve();
-        }
-      });
+    let p1 = new Promise(function(resolve, reject) {
+      me.getAllProducts(resolve);
     });
-    promise.then(function(resolve, reject) {
-      let rangeProductStore = me.getViewModel().getStore("rangeProductStore");
-      rangeProductStore.load(function(records, operation, success) {
-        if (success) {
-          for (let n = 0, len = records.length; n < len; n++) {
-            me.RangeProducts.push(records[n]);
-          }
-          console.log("range function is done");
-          resolve();
-        }
-      });
+    let p2 = new Promise(function(resolve, reject) {
+      me.getRangeProducts(resolve);
     });
-    promise.then(function(resolve, reject) {
 
-      let container = Ext.create("Ext.form.CheckboxGroup");
-
-
-      let fc=Ext.create("Ext.form.FieldContainer",{
-        xtype: 'fieldcontainer',
-        fieldLabel: '国际结算量统计口径',
-        defaultType: 'checkboxfield',
+    Promise.all([p1, p2]).then(function(resolve, reject) {
+      console.log(me.AllProducts);
+      console.log(me.RangeProducts);
+      let fc = Ext.create("Ext.form.FieldContainer", {
+        xtype: "fieldcontainer",
+        width: "100%",
+        fieldLabel: "结算量统计口径",
+        labelWidth: 300,
+        defaultType: "checkboxfield",
         layout: {
-          type: 'table',
+          type: "table",
           // The total column count must be specified here
-          columns: 3
-      },
+          columns: 4,
+          margin:30
+        }
       });
       view.add(fc);
+     // view.add({xtype:"button",text:"保存",handler:"saveRangeProducts"});
       for (let n = 0, len = me.AllProducts.length; n < len; n++) {
-       //历遍存量的统计口径
-        for(let i=0,len1=me.RangeProducts.length;i<len1;i++){
-        	console.log("run n is"+n);
-          if(me.AllProducts[n].data==me.RangeProducts[i].data.name){
-            fc.add({
-              boxLabel  : me.AllProducts[n].data,
-              name      : 'topping',
-              inputValue: me.AllProducts[n].data,
-              checked:true,
-             
-            });
-            console.log("t");
-          }else{
-            fc.add({
-              boxLabel  : me.AllProducts[n].data,
-              name      : 'topping',
-              inputValue: me.AllProducts[n].data,
-            });
-            console.log("f");
+        let item = {
+          boxLabel: me.AllProducts[n].data,
+          name: "topping",
+          inputValue: me.AllProducts[n].data,
+          margin:20,
+        };
+        //历遍存量的统计口径
+        for (let i = 0, len1 = me.RangeProducts.length; i < len1; i++) {
+          if (me.AllProducts[n].data == me.RangeProducts[i].data.name) {
+            item.checked = true;
           }
-        } 
-        //console.log(me.AllProducts[n]);
-        console.log("combine function is done");
-    
+        }
+        fc.add(item);
       }
-
-
- 
+    });
+  },
+  getAllProducts: function(resolve) {
+    let me = this;
+    let allProductStore = me.getViewModel().getStore("allProductStore");
+    me.AllProducts=[];
+    allProductStore.load(function(records, operation, success) {
+      if (success) {
+        let m = this;
+        for (let n = 0, len = records.length; n < len; n++) {
+          me.AllProducts.push(records[n]);
+        }
+        resolve();
+      }
     });
   },
 
-  refreshFields: function() {}
+  getRangeProducts: function(resolve) {
+    let me = this;
+    let rangeProductStore = me.getViewModel().getStore("rangeProductStore");
+    me.RangeProducts=[];
+    rangeProductStore.load(function(records, operation, success) {
+      if (success) {
+        for (let n = 0, len = records.length; n < len; n++) {
+          me.RangeProducts.push(records[n]);
+        }
+        console.log("range function is done");
+        resolve();
+      }
+    });
+  },
+  refreshFields: function() {},
+
+  saveRangeProducts: function() {
+    let me = this;
+    let view = me.getView();
+    let fieldContainer = view.query("fieldcontainer")[0].items.items;
+    let item = [];
+    for (let r in fieldContainer) {
+      item.push({
+        name: fieldContainer[r].boxLabel,
+        range: fieldContainer[r].checked
+      });
+    }
+    console.log(item);
+    Ext.Ajax.request({
+      url:"/settlerecord/saveRangeProducts",
+      params:{obj:JSON.stringify(item)},
+      success:function(result){
+        if(result.responseText!=null){
+        	Ext.Msg.alert('Status', '更新数据成功');
+        }
+      }
+    });
+  }
 });

@@ -192,7 +192,7 @@ public interface SettleRecordService extends BaseService<SettleRecord> {
 	 *ArrayList<HashMap<String,Object>>
 	 * 创建时间：2019年8月25日
 	 */
-	public ArrayList<HashMap<String, Object>> getAllClientPerformance(
+	public ArrayList<LinkedHashMap<String, Object>> getAllClientPerformance(
 			String start, String end,String clientType);
 
 	/**
@@ -232,4 +232,41 @@ public interface SettleRecordService extends BaseService<SettleRecord> {
 
 
     ArrayList<LinkedHashMap<String, Object>> getAllProductsFromSettleRecord();
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param rangeProducts
+	 * @return
+	 *Object
+	 * 创建时间：2019年9月22日
+	 */
+	public int saveRangeProducts(
+			ArrayList<Product> rangeProducts);
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param unit
+	 * @param start
+	 * @param end
+	 * @return
+	 *ArrayList<LinkedHashMap<String,Object>>
+	 * 创建时间：2019年9月23日
+	 */
+	public ArrayList<LinkedHashMap<String, Object>> getUnitProductPerformance(
+			Unit unit, String start, String end);
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param unit
+	 * @param start
+	 * @param end
+	 * @return
+	 *ArrayList<LinkedHashMap<String,Object>>
+	 * 创建时间：2019年9月30日
+	 */
+	public ArrayList<LinkedHashMap<String, Object>> getUnitClientPerformance(
+			Unit unit, String start, String end);
 }

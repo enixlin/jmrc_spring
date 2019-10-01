@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -144,7 +145,7 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 	 * 方法说明： </br>
 	 * @return ArrayList<Product> 创建时间：2019年7月8
 	 */
-	@Select("select *  from product where settleRange='true' ")
+	@Select("select *  from product where settleRange='1' ")
 	ArrayList<Product> getSettleRangeProduct();
 
 	/**
@@ -560,4 +561,93 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 
 	@Select("select distinct product_name from settle_record")
 	ArrayList<LinkedHashMap<String, Object>> getAllProductsFromSettleRecord();
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 *void
+	 * 创建时间：2019年9月22日
+	 */
+	@Delete("delete from product")
+	void deleteAllRangeProducts();
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param rangeProducts
+	 * @return
+	 *Object
+	 * 创建时间：2019年9月22日
+	 */
+	@Insert("<script>"
+			+ "insert into product (name,settleRange) values "
+			+ "<foreach collection='rangeProducts' item='item' open=' ' close=' ' separator=','>"
+			+ "(${item.getName},${item.isSettleRange})"
+			+ "</foreach> "
+			+ "</script>")
+	int saveRangeProducts(@Param("rangeProducts")ArrayList<Product> rangeProducts);
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param unit
+	 * @param start
+	 * @param end
+	 * @return
+	 *ArrayList<LinkedHashMap<String,Object>>
+	 * 创建时间：2019年9月23日
+	 */
+	@Select("<script>"
+			+ "select "
+			+ "product_name ,"
+			+ "sum(busy_amount * usd_rate)/10000 as amount,"
+			+ "count(busy_amount) as times "
+			+ "from settle_record "
+			+ "where "
+			+ "product_Name in "
+			+ "<foreach collection='products' item='item' open='(' close=')' separator=','>"
+			+ "'${item.getName}'"
+			+ "</foreach> "
+			+ " and "
+			+ "busy_date&gt;=${start} and busy_date&lt;=${end} "
+			+ " and "
+			+ "belong_branch_code=${unit.getId}"
+			+ " group by product_name "
+			+ "</script>")
+	ArrayList<LinkedHashMap<String, Object>> getUnitProductPerformance(
+			@Param("unit")Unit unit, @Param("start")String start, @Param("end")String end,@Param("products")ArrayList<Product> products);
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param unit
+	 * @param start
+	 * @param end
+	 * @param products
+	 * @return
+	 *ArrayList<LinkedHashMap<String,Object>>
+	 * 创建时间：2019年9月30日
+	 */
+	@Select("<script>"
+			+ "select "
+			+ "cust_name ,"
+			+ "cust_code ,"
+			+ "sum(busy_amount * usd_rate)/10000 as amount,"
+			+ "count(busy_amount) as times "
+			+ "from settle_record "
+			+ "where "
+			+ "product_Name in "
+			+ "<foreach collection='products' item='item' open='(' close=')' separator=','>"
+			+ "'${item.getName}'"
+			+ "</foreach> "
+			+ " and "
+			+ "busy_date&gt;=${start} and busy_date&lt;=${end} "
+			+ " and "
+			+ "belong_branch_code=${unit.getId}"
+			+ " group by belong_branch_code "
+			+ "</script>")
+	ArrayList<LinkedHashMap<String, Object>> getUnitClientPerformance(@Param("unit")Unit unit,
+			@Param("start")String start, @Param("end")String end, @Param("products")ArrayList<Product> products);
+
+
 }

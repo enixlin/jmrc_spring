@@ -427,7 +427,7 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
      * .lang.String, java.lang.String)
      */
     @Override
-    public ArrayList<HashMap<String, Object>> getAllClientPerformance(
+    public ArrayList<LinkedHashMap<String, Object>> getAllClientPerformance(
             String start, String end, String clientType) {
 
         // 取得国际结算的产品口径
@@ -444,7 +444,7 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
         ArrayList<HashMap<String, Object>> clients = settleRecordMapper
                 .getClients(compareDate(start), end, products, clientType);
 
-        ArrayList<HashMap<String, Object>> all_client = new ArrayList<>();
+        ArrayList<LinkedHashMap<String, Object>> all_client = new ArrayList<>();
 
         for (int i = 0, len = clients.size(); i < len; i++) {
 //			HashMap<String, Object> client = new HashMap<>();
@@ -571,4 +571,37 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
         }
         return p;
     }
+
+	/* (non-Javadoc)
+	 * @see com.enixlin.jmrc.service.SettleRecordService#saveRangeProducts(java.util.ArrayList)
+	 */
+	@Override
+	public int saveRangeProducts(
+			ArrayList<Product> rangeProducts) {
+		// TODO Auto-generated method stub
+	settleRecordMapper.deleteAllRangeProducts();
+	return settleRecordMapper.saveRangeProducts(rangeProducts);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.enixlin.jmrc.service.SettleRecordService#getUnitProductPerformance(com.enixlin.jmrc.entity.Unit, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public ArrayList<LinkedHashMap<String, Object>> getUnitProductPerformance(
+			Unit unit, String start, String end) {
+		// TODO Auto-generated method stub
+		ArrayList<Product> products=this.getSettleRangeProduct();
+		return settleRecordMapper.getUnitProductPerformance(unit,start,end,products);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.enixlin.jmrc.service.SettleRecordService#getUnitClientPerformance(com.enixlin.jmrc.entity.Unit, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public ArrayList<LinkedHashMap<String, Object>> getUnitClientPerformance(
+			Unit unit, String start, String end) {
+		// TODO Auto-generated method stub
+		ArrayList<Product> products=this.getSettleRangeProduct();
+		return settleRecordMapper.getUnitClientPerformance(unit,start,end,products);
+	}
 }

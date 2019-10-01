@@ -241,12 +241,20 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
 
   // 导出表格
   exportExcel: function() {
-    let me = this;
-    let view = me.getView();
-    let startDay = me.getView()["config"]["data"]["start"];
-    let endDay = me.getView()["config"]["data"]["end"];
-    let clientType = "c";
-    window.open("_blank");
+	   let me = this;
+	    let view = me.getView();
+	    let startDay = me.getView()["config"]["data"]["start"];
+	    let endDay = me.getView()["config"]["data"]["end"];
+//	    let clientId=me.getView()["config"]["data"]["clientId"];
+	    let url =
+	      "/settlerecord/exportAllClientPerformance?start=" +
+	      startDay +
+	      "&end=" +
+	      endDay +
+	      "&clientType=c"
+	      ;
+	      
+	    window.open(url);
   },
 
   showClientMonthBarChart: function(unit, start, end) {

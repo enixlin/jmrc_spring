@@ -294,9 +294,12 @@ Ext.define("jmrc.view.performance.chart.BaseBar.BaseBarController", {
       startDay +
       "&end=" +
       endDay +
+      "&uid="+
+      unit.code+
+      "&unitType=unit"+
       "&unit=" +
       JSON.stringify(unit);
-    window.open(url);
+    window.open(encodeURI(url));
   },
 
   showProductBarChart: function() {}

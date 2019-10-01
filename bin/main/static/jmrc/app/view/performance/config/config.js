@@ -10,13 +10,17 @@ Ext.define('jmrc.view.performance.config.config', {
 		type : 'performance-config-config'
 	},
 	// tbar : [ "->"
+	layout:{
+		type:"form",
+	},
 
 	width : "100%",
 	height : 600,
-	tbar : [ "->", {
-		type : "button",
+	buttons : [  {
 		text : "保存",
-		handler : "saveRange"
+		handler : "saveRangeProducts",
+		dock: 'top',
+		
 	} ],
 	
 
