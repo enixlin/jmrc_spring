@@ -2,7 +2,7 @@ Ext.define("jmrc.view.performance.detail.detailController", {
   extend: "Ext.app.ViewController",
   alias: "controller.performance-detail-detail",
 
-  afterRender: function() {
+  afterRender: function () {
     let me = this;
     let view = me.getView();
     let startDay = me.getView()["config"]["data"]["start"];
@@ -28,7 +28,7 @@ Ext.define("jmrc.view.performance.detail.detailController", {
         end: endDay,
         unitType: "经营单位"
       },
-      callback: function(records, options, success) {
+      callback: function (records, options, success) {
         // 根据数据集的filed数组，确定表格的列
         let fields = bindStore.getModel().getFields();
         let cos = []; // 表格列表
@@ -44,7 +44,7 @@ Ext.define("jmrc.view.performance.detail.detailController", {
               header: fields[n].name,
               sortable: true,
               dataIndex: fields[n].dataIndex,
-              renderer: function(value) {
+              renderer: function (value) {
                 if (value >= 100) {
                   return (
                     "<font color=green></font><span style='color:green;'>" +
@@ -76,7 +76,7 @@ Ext.define("jmrc.view.performance.detail.detailController", {
                 width: 120,
                 sortable: true,
                 dataIndex: fields[n].dataIndex,
-                renderer: function(value) {
+                renderer: function (value) {
                   return value.replace("（一级支行）", "").replace("本部", "");
                 }
               });
@@ -97,7 +97,7 @@ Ext.define("jmrc.view.performance.detail.detailController", {
                   sortable: true,
 
                   dataIndex: fields[n].dataIndex,
-                  renderer: function(value) {
+                  renderer: function (value) {
                     if (value < 0) {
                       return (
                         "<font color=blue></font><span style='color:red;'>" +
@@ -120,7 +120,7 @@ Ext.define("jmrc.view.performance.detail.detailController", {
                   width: 80,
                   sortable: true,
                   dataIndex: fields[n].dataIndex,
-                  renderer: function(value) {
+                  renderer: function (value) {
                     return Ext.util.Format.number(value, "0,000");
                   }
                 });
@@ -132,7 +132,7 @@ Ext.define("jmrc.view.performance.detail.detailController", {
 
                   sortable: true,
                   dataIndex: fields[n].dataIndex,
-                  renderer: function(value) {
+                  renderer: function (value) {
                     if (value < 0) {
                       return (
                         "<font color=blue></font><span style='color:red;'>" +
@@ -155,14 +155,14 @@ Ext.define("jmrc.view.performance.detail.detailController", {
 
                   sortable: true,
                   dataIndex: fields[n].dataIndex,
-                  renderer: function(value) {
+                  renderer: function (value) {
                     return Ext.util.Format.number(value, "0,000.00");
                   }
                 });
               }
             }
           }
-        }
+        };
         // 为表格的columns数组添加操作列
         cos.push({
           width: 40,
@@ -173,7 +173,7 @@ Ext.define("jmrc.view.performance.detail.detailController", {
               iconCls: "x-fa fa-bar-chart",
               text: " 1",
               tooltip: "分月明细",
-              handler: function(view, rowIndex, colIndex, item, e, record) {
+              handler: function (view, rowIndex, colIndex, item, e, record) {
                 let unit = {
                   name: record.data["行名"],
                   id: record.data["行号"]
@@ -202,7 +202,34 @@ Ext.define("jmrc.view.performance.detail.detailController", {
               iconCls: "x-fa fa-pie-chart",
               tooltip: "产品明细",
               text: " 1",
-              handler: function(view, rowIndex, colIndex, item, e, record) {
+              handler: function (view, rowIndex, colIndex, item, e, record) {
+                let unit = {
+                  name: record.data["行名"],
+                  id: record.data["行号"]
+                };
+                let start = view.up().up()["config"]["data"]["start"];
+                let end = view.up().up()["config"]["data"]["end"];
+
+                view
+                  .up()
+                  .up()
+                  .controller.showProductPieChart(unit, start, end);
+              }
+            }
+          ]
+        });
+        // 为表格的columns数组添加操作列
+        cos.push({
+          width: 40,
+          xtype: "actioncolumn",
+          align: "center",
+
+          items: [
+            {
+              iconCls: "x-fa fa-users",
+              tooltip: "客户明细",
+              text: " 1",
+              handler: function (view, rowIndex, colIndex, item, e, record) {
                 let unit = {
                   name: record.data["行名"],
                   id: record.data["行号"]
@@ -218,20 +245,6 @@ Ext.define("jmrc.view.performance.detail.detailController", {
             }
           ]
         });
-        // 为表格的columns数组添加操作列
-        cos.push({
-          width: 40,
-          xtype: "actioncolumn",
-          align: "center",
-
-          items: [
-            {
-              iconCls: "x-fa fa-users",
-              tooltip: "客户明细",
-              text: " 1"
-            }
-          ]
-        });
 
         grid.setColumns(cos);
         msgTip.hide(); // 加载完成，关闭提示框
@@ -239,7 +252,7 @@ Ext.define("jmrc.view.performance.detail.detailController", {
     });
   },
 
-  showUnitMonthBarChart: function(unit, start, end) {
+  showUnitMonthBarChart: function (unit, start, end) {
     let me = this;
     let view = me.getView();
 
@@ -284,29 +297,29 @@ Ext.define("jmrc.view.performance.detail.detailController", {
     win.show();
   },
 
-  showProductPieChart: function(unit, start, end) {
+  showProductPieChart: function (unit, start, end) {
     let me = this;
     let view = me.getView();
 
     let win = Ext.create("Ext.window.Window", {
       width: window.innerWidth * 0.8,
       height: window.innerHeight * 0.7,
-     
+
     });
     //测试的产品分类明细
     let chart = {
       xtype: "basepie",
       width: window.innerWidth * 0.8,
-      
+
       scrollable: true,
       data: {
         st: "UnitProductPerformanceStore",
         //图表布局
         layout: "hbox",
         //图表的宽度
-        width: window.innerWidth*0.4,
+        width: window.innerWidth * 0.4,
         //图表的高度
-        height:  window.innerHeight*0.4,
+        height: window.innerHeight * 0.4,
         //图表的标题
         title: "产品业务量表\r\n \t\t\t（单位：万美元）",
         xtitle: "产品",
@@ -330,16 +343,16 @@ Ext.define("jmrc.view.performance.detail.detailController", {
     win.show();
   },
 
-  showUnitClientList: function(unit, start, end) {
+  showUnitClientList: function (unit, start, end) {
     let me = this;
     let view = me.getView();
     let startDay = me.getView()["config"]["data"]["start"];
     let endDay = me.getView()["config"]["data"]["end"];
     let st = me.getView()["config"]["data"]["st"];
+    console.log(st);
     let bindStore = me.getViewModel().getStore(st);
     let grid = Ext.create("Ext.grid.Panel", {
       width: window.innerWidth * 0.8,
-
       height: window.innerHeight * 0.65,
       border: 2,
       scrollable: true,
@@ -359,10 +372,12 @@ Ext.define("jmrc.view.performance.detail.detailController", {
 
 
 
+
+
   /**
    * 导出表格到EXCEL文件并下载
    */
-  exportExcel: function() {
+  exportExcel: function () {
     let me = this;
     let view = me.getView();
     let startDay = me.getView()["config"]["data"]["start"];

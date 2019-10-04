@@ -665,6 +665,10 @@ public class SettleRecordController {
 
 		return allClientPerformance;
 	}
+
+
+
+
 	
 	
 	
