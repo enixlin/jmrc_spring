@@ -631,7 +631,7 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 	@Select("<script>"
 			+ "select "
 			+ "cust_name ,"
-			+ "cust_code ,"
+			+ "cust_number ,"
 			+ "sum(busy_amount * usd_rate)/10000 as amount,"
 			+ "count(busy_amount) as times "
 			+ "from settle_record "
@@ -644,7 +644,7 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 			+ "busy_date&gt;=${start} and busy_date&lt;=${end} "
 			+ " and "
 			+ "belong_branch_code=${unit.getId}"
-			+ " group by belong_branch_code "
+			+ " group by cust_number "
 			+ "</script>")
 	ArrayList<LinkedHashMap<String, Object>> getUnitClientPerformance(@Param("unit")Unit unit,
 			@Param("start")String start, @Param("end")String end, @Param("products")ArrayList<Product> products);

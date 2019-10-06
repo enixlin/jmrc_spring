@@ -255,7 +255,6 @@ Ext.define("jmrc.view.performance.detail.detailController", {
   showUnitMonthBarChart: function (unit, start, end) {
     let me = this;
     let view = me.getView();
-
     let win = Ext.create("Ext.window.Window", {
       width: window.innerWidth * 0.8,
       height: window.innerHeight * 0.5
@@ -310,7 +309,6 @@ Ext.define("jmrc.view.performance.detail.detailController", {
     let chart = {
       xtype: "basepie",
       width: window.innerWidth * 0.8,
-
       scrollable: true,
       data: {
         st: "UnitProductPerformanceStore",
@@ -348,23 +346,25 @@ Ext.define("jmrc.view.performance.detail.detailController", {
     let view = me.getView();
     let startDay = me.getView()["config"]["data"]["start"];
     let endDay = me.getView()["config"]["data"]["end"];
-    let st = me.getView()["config"]["data"]["st"];
-    console.log(st);
-    let bindStore = me.getViewModel().getStore(st);
-    let grid = Ext.create("Ext.grid.Panel", {
-      width: window.innerWidth * 0.8,
-      height: window.innerHeight * 0.65,
-      border: 2,
-      scrollable: true,
-      listeners: {}
-    });
+
 
     let win = Ext.create("Ext.window.Window", {
       width: window.innerWidth * 0.8,
-      height: window.innerHeight * 0.5
+      height: window.innerHeight * 0.5,
+        layout:"fit",
     });
-    grid.bindStore(bindStore);
-    win.add(grid);
+    win.add({
+        xtype:"clientlist",
+        data:{
+        	st:"",
+        	startDay,
+        	endDay,
+        	unit,
+        	st:"getUnitClientPerformanceStore",
+        },
+
+    });
+
     view.add(win);
     win.show();
   },
