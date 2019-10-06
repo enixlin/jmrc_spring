@@ -46,6 +46,9 @@ Ext.define('jmrc.view.performance.detail.detailModel', {
 				type : "ajax",
 			},
     	}
+    	
+    	
+    	
     }
 
 

@@ -1,5 +1,5 @@
 $app-name:  dynamic( 'jmrc' );
-$image-search-path: 'C:/projects/jmrc_spring/src/main/resources/static/jmrc/build/development/jmrc/resources';
+$image-search-path: 'D:/projects/jmrc_spring/src/main/resources/static/jmrc/build/development/jmrc/resources';
 $theme-name:  dynamic( 'theme-triton' );
 $include-cfg: dynamic(true);;
 $include-ext-abstractcomponent: dynamic(true);;
@@ -1151,6 +1151,9 @@ $include-jmrc-view-performance-detail-clientdetail: dynamic(true);;
 $include-jmrc-view-performance-detail-clientdetailcontroller: dynamic(true);;
 $include-jmrc-view-performance-detail-clientdetailmodel: dynamic(true);;
 $include-jmrc-view-performance-detail-gridexportexcelmixin: dynamic(true);;
+$include-jmrc-view-performance-detail-clientlist: dynamic(true);;
+$include-jmrc-view-performance-detail-clientlistcontroller: dynamic(true);;
+$include-jmrc-view-performance-detail-clientlistmodel: dynamic(true);;
 $include-jmrc-view-performance-detail-detail: dynamic(true);;
 $include-jmrc-view-performance-detail-detailcontroller: dynamic(true);;
 $include-jmrc-view-performance-detail-detailmodel: dynamic(true);;

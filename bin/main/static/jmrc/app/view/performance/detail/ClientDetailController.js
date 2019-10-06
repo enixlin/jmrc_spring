@@ -96,7 +96,8 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
                 sortable: true,
                 dataIndex: fields[n].dataIndex,
                 filter: {
-                  type: "string"
+                  type: "string",
+                  id:"clientName"
                 }
               });
               continue;
@@ -299,5 +300,31 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
     win.add(chart);
     view.add(win);
     win.show();
-  }
+  },
+  
+  filterclient:function(client){
+	
+	  let me=this;
+	  let view=me.getView();
+	  let grid=view.query("grid")[0];
+	  let store=grid.getStore();
+	  if(client=="" ){
+		  console.log("emptyu");
+		   store.clearFilter();
+	
+		 console.log(store.getFilters());
+		 return;
+	  }
+	  store.setFilters({
+		  "operator":"like",
+		  "value":client,
+		  "property":"custName"
+	  });
+	  console.log(store.getFilters());
+  },
+
+  
+  
+
+	
 });

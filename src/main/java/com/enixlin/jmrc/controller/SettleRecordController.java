@@ -1,3 +1,4 @@
+
 package com.enixlin.jmrc.controller;
 
 import java.io.FileNotFoundException;
@@ -622,7 +623,7 @@ public class SettleRecordController {
 	
 	@RequestMapping("/getUnitClientPerformance")
 	public ArrayList<LinkedHashMap<String, Object>> getUnitClientPerformance(
-			HttpServletRequest req, HttpServletResponse res) {
+		HttpServletRequest req, HttpServletResponse res) {
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
 		ArrayList<Product> products = srs.getSettleRangeProduct();
@@ -665,6 +666,10 @@ public class SettleRecordController {
 
 		return allClientPerformance;
 	}
+
+
+
+
 	
 	
 	
