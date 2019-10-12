@@ -4,7 +4,9 @@ package com.enixlin.jmrc.controller;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -43,7 +45,6 @@ public class SettleRecordController {
 	@RequestMapping("/batchInsert")
 	public void add(HttpServletRequest req, HttpServletResponse res) {
 
-		
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
 		String getMax = req.getParameter("getMax");
@@ -53,8 +54,7 @@ public class SettleRecordController {
 		String endDayNum = changeLineDateFormat(end);
 		ODS ods = new ODS();
 
-		JsonArray ja = ods.getAllSettleRecord(startDayNum, StartDayChn,
-				endDayNum, endDayChn, getMax);
+		JsonArray ja = ods.getAllSettleRecord(startDayNum, StartDayChn, endDayNum, endDayChn, getMax);
 
 		for (int i = 0; i < ja.size(); i++) {
 			SettleRecord sr = new SettleRecord();
@@ -67,40 +67,27 @@ public class SettleRecordController {
 			sr.setBusyType(ja.get(i).getAsJsonArray().get(5).getAsString());
 			sr.setBusyCurrency(ja.get(i).getAsJsonArray().get(7).getAsString());
 			// 字符串中有逗号，所以要先将符号进行替换
-			sr.setBusyAmount(new BigDecimal(ja.get(i).getAsJsonArray().get(8)
-					.getAsString().replace(",", "")));
+			sr.setBusyAmount(new BigDecimal(ja.get(i).getAsJsonArray().get(8).getAsString().replace(",", "")));
 			sr.setBusyDate(ja.get(i).getAsJsonArray().get(9).getAsString());
-			sr.setForeignCountry(
-					ja.get(i).getAsJsonArray().get(10).getAsString());
-			sr.setForeignBankCode(
-					ja.get(i).getAsJsonArray().get(11).getAsString());
-			sr.setForeignBankName(
-					ja.get(i).getAsJsonArray().get(12).getAsString());
-			sr.setPayerAccount(
-					ja.get(i).getAsJsonArray().get(13).getAsString());
+			sr.setForeignCountry(ja.get(i).getAsJsonArray().get(10).getAsString());
+			sr.setForeignBankCode(ja.get(i).getAsJsonArray().get(11).getAsString());
+			sr.setForeignBankName(ja.get(i).getAsJsonArray().get(12).getAsString());
+			sr.setPayerAccount(ja.get(i).getAsJsonArray().get(13).getAsString());
 			sr.setPayerName(ja.get(i).getAsJsonArray().get(14).getAsString());
-			sr.setReceiveAccount(
-					ja.get(i).getAsJsonArray().get(15).getAsString());
+			sr.setReceiveAccount(ja.get(i).getAsJsonArray().get(15).getAsString());
 			sr.setReceiveName(ja.get(i).getAsJsonArray().get(16).getAsString());
 			sr.setBranchCode(ja.get(i).getAsJsonArray().get(17).getAsString());
 			sr.setBranchName(ja.get(i).getAsJsonArray().get(18).getAsString());
-			sr.setSubBranchCode(
-					ja.get(i).getAsJsonArray().get(19).getAsString());
-			sr.setSubBranchName(
-					ja.get(i).getAsJsonArray().get(20).getAsString());
-			sr.setBelongBranchCode(
-					ja.get(i).getAsJsonArray().get(21).getAsString());
-			sr.setBelongBranchName(
-					ja.get(i).getAsJsonArray().get(22).getAsString());
-			sr.setBelongSubBranchCode(
-					ja.get(i).getAsJsonArray().get(23).getAsString());
-			sr.setBelongSubBranchName(
-					ja.get(i).getAsJsonArray().get(24).getAsString());
+			sr.setSubBranchCode(ja.get(i).getAsJsonArray().get(19).getAsString());
+			sr.setSubBranchName(ja.get(i).getAsJsonArray().get(20).getAsString());
+			sr.setBelongBranchCode(ja.get(i).getAsJsonArray().get(21).getAsString());
+			sr.setBelongBranchName(ja.get(i).getAsJsonArray().get(22).getAsString());
+			sr.setBelongSubBranchCode(ja.get(i).getAsJsonArray().get(23).getAsString());
+			sr.setBelongSubBranchName(ja.get(i).getAsJsonArray().get(24).getAsString());
 			sr.setOperator(ja.get(i).getAsJsonArray().get(25).getAsString());
 			sr.setConfirmer(ja.get(i).getAsJsonArray().get(26).getAsString());
 			// 字符串中有逗号，所以要先将符号进行替换
-			String rate = ja.get(i).getAsJsonArray().get(27).getAsString()
-					.replace(",", "");
+			String rate = ja.get(i).getAsJsonArray().get(27).getAsString().replace(",", "");
 			String currency = ja.get(i).getAsJsonArray().get(7).getAsString();
 			if (rate.equals("")) {
 				sr.setUsdRate(new BigDecimal("0.0"));
@@ -127,11 +114,10 @@ public class SettleRecordController {
 	 * @param res
 	 * @return ArrayList<IndexPerformance> 创建时间：2019年7月27日
 	 * @author linzhenhuan </br>
-	 * 方法说明： </br>
+	 *         方法说明： </br>
 	 */
 	@RequestMapping("/getAllBusyTypeProformance")
-	public ArrayList<IndexPerformance> getAllBusyTypeProformance(
-			HttpServletRequest req, HttpServletResponse res) {
+	public ArrayList<IndexPerformance> getAllBusyTypeProformance(HttpServletRequest req, HttpServletResponse res) {
 
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
@@ -145,11 +131,11 @@ public class SettleRecordController {
 	 * @param res
 	 * @return ArrayList<IndexPerformance> 创建时间：2019年7月27日
 	 * @author linzhenhuan </br>
-	 * 方法说明： </br>
+	 *         方法说明： </br>
 	 */
 	@RequestMapping("/getAllBusySettleTypeProformance")
-	public ArrayList<IndexPerformance> getAllBusySettleTypeProformance(
-			HttpServletRequest req, HttpServletResponse res) {
+	public ArrayList<IndexPerformance> getAllBusySettleTypeProformance(HttpServletRequest req,
+			HttpServletResponse res) {
 
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
@@ -163,8 +149,7 @@ public class SettleRecordController {
 	 * @return
 	 */
 	public String changeChineseDateFormat(String day) {
-		return day.substring(0, 4) + "年" + day.substring(4, 6) + "月"
-				+ day.substring(6, 8) + "日";
+		return day.substring(0, 4) + "年" + day.substring(4, 6) + "月" + day.substring(6, 8) + "日";
 
 	}
 
@@ -175,8 +160,7 @@ public class SettleRecordController {
 	 * @return
 	 */
 	public String changeLineDateFormat(String day) {
-		return day.substring(0, 4) + "-" + day.substring(4, 6) + "-"
-				+ day.substring(6, 8);
+		return day.substring(0, 4) + "-" + day.substring(4, 6) + "-" + day.substring(6, 8);
 
 	}
 
@@ -188,8 +172,7 @@ public class SettleRecordController {
 	 * @return
 	 */
 	@RequestMapping("/getMonthPerformance")
-	public List<IndexPerformance> getMonthPerformance(HttpServletRequest req,
-			HttpServletResponse res) {
+	public List<IndexPerformance> getMonthPerformance(HttpServletRequest req, HttpServletResponse res) {
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
 		return srs.getMonthPerformance(start, end);
@@ -203,33 +186,28 @@ public class SettleRecordController {
 	 * @param res
 	 * @return List<SettleRange> 创建时间：2019年6月13日
 	 * @author linzhenhuan </br>
-	 * 方法说明： </br>
+	 *         方法说明： </br>
 	 */
 	@RequestMapping("/getsettleRange")
-	public List<SettleRange> getsettleRange(HttpServletRequest req,
-			HttpServletResponse res) {
+	public List<SettleRange> getsettleRange(HttpServletRequest req, HttpServletResponse res) {
 		return srs.getsettleRange();
 
 	}
 
 	@RequestMapping("/getAllProductFromSettleRecord")
-	public ArrayList<String> getAllProductFromSettleRecord(
-			HttpServletRequest req,
-			HttpServletResponse res) {
+	public ArrayList<String> getAllProductFromSettleRecord(HttpServletRequest req, HttpServletResponse res) {
 		ArrayList<String> products = srs.getAllProductFromSettleRecord();
 		return products;
 	}
 
 	@RequestMapping("/getSettleRangeProduct")
-	public ArrayList<Product> getSettleRangeProduct(HttpServletRequest req,
-			HttpServletResponse res) {
+	public ArrayList<Product> getSettleRangeProduct(HttpServletRequest req, HttpServletResponse res) {
 		ArrayList<Product> products = srs.getSettleRangeProduct();
 		return products;
 	}
 
 	@RequestMapping("/saveSettleRangeProduct")
-	public int saveSettleRangeProduct(HttpServletRequest req,
-			HttpServletResponse res) {
+	public int saveSettleRangeProduct(HttpServletRequest req, HttpServletResponse res) {
 		int count = 0;
 // String[] products=req.getParameter("array").split(",", 0);
 
@@ -243,11 +221,10 @@ public class SettleRecordController {
 	 * @param res
 	 * @return ArrayList<UnitPerformance> 创建时间：2019年7月26日
 	 * @author linzhenhuan </br>
-	 * 方法说明： </br>
+	 *         方法说明： </br>
 	 */
 	@RequestMapping("/getUnitPerformance")
-	public ArrayList<UnitPerformance> getUnitPerformance(HttpServletRequest req,
-			HttpServletResponse res) {
+	public ArrayList<UnitPerformance> getUnitPerformance(HttpServletRequest req, HttpServletResponse res) {
 		return null;
 
 	}
@@ -257,12 +234,10 @@ public class SettleRecordController {
 	 * @param res
 	 * @return ArrayList<Task> 创建时间：2019年7月26日
 	 * @author linzhenhuan </br>
-	 * 方法说明： </br>
+	 *         方法说明： </br>
 	 */
 	@RequestMapping("/getAllUnitTask")
-	public HashMap<String, ArrayList<Task>> getAllUnitTask(
-			HttpServletRequest req,
-			HttpServletResponse res) {
+	public HashMap<String, ArrayList<Task>> getAllUnitTask(HttpServletRequest req, HttpServletResponse res) {
 
 		ArrayList<String> allUnitNames = this.getAllUnitName();
 
@@ -271,8 +246,7 @@ public class SettleRecordController {
 	}
 
 	@RequestMapping("/getTaskByUnitName")
-	public ArrayList<Task> getTaskByUnitName(HttpServletRequest req,
-			HttpServletResponse res) {
+	public ArrayList<Task> getTaskByUnitName(HttpServletRequest req, HttpServletResponse res) {
 		return null;
 
 	}
@@ -282,7 +256,7 @@ public class SettleRecordController {
 	 *
 	 * @return ArrayList<String> 创建时间：2019年7月26日
 	 * @author linzhenhuan </br>
-	 * 方法说明： </br>
+	 *         方法说明： </br>
 	 */
 	@RequestMapping("/getAllUnitName")
 	public ArrayList<String> getAllUnitName() {
@@ -295,7 +269,7 @@ public class SettleRecordController {
 	 *
 	 * @return ArrayList<String> 创建时间：2019年7月26日
 	 * @author linzhenhuan </br>
-	 * 方法说明： </br>
+	 *         方法说明： </br>
 	 */
 	@RequestMapping("/getAllUnitInfo")
 	public ArrayList<Unit> getAllUnitInfo() {
@@ -310,11 +284,10 @@ public class SettleRecordController {
 	 * @param res
 	 * @return ArrayList<IndexPerformance> 创建时间：2019年7月28日
 	 * @author linzhenhuan </br>
-	 * 方法说明： </br>
+	 *         方法说明： </br>
 	 */
 	@RequestMapping("/getSettleTypeProformanceByDate")
-	public ArrayList<IndexPerformance> getSettleTypeProformanceByDate(
-			HttpServletRequest req, HttpServletResponse res) {
+	public ArrayList<IndexPerformance> getSettleTypeProformanceByDate(HttpServletRequest req, HttpServletResponse res) {
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
 		return srs.getSettleTypeProformanceByDate(start, end);
@@ -327,11 +300,10 @@ public class SettleRecordController {
 	 * @param res
 	 * @return ArrayList<SettleRecord> 创建时间：2019年7月29日
 	 * @author linzhenhuan </br>
-	 * 方法说明： </br>
+	 *         方法说明： </br>
 	 */
 	@RequestMapping("/getDateRangeDetail")
-	public ArrayList<SettleRecord> getDateRangeDetail(HttpServletRequest req,
-			HttpServletResponse res) {
+	public ArrayList<SettleRecord> getDateRangeDetail(HttpServletRequest req, HttpServletResponse res) {
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
 		String product = req.getParameter("product");
@@ -345,11 +317,10 @@ public class SettleRecordController {
 	 * @param res
 	 * @return ArrayList<IndexPerformance> 创建时间：2019年7月30日
 	 * @author linzhenhuan </br>
-	 * 方法说明： </br>
+	 *         方法说明： </br>
 	 */
 	@RequestMapping("/getUnitIndexPerformance")
-	public ArrayList<IndexPerformance> getUnitIndexPerformance(
-			HttpServletRequest req, HttpServletResponse res) {
+	public ArrayList<IndexPerformance> getUnitIndexPerformance(HttpServletRequest req, HttpServletResponse res) {
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
 		ArrayList<Product> products = srs.getSettleRangeProduct();
@@ -360,16 +331,16 @@ public class SettleRecordController {
 	}
 
 	@RequestMapping("/getAllUnitPerformance")
-	public ArrayList<LinkedHashMap<String, Object>> getAllUnitPerformance(
-			HttpServletRequest req, HttpServletResponse res) {
+	public ArrayList<LinkedHashMap<String, Object>> getAllUnitPerformance(HttpServletRequest req,
+			HttpServletResponse res) {
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
 		return srs.getAllUnitPerformance(start, end);
 	}
 
 	@RequestMapping("/getAllClientPerformance")
-	public ArrayList<LinkedHashMap<String, Object>> getAllClientPerformance(
-			HttpServletRequest req, HttpServletResponse res) {
+	public ArrayList<LinkedHashMap<String, Object>> getAllClientPerformance(HttpServletRequest req,
+			HttpServletResponse res) {
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
 		String clientType = req.getParameter("clientType");
@@ -383,11 +354,10 @@ public class SettleRecordController {
 	 * @param res
 	 * @return ArrayList<MonthPerformace> 创建时间：2019年8月3日
 	 * @author linzhenhuan </br>
-	 * 方法说明： </br>
+	 *         方法说明： </br>
 	 */
 	@RequestMapping("/getUnitMonthPerformace")
-	public ArrayList<MonthPerformace> getUnitMonthPerformace(
-			HttpServletRequest req, HttpServletResponse res) {
+	public ArrayList<MonthPerformace> getUnitMonthPerformace(HttpServletRequest req, HttpServletResponse res) {
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
 		ArrayList<Product> products = srs.getSettleRangeProduct();
@@ -406,11 +376,11 @@ public class SettleRecordController {
 	 * @param res
 	 * @return ArrayList<MonthPerformace> 创建时间：2019年8月3日
 	 * @author linzhenhuan </br>
-	 * 方法说明： </br>
+	 *         方法说明： </br>
 	 */
 	@RequestMapping("/getUnitSettleMonthPerformance")
-	public ArrayList<LinkedHashMap<String, Object>> getUnitSettleMonthPerformance(
-			HttpServletRequest req, HttpServletResponse res) {
+	public ArrayList<LinkedHashMap<String, Object>> getUnitSettleMonthPerformance(HttpServletRequest req,
+			HttpServletResponse res) {
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
 		ArrayList<Product> products = srs.getSettleRangeProduct();
@@ -430,11 +400,11 @@ public class SettleRecordController {
 	 * @param res
 	 * @return ArrayList<MonthPerformace> 创建时间：2019年8月3日
 	 * @author linzhenhuan </br>
-	 * 方法说明： </br>
+	 *         方法说明： </br>
 	 */
 	@RequestMapping("/getClientSettleMonthPerformance")
-	public ArrayList<LinkedHashMap<String, Object>> getClientSettleMonthPerformance(
-			HttpServletRequest req, HttpServletResponse res) {
+	public ArrayList<LinkedHashMap<String, Object>> getClientSettleMonthPerformance(HttpServletRequest req,
+			HttpServletResponse res) {
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
 		ArrayList<Product> products = srs.getSettleRangeProduct();
@@ -452,13 +422,12 @@ public class SettleRecordController {
 	 * @param res
 	 * @return ArrayList<MonthPerformace> 创建时间：2019年8月3日
 	 * @author linzhenhuan </br>
-	 * 方法说明： </br>
+	 *         方法说明： </br>
 	 */
 	@RequestMapping("/exportAllUnitPerformance")
-	public ArrayList<LinkedHashMap<String, Object>> exportAllUnitPerformance(
-			HttpServletRequest req, HttpServletResponse res) {
-		ArrayList<LinkedHashMap<String, Object>> allUnitPerformance = this
-				.getAllUnitPerformance(req, res);
+	public ArrayList<LinkedHashMap<String, Object>> exportAllUnitPerformance(HttpServletRequest req,
+			HttpServletResponse res) {
+		ArrayList<LinkedHashMap<String, Object>> allUnitPerformance = this.getAllUnitPerformance(req, res);
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
 
@@ -489,13 +458,12 @@ public class SettleRecordController {
 	 * @param res
 	 * @return ArrayList<MonthPerformace> 创建时间：2019年8月3日
 	 * @author linzhenhuan </br>
-	 * 方法说明： </br>
+	 *         方法说明： </br>
 	 */
 	@RequestMapping("/exportUnitPerformance")
-	public ArrayList<LinkedHashMap<String, Object>> exportUnitPerformance(
-			HttpServletRequest req, HttpServletResponse res) {
-		ArrayList<LinkedHashMap<String, Object>> allUnitPerformance = this
-				.getUnitSettleMonthPerformance(req, res);
+	public ArrayList<LinkedHashMap<String, Object>> exportUnitPerformance(HttpServletRequest req,
+			HttpServletResponse res) {
+		ArrayList<LinkedHashMap<String, Object>> allUnitPerformance = this.getUnitSettleMonthPerformance(req, res);
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
 		String unitName = req.getParameter("name");
@@ -523,10 +491,9 @@ public class SettleRecordController {
 
 //    exportgetUnitMonthPerformace
 	@RequestMapping("/exportUnitMonthPerformace")
-	public ArrayList<LinkedHashMap<String, Object>> exportUnitMonthPerformace(
-			HttpServletRequest req, HttpServletResponse res) {
-		ArrayList<LinkedHashMap<String, Object>> allUnitPerformance = this
-				.getUnitSettleMonthPerformance(req, res);
+	public ArrayList<LinkedHashMap<String, Object>> exportUnitMonthPerformace(HttpServletRequest req,
+			HttpServletResponse res) {
+		ArrayList<LinkedHashMap<String, Object>> allUnitPerformance = this.getUnitSettleMonthPerformance(req, res);
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
 		String unitName = req.getParameter("name");
@@ -553,10 +520,9 @@ public class SettleRecordController {
 	}
 
 	@RequestMapping("/exportProductPieChart")
-	public ArrayList<LinkedHashMap<String, Object>> exportProductPieChart(
-			HttpServletRequest req, HttpServletResponse res) {
-		ArrayList<LinkedHashMap<String, Object>> ProductPerformance = this
-				.getUnitProductPerformance(req, res);
+	public ArrayList<LinkedHashMap<String, Object>> exportProductPieChart(HttpServletRequest req,
+			HttpServletResponse res) {
+		ArrayList<LinkedHashMap<String, Object>> ProductPerformance = this.getUnitProductPerformance(req, res);
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
 		String unitName = req.getParameter("name");
@@ -568,7 +534,7 @@ public class SettleRecordController {
 		ExcelTool et = new ExcelTool();
 //		et.exportToexcel(allUnitPerformance, file);
 		et.exportToexcel(ProductPerformance, file, start, end, unit, title);
-
+//fds
 		try {
 			et.downloadFileByOutputStream(file, res);
 		} catch (FileNotFoundException e) {
@@ -590,8 +556,7 @@ public class SettleRecordController {
 	}
 
 	@RequestMapping("/saveRangeProducts")
-	public int saveRangeProducts(HttpServletRequest req,
-			HttpServletResponse res) {
+	public int saveRangeProducts(HttpServletRequest req, HttpServletResponse res) {
 		ArrayList<Product> rangeProducts = new ArrayList<>();
 		String jsonString = req.getParameter("obj");
 		JsonArray jo = (JsonArray) new JsonParser().parse(jsonString);
@@ -608,8 +573,8 @@ public class SettleRecordController {
 	}
 
 	@RequestMapping("/getUnitProductPerformance")
-	public ArrayList<LinkedHashMap<String, Object>> getUnitProductPerformance(
-			HttpServletRequest req, HttpServletResponse res) {
+	public ArrayList<LinkedHashMap<String, Object>> getUnitProductPerformance(HttpServletRequest req,
+			HttpServletResponse res) {
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
 		ArrayList<Product> products = srs.getSettleRangeProduct();
@@ -620,10 +585,10 @@ public class SettleRecordController {
 		return srs.getUnitProductPerformance(unit, start, end);
 
 	}
-	
+
 	@RequestMapping("/getUnitClientPerformance")
-	public ArrayList<LinkedHashMap<String, Object>> getUnitClientPerformance(
-		HttpServletRequest req, HttpServletResponse res) {
+	public ArrayList<LinkedHashMap<String, Object>> getUnitClientPerformance(HttpServletRequest req,
+			HttpServletResponse res) {
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
 		ArrayList<Product> products = srs.getSettleRangeProduct();
@@ -634,19 +599,13 @@ public class SettleRecordController {
 		return srs.getUnitClientPerformance(unit, start, end);
 
 	}
-	
-	
-	
-	
 
 	@RequestMapping("/exportAllClientPerformance")
-	public ArrayList<LinkedHashMap<String, Object>> exportAllClientPerformance(
-			HttpServletRequest req, HttpServletResponse res) {
-		ArrayList<LinkedHashMap<String, Object>> allClientPerformance = this
-				.getAllClientPerformance(req, res);
+	public ArrayList<LinkedHashMap<String, Object>> exportAllClientPerformance(HttpServletRequest req,
+			HttpServletResponse res) {
+		ArrayList<LinkedHashMap<String, Object>> allClientPerformance = this.getAllClientPerformance(req, res);
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
-	
 
 		String file = "客户国际结算统计表-" + start + "-" + end + ".xls";
 		String unit = "单位：万美元,笔";
@@ -667,11 +626,43 @@ public class SettleRecordController {
 		return allClientPerformance;
 	}
 
-
-
-
+	@RequestMapping("/getLastUpdateDate")
+	public String getLastUpdateDate() {
+		return srs.getLastUpdateDate();
+	}
 	
 	
+	//getTotalSettlePerformance
 	
+	@RequestMapping("/getTotalSettlePerformance")
+	public String getTotalSettlePerformance(HttpServletRequest req,HttpServletResponse res) {
+//		String start=
+		String start=req.getParameter("start");
+		String end= req.getParameter("end");
+		Date date = new Date();
+		SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+		this.updatelog(ft.format(date));
+		return srs.getTotalSettlePerformance(start,end);
+	} 
+	
+	
+//	getTotalTask
+	@RequestMapping("/getTotalTask")
+	public String getTotalTask(HttpServletRequest req,HttpServletResponse res) {
 
+		String end= req.getParameter("end");
+
+		return srs.getTotalTask(end);
+	} 
+	public void updatelog(String datatime) {
+		srs.updatelog(datatime);
+	}
+	
+	@RequestMapping("/getProductMonthPerformance")
+	public ArrayList<HashMap<String, Object>> getProductMonthPerformance(HttpServletRequest req,HttpServletResponse res){
+		String product=req.getParameter("product");
+		String start=req.getParameter("start");
+		String end=req.getParameter("end");
+		return srs.getProductMonthPerformance(product,start,end);
+	}
 }

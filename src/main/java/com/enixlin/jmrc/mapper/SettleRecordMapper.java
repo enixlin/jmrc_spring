@@ -645,9 +645,59 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 			+ " and "
 			+ "belong_branch_code=${unit.getId}"
 			+ " group by cust_number "
+			+ "order by amount desc"
 			+ "</script>")
 	ArrayList<LinkedHashMap<String, Object>> getUnitClientPerformance(@Param("unit")Unit unit,
 			@Param("start")String start, @Param("end")String end, @Param("products")ArrayList<Product> products);
 
+	@Select("select updatedate from updatelog   order by updatedate desc limit 1")
+	String getLastUpdateDate();
 
+
+	//getTotalSettlePerformance
+	@Select("<script>"
+			+ "select "
+			+ "sum(busy_amount * usd_rate)/10000 as amount,"
+			+ "count(busy_amount) as times "
+			+ "from settle_record "
+			+ "where "
+			+ "product_Name in "
+			+ "<foreach collection='products' item='item' open='(' close=')' separator=','>"
+			+ "'${item.getName}'"
+			+ "</foreach> "
+			+ " and "
+			+ "busy_date&gt;=${start} and busy_date&lt;=${end} "
+			+ "</script>")
+	String getTotalSettlePerformance(
+			@Param("start")String start, @Param("end")String end, @Param("products")ArrayList<Product> products);
+	
+	
+	@Insert("insert into updatelog (updatedate) value(#{datatime})")
+	void updatelog(@Param("datatime")String datatime);
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param product
+	 * @param start
+	 * @param end
+	 * @return
+	 *ArrayList<HashMap<String,Object>>
+	 * 创建时间：2019年10月12日
+	 */
+	@Select("<script> "
+			+ "select "
+			+ "left(busy_date,6) as month, "
+			+ "sum(busy_amount * usd_rate)/10000 as amount,"
+			+ "count(busy_amount) as times "
+			+ "from settle_record "
+			+ "where "
+			+ "product_Name ='${product}' "
+			+ " and "
+			+ "busy_date&gt;=${start} and busy_date&lt;=${end} "
+			+ " group by month "
+			+ " order by month desc "
+			+ "</script>")
+	ArrayList<HashMap<String, Object>> getProductMonthPerformance(
+			@Param("product")String product, @Param("start")String start, @Param("end")String end);
 }

@@ -7,7 +7,7 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
     let view = me.getView();
     let startDay = me.getView()["config"]["data"]["start"];
     let endDay = me.getView()["config"]["data"]["end"];
-    let st = me.getView()["config"]["data"]["st"];
+    let st = "allClientPerformanceStore";
     let bindStore = me.getViewModel().getStore(st);
     let grid = Ext.create("Ext.grid.Panel", {
       width: window.innerWidth * 0.8,
@@ -16,6 +16,7 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
       //   plugins: {
       // gridexporter: true
       //   },
+    
       border: 2,
       scrollable: true,
       listeners: {}

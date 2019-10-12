@@ -6,6 +6,7 @@ import com.enixlin.jmrc.service.SettleRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -603,5 +604,51 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 		// TODO Auto-generated method stub
 		ArrayList<Product> products=this.getSettleRangeProduct();
 		return settleRecordMapper.getUnitClientPerformance(unit,start,end,products);
+	}
+
+	@Override
+	public String getLastUpdateDate() {
+		// TODO Auto-generated method stub
+		return settleRecordMapper.getLastUpdateDate();
+	}
+
+	@Override
+	public String getTotalSettlePerformance(String start, String end) {
+		// TODO Auto-generated method stub
+		ArrayList<Product> products=this.getSettleRangeProduct();
+		return settleRecordMapper.getTotalSettlePerformance(start,end,products);
+	}
+
+	@Override
+	public void updatelog(String datatime) {
+		// TODO Auto-generated method stub
+		settleRecordMapper.updatelog(datatime);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.enixlin.jmrc.service.SettleRecordService#getTotalTask(java.lang.String)
+	 */
+	@Override
+	public String getTotalTask(String end) {
+		// TODO Auto-generated method stub
+		 ArrayList<HashMap<String, Object>> tasks_year= settleRecordMapper.getUnitTasks(end.substring(0, 4));
+		 int season=this.getSeason(end);
+		ArrayList<HashMap<String, Object>> tasks_season= settleRecordMapper.getUnitTasks_season(end.substring(0, 4), season);
+		int task_year=0;
+		int task_seaon=0;
+		for(HashMap<String, Object> e : tasks_year) {
+			task_year=task_year+(int)e.get("task_amount");
+		}
+//		for(HashMap<String, Object> e : tasks_season) {
+//			task_seaon=task_seaon+(int)e.get("task_amount");
+//		}
+		return String.valueOf(task_year);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> getProductMonthPerformance(
+			String product, String start, String end) {
+		// TODO Auto-generated method stub
+		return settleRecordMapper.getProductMonthPerformance(product,start,end);
 	}
 }

@@ -269,4 +269,33 @@ public interface SettleRecordService extends BaseService<SettleRecord> {
 	 */
 	public ArrayList<LinkedHashMap<String, Object>> getUnitClientPerformance(
 			Unit unit, String start, String end);
+
+	public String getLastUpdateDate();
+
+	public String getTotalSettlePerformance(String start, String end);
+
+	public void updatelog(String datatime);
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param end
+	 * @return
+	 *String
+	 * 创建时间：2019年10月11日
+	 */
+	public String getTotalTask(String end);
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param product
+	 * @param start
+	 * @param end
+	 * @return
+	 *ArrayList<HashMap<String,Object>>
+	 * 创建时间：2019年10月12日
+	 */
+	public ArrayList<HashMap<String, Object>> getProductMonthPerformance(
+			String product, String start, String end);
 }

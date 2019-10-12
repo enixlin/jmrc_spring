@@ -296,6 +296,8 @@ Ext.define("jmrc.view.performance.chart.BaseBar.BaseBarController", {
       endDay +
       "&uid="+
       unit.code+
+      "&name="+
+      unit.name+
       "&unitType=unit"+
       "&unit=" +
       JSON.stringify(unit);
