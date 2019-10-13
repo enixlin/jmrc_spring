@@ -646,7 +646,7 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 	}
 
 	@Override
-	public ArrayList<HashMap<String, Object>> getProductMonthPerformance(
+	public ArrayList<LinkedHashMap<String, Object>> getProductMonthPerformance(
 			String product, String start, String end) {
 		// TODO Auto-generated method stub
 		return settleRecordMapper.getProductMonthPerformance(product,start,end);

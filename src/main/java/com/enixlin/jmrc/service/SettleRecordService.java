@@ -296,7 +296,7 @@ public interface SettleRecordService extends BaseService<SettleRecord> {
 	 *ArrayList<HashMap<String,Object>>
 	 * 创建时间：2019年10月12日
 	 */
-	public ArrayList<HashMap<String, Object>> getProductMonthPerformance(
+	public ArrayList<LinkedHashMap<String, Object>> getProductMonthPerformance(
 			String product, String start, String end);
 
 	public ArrayList<LinkedHashMap<String, Object>> getProductClientDetail(String product, String start, String end);

@@ -659,7 +659,7 @@ public class SettleRecordController {
 	}
 	
 	@RequestMapping("/getProductMonthPerformance")
-	public ArrayList<HashMap<String, Object>> getProductMonthPerformance(HttpServletRequest req,HttpServletResponse res){
+	public ArrayList<LinkedHashMap<String, Object>> getProductMonthPerformance(HttpServletRequest req,HttpServletResponse res){
 		String product=req.getParameter("product");
 		String start=req.getParameter("start");
 		String end=req.getParameter("end");
@@ -745,6 +745,36 @@ public class SettleRecordController {
 		}
 
 		return ProductDetail;
+	}
+	
+	
+//	exportProductMonthDetailExcel
+	@RequestMapping("/exportProductMonthDetailExcel")
+	public ArrayList<LinkedHashMap<String, Object>> exportProductMonthDetailExcel(HttpServletRequest req,HttpServletResponse res){
+		String product=req.getParameter("product");
+		String start=req.getParameter("start");
+		String end=req.getParameter("end");
+		ArrayList<LinkedHashMap<String, Object>> ProductMonthDetailExcel = this.getProductMonthPerformance(req, res);
+	
+
+		String file = product + "分明统计表-" + start + "-" + end + ".xls";
+		String unit = "单位：万美元,笔";
+		String title = product + "分明统计表";
+		ExcelTool et = new ExcelTool();
+//		et.exportToexcel(allUnitPerformance, file);
+		et.exportToexcel(ProductMonthDetailExcel, file, start, end, unit, title);
+
+		try {
+			et.downloadFileByOutputStream(file, res);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return ProductMonthDetailExcel;
 	}
 	
 }

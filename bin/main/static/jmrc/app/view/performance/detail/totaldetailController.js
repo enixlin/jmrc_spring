@@ -204,6 +204,15 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
             width: 400,
             store: store,
             scrollable: true,
+           	tbar : [  "->", {
+          		xtype : "button",
+          		text : "导出表格",
+          		handler :function(){
+          			let me=this;
+          			let detailType="exportProductMonthDetailExcel";
+          			me.up().up().up().up().controller.exportExcel(product,start,end,detailType);
+          		}
+          	} ],
             columns: [
                 { header: "月份", dataIndex: "month" },
                 { header: "笔数", dataIndex: "times", renderer: function(value) { return Ext.util.Format.number(value, "0,000") } },
@@ -457,7 +466,7 @@ console.log(grid);
                   } },
                   { header: "笔数", dataIndex: "busy_currency"  },
                   { header: "金额", dataIndex: "busy_amount", renderer: function(value) { return Ext.util.Format.number(value, "0,000.00") } },
-                  { header: "金额", dataIndex: "usd_rate", renderer: function(value) { return Ext.util.Format.number(value, "0,000.00") } },
+                  { header: "美元折算率", dataIndex: "usd_rate", renderer: function(value) { return Ext.util.Format.number(value, "0,000.00") } },
               ],
 
           });

@@ -698,7 +698,7 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 			+ " group by month "
 			+ " order by month asc "
 			+ "</script>")
-	ArrayList<HashMap<String, Object>> getProductMonthPerformance(
+	ArrayList<LinkedHashMap<String, Object>> getProductMonthPerformance(
 			@Param("product")String product, @Param("start")String start, @Param("end")String end);
 
 	@Select("<script> "
