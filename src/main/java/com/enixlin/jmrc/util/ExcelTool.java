@@ -99,6 +99,7 @@ public class ExcelTool {
 			nColumnNum++;
 		}
 		// 将数据写入
+		CellStyle cellStyle = wb.createCellStyle(); // 创建单元格样式
 		for (HashMap<String, Object> record : allUnitPerformance) {
 			HSSFRow rowData = sheet.createRow(nRowNum);
 			nColumnNum = 0;
@@ -111,7 +112,7 @@ public class ExcelTool {
 					if (key.contains("金额")) {
 						cell.setCellValue(
 								Double.valueOf(record.get(key).toString()));
-						CellStyle cellStyle = wb.createCellStyle(); // 创建单元格样式
+						
 						cellStyle.setAlignment(HorizontalAlignment.RIGHT); // 设置单元格水平方向对其方式
 						cellStyle
 								.setVerticalAlignment(VerticalAlignment.CENTER); // 设置单元格垂直方向对其方式
@@ -125,7 +126,7 @@ public class ExcelTool {
 					if (key.contains("笔数")) {
 						cell.setCellValue(
 								Double.valueOf(record.get(key).toString()));
-						CellStyle cellStyle = wb.createCellStyle(); // 创建单元格样式
+//						CellStyle cellStyle = wb.createCellStyle(); // 创建单元格样式
 						cellStyle.setAlignment(HorizontalAlignment.RIGHT); // 设置单元格水平方向对其方式
 						cellStyle
 								.setVerticalAlignment(VerticalAlignment.CENTER); // 设置单元格垂直方向对其方式
@@ -139,7 +140,7 @@ public class ExcelTool {
 					if (key.contains("度任务")) {
 						cell.setCellValue(
 								Double.valueOf(record.get(key).toString()));
-						CellStyle cellStyle = wb.createCellStyle(); // 创建单元格样式
+//						CellStyle cellStyle = wb.createCellStyle(); // 创建单元格样式
 						cellStyle.setAlignment(HorizontalAlignment.RIGHT); // 设置单元格水平方向对其方式
 						cellStyle
 								.setVerticalAlignment(VerticalAlignment.CENTER); // 设置单元格垂直方向对其方式
@@ -154,7 +155,7 @@ public class ExcelTool {
 				} else if (key.contains("完成率")) {
 					cell.setCellValue(
 							Double.valueOf(record.get(key).toString()));
-					CellStyle cellStyle = wb.createCellStyle(); // 创建单元格样式
+//					CellStyle cellStyle = wb.createCellStyle(); // 创建单元格样式
 					cellStyle.setAlignment(HorizontalAlignment.RIGHT); // 设置单元格水平方向对其方式
 					cellStyle.setVerticalAlignment(VerticalAlignment.CENTER); // 设置单元格垂直方向对其方式
 					// 添加边框
@@ -176,7 +177,7 @@ public class ExcelTool {
 					cell.setCellStyle(cellStyle); // 设置单元格样式
 					
 				} else {
-					CellStyle cellStyle = wb.createCellStyle(); // 创建单元格样式
+//					CellStyle cellStyle = wb.createCellStyle(); // 创建单元格样式
 					// 添加边框
 					this.setAllBorder(cellStyle);
 					cell.setCellStyle(cellStyle);

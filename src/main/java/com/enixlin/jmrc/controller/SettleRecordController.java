@@ -717,4 +717,34 @@ public class SettleRecordController {
 
 		return ProductClientDetail;
 	}
+	
+//	exportProductDetailExcel
+	@RequestMapping("/exportProductDetailExcel")
+	public ArrayList<LinkedHashMap<String, Object>> exportProductDetailExcel(HttpServletRequest req,HttpServletResponse res){
+		String product=req.getParameter("product");
+		String start=req.getParameter("start");
+		String end=req.getParameter("end");
+		ArrayList<LinkedHashMap<String, Object>> ProductDetail = this.getProductDetail(req, res);
+	
+
+		String file = product + "结算流水记录表-" + start + "-" + end + ".xls";
+		String unit = "单位：万美元,笔";
+		String title = product + "结算流水记录表";
+		ExcelTool et = new ExcelTool();
+//		et.exportToexcel(allUnitPerformance, file);
+		et.exportToexcel(ProductDetail, file, start, end, unit, title);
+
+		try {
+			et.downloadFileByOutputStream(file, res);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return ProductDetail;
+	}
+	
 }
