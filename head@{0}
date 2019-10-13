@@ -1,0 +1,39 @@
+[33m54ba1dd[m[33m ([m[1;36mHEAD -> [m[1;32morigin-master[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{0}: reset: moving to head@{0}
+[33m54ba1dd[m[33m ([m[1;36mHEAD -> [m[1;32morigin-master[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{1}: 54ba1dd08267edf88d73c993d3f581cd343415db: updating HEAD
+[33mf07390f[m HEAD@{2}: checkout: moving from f07390f9d4c40523a4bfa692c80fe3393143bbf9 to origin-master
+[33mf07390f[m HEAD@{3}: checkout: moving from master to origin/master
+[33m54ba1dd[m[33m ([m[1;36mHEAD -> [m[1;32morigin-master[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{4}: checkout: moving from 54ba1dd08267edf88d73c993d3f581cd343415db to master
+[33m54ba1dd[m[33m ([m[1;36mHEAD -> [m[1;32morigin-master[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{5}: 54ba1dd08267edf88d73c993d3f581cd343415db: updating HEAD
+[33mf07390f[m HEAD@{6}: f07390f9d4c40523a4bfa692c80fe3393143bbf9: updating HEAD
+[33me5b9408[m HEAD@{7}: e5b9408e834ffb14b6d0c60cf5325327040ac6c8: updating HEAD
+[33mf07390f[m HEAD@{8}: checkout: moving from 54ba1dd08267edf88d73c993d3f581cd343415db to origin/master
+[33m54ba1dd[m[33m ([m[1;36mHEAD -> [m[1;32morigin-master[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{9}: 54ba1dd08267edf88d73c993d3f581cd343415db: updating HEAD
+[33mf07390f[m HEAD@{10}: checkout: moving from master to origin/master
+[33m54ba1dd[m[33m ([m[1;36mHEAD -> [m[1;32morigin-master[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{11}: checkout: moving from 54ba1dd08267edf88d73c993d3f581cd343415db to master
+[33m54ba1dd[m[33m ([m[1;36mHEAD -> [m[1;32morigin-master[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{12}: 54ba1dd08267edf88d73c993d3f581cd343415db: updating HEAD
+[33mf07390f[m HEAD@{13}: checkout: moving from 54ba1dd08267edf88d73c993d3f581cd343415db to origin/master
+[33m54ba1dd[m[33m ([m[1;36mHEAD -> [m[1;32morigin-master[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{14}: 54ba1dd08267edf88d73c993d3f581cd343415db: updating HEAD
+[33mf07390f[m HEAD@{15}: checkout: moving from master to origin/master
+[33m54ba1dd[m[33m ([m[1;36mHEAD -> [m[1;32morigin-master[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{16}: 54ba1dd08267edf88d73c993d3f581cd343415db: updating HEAD
+[33mf07390f[m HEAD@{17}: checkout: moving from origin-master to master
+[33m54ba1dd[m[33m ([m[1;36mHEAD -> [m[1;32morigin-master[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{18}: 54ba1dd08267edf88d73c993d3f581cd343415db: updating HEAD
+[33mf07390f[m HEAD@{19}: rebase finished: returning to refs/heads/origin-master
+[33mf07390f[m HEAD@{20}: checkout: moving from origin-master to f07390f9d4c40523a4bfa692c80fe3393143bbf9
+[33m54ba1dd[m[33m ([m[1;36mHEAD -> [m[1;32morigin-master[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{21}: checkout: moving from f07390f9d4c40523a4bfa692c80fe3393143bbf9 to origin-master
+[33mf07390f[m HEAD@{22}: checkout: moving from origin-master to origin/master
+[33m54ba1dd[m[33m ([m[1;36mHEAD -> [m[1;32morigin-master[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{23}: 54ba1dd08267edf88d73c993d3f581cd343415db: updating HEAD
+[33mf07390f[m HEAD@{24}: checkout: moving from f07390f9d4c40523a4bfa692c80fe3393143bbf9 to origin-master
+[33mf07390f[m HEAD@{25}: checkout: moving from master to origin/master
+[33mf07390f[m HEAD@{26}: pull origin master: Fast-forward
+[33me5b9408[m HEAD@{27}: pull origin master: Fast-forward
+[33m0d3b4fd[m HEAD@{28}: commit: totaldetail add unit adnd client analyis button
+[33m20dbbe8[m HEAD@{29}: commit: add totalproductperformace
+[33me6d8bdd[m HEAD@{30}: pull origin master: Fast-forward
+[33m8fc1683[m HEAD@{31}: commit: refactory totalsettle
+[33m4351cbb[m HEAD@{32}: commit: add unitclientlist
+[33m001f89f[m HEAD@{33}: commit: commit from intellij
+[33m2db60cb[m HEAD@{34}: commit: unitclient
+[33meadd556[m HEAD@{35}: pull origin master: Fast-forward
+[33m396ed27[m HEAD@{36}: commit: add gradle repository aliyun
+[33mbc0d47d[m HEAD@{37}: pull origin master: Fast-forward
+[33m17c4cbd[m HEAD@{38}: clone: from https://github.com/enixlin/jmrc_spring.git
