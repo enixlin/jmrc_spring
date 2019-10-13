@@ -696,8 +696,49 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 			+ " and "
 			+ "busy_date&gt;=${start} and busy_date&lt;=${end} "
 			+ " group by month "
-			+ " order by month desc "
+			+ " order by month asc "
 			+ "</script>")
 	ArrayList<HashMap<String, Object>> getProductMonthPerformance(
 			@Param("product")String product, @Param("start")String start, @Param("end")String end);
+
+	@Select("<script> "
+			+ "select "
+			+ "cust_number as clientId, "
+			+ "cust_name as clientName, "
+			+ "sum(busy_amount * usd_rate)/10000 as amount,"
+			+ "count(busy_amount) as times "
+			+ "from settle_record "
+			+ "where "
+			+ "product_Name ='${product}' "
+			+ " and "
+			+ "busy_date&gt;=${start} and busy_date&lt;=${end} "
+			+ " group by clientId "
+			+ " order by amount asc "
+			+ "</script>")
+	ArrayList<LinkedHashMap<String, Object>> getProductClientDetail(@Param("product")String product, @Param("start")String start, @Param("end")String end);
+
+	
+	
+
+	
+	
+	@Select("<script> "
+			+ "select "
+			+ "belong_branch_code as belong_branch_number,"
+			+ "belong_branch_name,"
+			+ "cust_number , "
+			+ "cust_name , "
+			+ "product_name , "
+			+ "busy_date , "
+			+ "busy_currency,"
+			+ "busy_amount,"
+			+ "usd_rate "
+			+ "from settle_record "
+			+ "where "
+			+ "product_Name ='${product}' "
+			+ " and "
+			+ "busy_date&gt;=${start} and busy_date&lt;=${end} "
+			+ " order by busy_date asc "
+			+ "</script>")
+	ArrayList<LinkedHashMap<String, Object>> getProductDetail(@Param("product")String product, @Param("start")String start, @Param("end")String end);
 }

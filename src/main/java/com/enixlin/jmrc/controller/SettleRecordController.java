@@ -665,4 +665,56 @@ public class SettleRecordController {
 		String end=req.getParameter("end");
 		return srs.getProductMonthPerformance(product,start,end);
 	}
+	
+//	getProductClientDetail
+	@RequestMapping("/getProductClientDetail")
+	public ArrayList<LinkedHashMap<String, Object>> getProductClientDetail(HttpServletRequest req,HttpServletResponse res){
+		String product=req.getParameter("product");
+		String start=req.getParameter("start");
+		String end=req.getParameter("end");
+		return srs.getProductClientDetail(product,start,end);
+	}
+	
+	
+//	getProductDetail
+	
+	@RequestMapping("/getProductDetail")
+	public ArrayList<LinkedHashMap<String, Object>> getProductDetail(HttpServletRequest req,HttpServletResponse res){
+		String product=req.getParameter("product");
+		String start=req.getParameter("start");
+		String end=req.getParameter("end");
+		return srs.getProductDetail(product,start,end);
+	}
+	
+	
+	
+	
+//	exportProductClientDetailExcel
+	@RequestMapping("/exportProductClientDetailExcel")
+	public ArrayList<LinkedHashMap<String, Object>> exportProductClientDetailExcel(HttpServletRequest req,HttpServletResponse res){
+		String product=req.getParameter("product");
+		String start=req.getParameter("start");
+		String end=req.getParameter("end");
+		ArrayList<LinkedHashMap<String, Object>> ProductClientDetail = this.getProductClientDetail(req, res);
+	
+
+		String file = product + "客户结算统计表-" + start + "-" + end + ".xls";
+		String unit = "单位：万美元,笔";
+		String title = product + "客户结算统计表";
+		ExcelTool et = new ExcelTool();
+//		et.exportToexcel(allUnitPerformance, file);
+		et.exportToexcel(ProductClientDetail, file, start, end, unit, title);
+
+		try {
+			et.downloadFileByOutputStream(file, res);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return ProductClientDetail;
+	}
 }

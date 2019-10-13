@@ -298,4 +298,10 @@ public interface SettleRecordService extends BaseService<SettleRecord> {
 	 */
 	public ArrayList<HashMap<String, Object>> getProductMonthPerformance(
 			String product, String start, String end);
+
+	public ArrayList<LinkedHashMap<String, Object>> getProductClientDetail(String product, String start, String end);
+
+	public ArrayList<HashMap<String, Object>> exportProductClientDetailExcel(String product, String start, String end);
+
+	public ArrayList<LinkedHashMap<String, Object>> getProductDetail(String product, String start, String end);
 }

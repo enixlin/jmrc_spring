@@ -651,4 +651,22 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 		// TODO Auto-generated method stub
 		return settleRecordMapper.getProductMonthPerformance(product,start,end);
 	}
+
+	@Override
+	public ArrayList<LinkedHashMap<String, Object>> getProductClientDetail(String product, String start, String end) {
+		
+		return settleRecordMapper.getProductClientDetail(product,start,end);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> exportProductClientDetailExcel(String product, String start, String end) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<LinkedHashMap<String, Object>> getProductDetail(String product, String start, String end) {
+		// TODO Auto-generated method stub
+		return settleRecordMapper.getProductDetail(product,start,end);
+	}
 }
