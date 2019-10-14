@@ -127,7 +127,7 @@ Ext.define("jmrc.view.performance.chart.BaseBar.BaseBarController", {
       height: window.innerHeight * 0.4,
       margin: 20,
       border: 2,
-      tbar: [
+      tbar: ["->",
         {
           text: "保存表格",
           platformConfig: {
@@ -180,32 +180,8 @@ Ext.define("jmrc.view.performance.chart.BaseBar.BaseBarController", {
         }
       }
     }
-    // 为表格的columns数组添加操作列
-    cos.push({
-      width: 40,
-      xtype: "actioncolumn",
-      align: "center",
-      items: [
-        {
-          iconCls: "x-fa fa-pie-chart",
-          tooltip: "产品明细",
-          text: " 1"
-        }
-      ]
-    });
-    // 为表格的columns数组添加操作列
-    cos.push({
-      width: 40,
-      xtype: "actioncolumn",
-      align: "center",
-      items: [
-        {
-          iconCls: "x-fa fa-list",
-          tooltip: "业务流水"
-          // text: " 1"
-        }
-      ]
-    });
+
+
     grid.setColumns(cos);
     grid.bindStore(bindStore);
     view.add(grid);

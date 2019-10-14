@@ -14,10 +14,10 @@ Ext.define('jmrc.view.performance.detail.totaldetailModel', {
             }
         },
 
-        getSettleTypeProformanceByDate: {
-            fields: ["name", "performance", "times"],
+        getAllProductDetail: {
+            fields: ["product_name", "amount", "times","amount_pre","times_pre"],
             proxy: {
-                url: "/settlerecord/getSettleTypeProformanceByDate",
+                url: "/settlerecord/getAllProductDetail",
                 type: "ajax"
             }
         }

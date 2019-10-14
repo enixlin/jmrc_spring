@@ -686,6 +686,19 @@ public class SettleRecordController {
 		return srs.getProductDetail(product,start,end);
 	}
 	
+	/**
+	 * 生成指定时间段内所有结算产品的业务量统计,
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("/getAllProductDetail")
+	public ArrayList<LinkedHashMap<String, Object>> getAllProductDetail(HttpServletRequest req,HttpServletResponse res){
+		String product=req.getParameter("product");
+		String start=req.getParameter("start");
+		String end=req.getParameter("end");
+		return srs.getAllProductDetail(start,end);
+	}
 	
 	
 	
@@ -755,15 +768,12 @@ public class SettleRecordController {
 		String start=req.getParameter("start");
 		String end=req.getParameter("end");
 		ArrayList<LinkedHashMap<String, Object>> ProductMonthDetailExcel = this.getProductMonthPerformance(req, res);
-	
-
 		String file = product + "分明统计表-" + start + "-" + end + ".xls";
 		String unit = "单位：万美元,笔";
 		String title = product + "分明统计表";
 		ExcelTool et = new ExcelTool();
 //		et.exportToexcel(allUnitPerformance, file);
 		et.exportToexcel(ProductMonthDetailExcel, file, start, end, unit, title);
-
 		try {
 			et.downloadFileByOutputStream(file, res);
 		} catch (FileNotFoundException e) {
@@ -773,8 +783,48 @@ public class SettleRecordController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		return ProductMonthDetailExcel;
 	}
+	
+//	exportAllProductDetailExcel
+	@RequestMapping("/exportAllProductDetailExcel")
+	public ArrayList<LinkedHashMap<String, Object>> exportAllProductDetailExcel(HttpServletRequest req,HttpServletResponse res){
+		
+		String start=req.getParameter("start");
+		String end=req.getParameter("end");
+		ArrayList<LinkedHashMap<String, Object>> ProductDetailExcel = this.getAllProductDetail(req, res);
+		String file =  "国际结算产品分类统计表-" + start + "-" + end + ".xls";
+		String unit = "单位：万美元,笔";
+		String title =  "国际结算产品分类统计表";
+		ExcelTool et = new ExcelTool();
+//		et.exportToexcel(allUnitPerformance, file);
+		et.exportToexcel(ProductDetailExcel, file, start, end, unit, title);
+		try {
+			et.downloadFileByOutputStream(file, res);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ProductDetailExcel;
+	}
+	
+//	getClientProductPerformance
+	@RequestMapping("/getClientProductPerformance")
+	public ArrayList<LinkedHashMap<String, Object>> getClientProductPerformance(HttpServletRequest req,
+			HttpServletResponse res) {
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+		ArrayList<Product> products = srs.getSettleRangeProduct();
+		String unitType = req.getParameter("unitType");
+		Unit unit = new Unit();
+		unit.setId(req.getParameter("uid"));
+		unit.setType(unitType);
+		return srs.getClientProductPerformance(unit, start, end);
+
+	}
+	
 	
 }
