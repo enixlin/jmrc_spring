@@ -289,7 +289,7 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
 	                yAxis: "金额",
 	                //柱状图的类型：分产品柱状图，分时柱状图
 	                pieChartType: "productPieChart",
-	                exportUrl: "/settlerecord/exportProductPieChart",
+	                exportUrl: "/settlerecord/exportClientProductPerformance",
 	                //柱状图显示的数据对象：全行、经营单位、客户、产品
 	                //对象的结构如下
 	                unit: { name: unit.name, code: unit.id, unitType: "client" },
