@@ -333,11 +333,13 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
     @Override
     public ArrayList<IndexPerformance> getSettleTypeProformanceByDate(
             String start, String end) {
-        // TODO Auto-generated method stub
-        // ArrayList<Product>
-        // products=settleRecordMapper.getSettleRangeProduct();
-        // return
-        // settleRecordMapper.getSettleTypeProformanceByDate(start,end,products);
+//        String year_s=start.substring(0, 4);
+//        String year_e=end.substring(0,4);
+//        String monthday_s=start.substring(4,8);
+//        String monthday_e=start.substring(4,8);
+//        ArrayList<IndexPerformance> performance=this.getAllBusySettleTypeProformance(start, end);
+//        ArrayList<IndexPerformance> performance_pre=this.getAllBusySettleTypeProformance(start, end);
+        
         return this.getAllBusySettleTypeProformance(start, end);
     }
 
