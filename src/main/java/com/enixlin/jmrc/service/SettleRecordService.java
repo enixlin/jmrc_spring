@@ -304,4 +304,10 @@ public interface SettleRecordService extends BaseService<SettleRecord> {
 	public ArrayList<HashMap<String, Object>> exportProductClientDetailExcel(String product, String start, String end);
 
 	public ArrayList<LinkedHashMap<String, Object>> getProductDetail(String product, String start, String end);
+
+	ArrayList<LinkedHashMap<String, Object>> getAllProductDetail(String start, String end);
+
+	public ArrayList<LinkedHashMap<String, Object>> getClientProductPerformance(Unit unit, String start, String end);
+
+	
 }

@@ -26,6 +26,28 @@ Ext.define('jmrc.view.performance.chart.BasePie.BasePieModel', {
 				type : "ajax",
 
 			},
+        },
+        ClientProductPerformanceStore:{
+            fields : [ {
+				name : '产品',
+				type : 'string',
+				mapping : "product_name",
+			}, {
+				name : '业务笔数',
+				type : 'number',
+				mapping : "times",
+			}, {
+				name : '金额',
+				type : 'number',
+				mapping : "amount",
+			}, ],
+			// autoLoad : true,
+			proxy : {
+				url : "/settlerecord/getClientProductPerformance",
+				type : "ajax",
+
+			},
+        	
         }
     },
 

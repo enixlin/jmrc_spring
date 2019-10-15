@@ -671,4 +671,45 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 		// TODO Auto-generated method stub
 		return settleRecordMapper.getProductDetail(product,start,end);
 	}
+
+	@Override
+	public ArrayList<LinkedHashMap<String, Object>> getAllProductDetail(String start, String end) {
+		
+		ArrayList<Product> products=this.getSettleRangeProduct();
+
+		String pre_start=this.compareDate(start);
+		String pre_end=this.compareDate(end);
+		
+		ArrayList<LinkedHashMap<String, Object>> productPerformance_pre=settleRecordMapper.getAllProductDetail(products, pre_start, pre_end);
+		ArrayList<LinkedHashMap<String, Object>> productPerformance_current=settleRecordMapper.getAllProductDetail(products, start, end);
+		ArrayList<LinkedHashMap<String, Object>> productPerformance=new ArrayList<>();
+		
+		for(LinkedHashMap<String, Object> element :productPerformance_current) {
+			for(LinkedHashMap<String, Object> element_p :productPerformance_pre) {
+				if(element.get("product_name").equals(element_p.get("product_name"))) {
+					BigDecimal amount=(BigDecimal) element.get("amount");
+					BigDecimal amount_pre=(BigDecimal) element_p.get("amount");
+					
+//					BigDecimal times=(BigDecimal) element.get("times");
+//					BigDecimal times_pre=(BigDecimal) element_p.get("times");
+					
+					
+					
+					
+					element.put("amount_pre", amount.subtract(amount_pre));
+					element.put("times_pre",(long)element.get("times")-(long)element_p.get("times"));
+					productPerformance.add(element);
+				}
+			}
+		}
+		
+		return productPerformance;
+	}
+
+	@Override
+	public ArrayList<LinkedHashMap<String, Object>> getClientProductPerformance(Unit unit, String start, String end) {
+		// TODO Auto-generated method stub
+		ArrayList<Product> products=this.getSettleRangeProduct();
+		return settleRecordMapper.getClientProductPerformance(unit,start,end,products);
+	}
 }

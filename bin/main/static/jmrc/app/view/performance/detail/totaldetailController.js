@@ -78,22 +78,53 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
             // bind: { store: "{getSettleTypeProformanceByDate}" },
             tbar: ["->", {
                 text: "导出表格",
-                xtype: "button"
+                xtype: "button",
+                handler:function(){
+                	let me=this;
+          			let detailType="exportAllProductDetailExcel";
+          			let product="";
+          			me.up().up().up().up().controller.exportExcel(product,data.start,data.end,detailType);
+                }
+                
             }],
             columns: [{
-                    header: "产品名称",
-                    dataIndex: "name",
-                    width: 200
+                    header: "产品<br>名称",
+                    dataIndex: "product_name",
+                    width: 150
                 }, {
-                    header: "业务笔数",
+                    header: "笔数",
                     dataIndex: "times",
-                    columnWidth: 0.2
+                    width: 50
                 }, {
-                    header: "业务金额",
-                    dataIndex: "performance",
-                    columnWidth: 0.2,
+                    header: "金额",
+                    dataIndex: "amount",
+                    width: 100,
                     renderer: function(value) {
                         return Ext.util.Format.number(value, "0,000.00");
+                    }
+                }, {
+                    header: "笔数<br>同比",
+                    dataIndex: "times_pre",
+                    width: 50,
+                    renderer: function(value) {
+                    	if(value<0){
+                    		return "<font color='red'>"+Ext.util.Format.number(value, "0,000")+"</font>";
+                    	}else{
+                    		return "<font color='green'>"+Ext.util.Format.number(value, "0,000")+"</font>";
+                    	}
+                        
+                    }
+                }, {
+                    header: "金额<br>同比",
+                    dataIndex: "amount_pre",
+                    width: 100,
+                    renderer: function(value) {
+                    	if(value<0){
+                    		return "<font color='red'>"+Ext.util.Format.number(value, "0,000.00")+"</font>";
+                    	}else{
+                    		return "<font color='green'>"+Ext.util.Format.number(value, "0,000.00")+"</font>";
+                    	}
+                        
                     }
                 },
                 {
@@ -107,7 +138,7 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
                         handler: function(view, rowIndex, colIndex, item, e, record) {
                             let start = view.up().up().up().config.data.start;
                             let end = view.up().up().up().config.data.end;
-                            let product = record.data.name;
+                            let product = record.data.product_name;
                             view
                                 .up()
                                 .up()
@@ -126,7 +157,7 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
                         handler: function(view, rowIndex, colIndex, item, e, record) {
                             let start = view.up().up().up().config.data.start;
                             let end = view.up().up().up().config.data.end;
-                            let product = record.data.name;
+                            let product = record.data.product_name;
                             view
                                 .up()
                                 .up()
@@ -147,7 +178,7 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
                         handler: function(view, rowIndex, colIndex, item, e, record) {
                             let start = view.up().up().up().config.data.start;
                             let end = view.up().up().up().config.data.end;
-                            let product = record.data.name;
+                            let product = record.data.product_name;
                             view
                                 .up()
                                 .up()
@@ -164,7 +195,7 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
             ],
         });
         productGrid.bindStore(scope.getViewModel().getStore(
-            "getSettleTypeProformanceByDate"));
+            "getAllProductDetail"));
         console.log(productGrid.getStore());
         productGrid.getStore().load({
             params: {
@@ -464,7 +495,7 @@ console.log(grid);
                   { header: "业务日期", dataIndex: "busy_date" ,filter:{
                     type: "string"
                   } },
-                  { header: "笔数", dataIndex: "busy_currency"  },
+                  { header: "币种", dataIndex: "busy_currency"  },
                   { header: "金额", dataIndex: "busy_amount", renderer: function(value) { return Ext.util.Format.number(value, "0,000.00") } },
                   { header: "美元折算率", dataIndex: "usd_rate", renderer: function(value) { return Ext.util.Format.number(value, "0,000.00") } },
               ],

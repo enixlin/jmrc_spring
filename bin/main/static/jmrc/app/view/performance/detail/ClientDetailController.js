@@ -216,7 +216,21 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
             {
               iconCls: "x-fa fa-pie-chart",
               tooltip: "产品明细",
-              text: " 1"
+              text: " 1",
+              handler: function(view, rowIndex, colIndex, item, e, record) {
+                  let unit = {
+                    name: record.data.custName,
+                    id: record.data.custCode
+                  };
+                  let start = view.up().up()["config"]["data"]["start"];
+                  let end = view.up().up()["config"]["data"]["end"];
+                  console.log(
+                    view
+                      .up()
+                      .up()
+                      .controller.showClientProductPieChart(unit, start, end)
+                  );
+                }
             }
           ]
         });
@@ -240,6 +254,53 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
       }
     });
   },
+  
+  
+	  showClientProductPieChart: function(unit, start, end) {
+	        let me = this;
+	        let view = me.getView();
+
+	        let win = Ext.create("Ext.window.Window", {
+	            width: window.innerWidth * 0.8,
+	            height: window.innerHeight * 0.7,
+
+	        });
+	        //测试的产品分类明细
+	        let chart = {
+	            xtype: "basepie",
+	            width: window.innerWidth * 0.8,
+
+	            scrollable: true,
+	            data: {
+	                st: "ClientProductPerformanceStore",
+	                //图表布局
+	                layout: "hbox",
+	                //图表的宽度
+	                width: window.innerWidth * 0.4,
+	                //图表的高度
+	                height: window.innerHeight * 0.4,
+	                //图表的标题
+	                title: "产品业务量表\r\n \t\t\t（单位：万美元）",
+	                xtitle: "产品",
+	                ytitle: "国际结算产品业务量",
+	                //横轴绑定的字段
+	                xAxis: "产品",
+	                //竖轴绑定的字段
+	                yAxis: "金额",
+	                //柱状图的类型：分产品柱状图，分时柱状图
+	                pieChartType: "productPieChart",
+	                exportUrl: "/settlerecord/exportClientProductPerformance",
+	                //柱状图显示的数据对象：全行、经营单位、客户、产品
+	                //对象的结构如下
+	                unit: { name: unit.name, code: unit.id, unitType: "client" },
+	                start: start,
+	                end: end
+	            }
+	        };
+	        win.add(chart);
+	        view.add(win);
+	        win.show();
+	    },
 
   // 导出表格
   exportExcel: function() {

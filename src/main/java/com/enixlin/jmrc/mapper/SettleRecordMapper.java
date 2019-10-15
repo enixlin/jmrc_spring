@@ -741,4 +741,41 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 			+ " order by busy_date asc "
 			+ "</script>")
 	ArrayList<LinkedHashMap<String, Object>> getProductDetail(@Param("product")String product, @Param("start")String start, @Param("end")String end);
+
+	@Select("<script> "
+			+ "select "
+			+ "product_name , "
+			+ "sum(busy_amount * usd_rate)/10000 as amount,"
+			+ "count(busy_amount) as times "
+			+ "from settle_record "
+			+ "where "
+			+ "product_Name in "
+			+ "<foreach collection='products' item='item' open='(' close=')' separator=','>"
+			+ "'${item.getName}'"
+			+ "</foreach> "
+			+ " and "
+			+ "busy_date&gt;=${start} and busy_date&lt;=${end} "
+			+ " group by product_name  "
+			+ "order by amount desc"
+			+ "</script>")
+	ArrayList<LinkedHashMap<String, Object>> getAllProductDetail(@Param("products")ArrayList<Product> products, @Param("start")String start, @Param("end")String end);
+	
+	@Select("<script>"
+			+ "select "
+			+ "product_name ,"
+			+ "sum(busy_amount * usd_rate)/10000 as amount,"
+			+ "count(busy_amount) as times "
+			+ "from settle_record "
+			+ "where "
+			+ "product_Name in "
+			+ "<foreach collection='products' item='item' open='(' close=')' separator=','>"
+			+ "'${item.getName}'"
+			+ "</foreach> "
+			+ " and "
+			+ "busy_date&gt;=${start} and busy_date&lt;=${end} "
+			+ " and "
+			+ "cust_number=${unit.getId}"
+			+ " group by product_name "
+			+ "</script>")
+	ArrayList<LinkedHashMap<String, Object>> getClientProductPerformance(@Param("unit")Unit unit,@Param("start") String start, @Param("end")String end,@Param("products")ArrayList<Product> products);
 }
