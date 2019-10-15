@@ -25,11 +25,12 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
     },
 
     /**
-     * 生成全行业务总览
-     */
+	 * 生成全行业务总览
+	 */
     makeTotalReport: function(scope, view, data) {
         let summypanel = Ext.create("Ext.panel.Panel", {
-            width: window.innerWidth * 0.6,
+            width: window.innerWidth * 0.7,
+            height: window.innerHeight * .6,
             // renderTo: Ext.getBody(),
             layout: {
                 type: "table",
@@ -71,7 +72,7 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
             xtype: "grid",
             layout: "form",
             border: 2,
-            width: window.innerWidth * 0.32,
+            width: window.innerWidth * 0.4,
             height: window.innerHeight * .5,
             margin: 5,
             scrollable: true,
@@ -253,7 +254,7 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
         });
 
 
-        //插入柱状图的框架
+        // 插入柱状图的框架
         win.add({
             xtype: "cartesian",
             width: window.innerWidth * 0.4,
@@ -295,7 +296,7 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
                     fontSize: 15
                 },
                 fields: "amount",
-                //margin:"60 5 5 5 ",
+                // margin:"60 5 5 5 ",
                 minimum: 0
             },
             {
@@ -357,7 +358,7 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
         let me = this;
         let view = me.getView();
         let win = Ext.create("Ext.window.Window", {
-            width: window.innerWidth * .4,
+            width: window.innerWidth * .7,
             height: window.innerHeight * .66,
             title:product+"业务量统计表,单位:万美元,统计时间("+start+"-"+end+")",
             scrollable: true,
@@ -369,7 +370,7 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
         });
         let store = Ext.create("Ext.data.Store", {
 
-            fields: ["clientId", "times", "amount", "clientName"],
+            fields: ["clientId", "times", "amount", "clientName","amount_compare","times_compare"],
             proxy: {
                 url: "/settlerecord/getProductClientDetail",
                 type: "ajax",
@@ -377,7 +378,7 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
         });
 
         let grid = Ext.create("Ext.grid.Panel", {
-        	 width: window.innerWidth * .35,
+        	 width: window.innerWidth * .6,
              height: window.innerHeight * .6,
              plugins: "gridfilters",
          	tbar : [ {
@@ -408,6 +409,26 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
                 } },
                 { header: "笔数", dataIndex: "times", renderer: function(value) { return Ext.util.Format.number(value, "0,000") } },
                 { header: "金额", dataIndex: "amount", renderer: function(value) { return Ext.util.Format.number(value, "0,000.00") } },
+                { header: "笔数<br>同比", dataIndex: "times_compare", renderer: function(value) { 
+                   	if(value<0){
+                		return "<font color='red'>"+Ext.util.Format.number(value, "0,000")+"</font>";
+                	}else{
+                		return "<font color='green'>"+Ext.util.Format.number(value, "0,000")+"</font>";
+                	}
+                	
+                } },
+                { header: "金额<br>同比", dataIndex: "amount_compare", renderer: function(value) {
+                	
+                	
+                   	if(value<0){
+                		return "<font color='red'>"+Ext.util.Format.number(value, "0,000.00")+"</font>";
+                	}else{
+                		return "<font color='green'>"+Ext.util.Format.number(value, "0,000.00")+"</font>";
+                	}
+                	
+                
+                
+                } },
             ],
 
         });
@@ -423,8 +444,8 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
     },
     
     /**
-     *生成单项业务产品的流水 
-     */
+	 * 生成单项业务产品的流水
+	 */
     getProductDetail: function(product,start, end) {
     	  let me = this;
           let view = me.getView();
