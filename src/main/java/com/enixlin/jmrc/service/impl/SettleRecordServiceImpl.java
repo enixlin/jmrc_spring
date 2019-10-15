@@ -1,19 +1,26 @@
 package com.enixlin.jmrc.service.impl;
 
-import com.enixlin.jmrc.entity.*;
-import com.enixlin.jmrc.mapper.SettleRecordMapper;
-import com.enixlin.jmrc.service.SettleRecordService;
-
-import org.hsqldb.lib.HashMappedList;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+
+import com.enixlin.jmrc.entity.IndexPerformance;
+import com.enixlin.jmrc.entity.MonthPerformace;
+import com.enixlin.jmrc.entity.Product;
+import com.enixlin.jmrc.entity.SettleRange;
+import com.enixlin.jmrc.entity.SettleRecord;
+import com.enixlin.jmrc.entity.Unit;
+import com.enixlin.jmrc.entity.UnitPerformance;
+import com.enixlin.jmrc.mapper.SettleRecordMapper;
+import com.enixlin.jmrc.service.SettleRecordService;
 
 @Service
 public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
@@ -724,7 +731,7 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 			}
 			if (exist == 0) {
 				LinkedHashMap<String, Object> new_element = new LinkedHashMap<>();
-				//注意插入的字段要按顺序，否则会影响Excel文件的列顺序
+				// 注意插入的字段要按顺序，否则会影响Excel文件的列顺序
 				new_element.put("clientId", element_pre.get("clientId"));
 				new_element.put("clientName", element_pre.get("clientName"));
 				new_element.put("amount", new BigDecimal(0));
@@ -740,11 +747,13 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 			BigDecimal amount = (BigDecimal) element_current.get("amount");
 			BigDecimal amount_pre = (BigDecimal) element_current
 					.get("amount_pre");
-			long times=Long.parseLong(element_current.get("times").toString());
-			long times_pre=Long.parseLong(element_current.get("times_pre").toString());
+			long times = Long
+					.parseLong(element_current.get("times").toString());
+			long times_pre = Long
+					.parseLong(element_current.get("times_pre").toString());
 
 			element_current.put("amount_compare", amount.subtract(amount_pre));
-			element_current.put("times_compare",times-times_pre);
+			element_current.put("times_compare", times - times_pre);
 		}
 		return detail_current;
 	}
@@ -792,7 +801,7 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 					element.put("amount_pre", amount.subtract(amount_pre));
 					element.put("times_pre", (long) element.get("times")
 							- (long) element_p.get("times"));
-					productPerformance.add(element);
+					productPerformance.add(element);	
 				}
 			}
 		}
@@ -808,4 +817,6 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 		return settleRecordMapper.getClientProductPerformance(unit, start, end,
 				products);
 	}
+
+
 }
