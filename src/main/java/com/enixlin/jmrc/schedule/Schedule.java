@@ -35,7 +35,7 @@ public class Schedule  implements SchedulingAwareRunnable{
 		// TODO Auto-generated constructor stub
 	}
 	
-	@Scheduled(fixedRate = 3000)
+	//@Scheduled(fixedRate = 3000)
 	public String TestSchedule() {
 		String result="当前时间：" + dateFormat.format(new Date());
 		System.out.println(result);

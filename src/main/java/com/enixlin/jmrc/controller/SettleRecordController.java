@@ -125,6 +125,10 @@ public class SettleRecordController {
 	public void fixedSettleRecord() {
 		srs.fixedSettleRecord();
 	}
+	
+	public Date getAfterDays(Date start,int afterdays) {
+		return new Date(start.getTime()+afterdays*24*60*60*1000);
+	}
 
 	// 执行定时任务，每十分钟检查一次数据更新的日期与当前日期，如果当前日期先于数据库的日期，则执行更新
 	// 更新的频率为每十分钟
@@ -132,12 +136,21 @@ public class SettleRecordController {
 	public   void updateProcess() {
 		Date date = new Date();
 		SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat ft_s = new SimpleDateFormat("yyyyMMddhhmmss");
 		SimpleDateFormat ft_LastLogDate = new SimpleDateFormat("yyyy-MM-dd");
 		String lastLogDate = this.getLastUpdateDate();
 		try {
-			Date lastDay=ft_LastLogDate.parse(lastLogDate);
-			if(date.after(lastDay)) {
-				System.out.println("数据日期比较旧");
+			Date logDate=ft_s.parse(lastLogDate);
+			Date lastBusyDate=this.getLastBusyDate();
+			System.out.println(ft_s.format(lastBusyDate));
+			
+			if(date.after(logDate)) {
+				this.updatelog(ft_s.format(date));
+				System.out.println("数据库日期比较旧");
+				System.out.println("数据库日期:"+ft_s.format(logDate));
+			
+				//
+			
 			}else {
 				System.out.println("数据日期比较新");
 				
@@ -707,7 +720,11 @@ public class SettleRecordController {
 	public String getLastUpdateDate() {
 		return srs.getLastUpdateDate();
 	}
+	
 
+	public Date getLastBusyDate() {
+		return srs.getLastBusyDate();
+	}
 	// getTotalSettlePerformance
 
 	@RequestMapping("/getTotalSettlePerformance")

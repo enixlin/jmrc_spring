@@ -3,6 +3,7 @@ package com.enixlin.jmrc.service.impl;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -816,6 +817,12 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 		ArrayList<Product> products = this.getSettleRangeProduct();
 		return settleRecordMapper.getClientProductPerformance(unit, start, end,
 				products);
+	}
+
+	@Override
+	public Date getLastBusyDate() {
+		// TODO Auto-generated method stub
+		return settleRecordMapper.getLastBusyDate();
 	}
 
 

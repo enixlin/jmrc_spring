@@ -1,6 +1,7 @@
 package com.enixlin.jmrc.mapper;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -778,4 +779,7 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 			+ " group by product_name "
 			+ "</script>")
 	ArrayList<LinkedHashMap<String, Object>> getClientProductPerformance(@Param("unit")Unit unit,@Param("start") String start, @Param("end")String end,@Param("products")ArrayList<Product> products);
+
+	@Select("select busy_date from settle_record order by busy_date desc limit 1")
+	Date getLastBusyDate();
 }

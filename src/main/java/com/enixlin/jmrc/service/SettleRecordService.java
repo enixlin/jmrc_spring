@@ -1,6 +1,7 @@
 package com.enixlin.jmrc.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -308,6 +309,8 @@ public interface SettleRecordService extends BaseService<SettleRecord> {
 	ArrayList<LinkedHashMap<String, Object>> getAllProductDetail(String start, String end);
 
 	public ArrayList<LinkedHashMap<String, Object>> getClientProductPerformance(Unit unit, String start, String end);
+
+	public Date getLastBusyDate();
 
 	
 }
