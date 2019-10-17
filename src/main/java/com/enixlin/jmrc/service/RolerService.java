@@ -17,4 +17,13 @@ public interface RolerService {
     
     public int addRolerRule(Roler roler ,Rule rule);
     public int deleteRolerRule(Roler roler,Rule rule);
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param userId
+	 * @return
+	 *ArrayList<Roler>
+	 * 创建时间：2019年10月17日
+	 */
+	public ArrayList<Roler> getRolerByUserId(int userId);
 }

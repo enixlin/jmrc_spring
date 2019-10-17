@@ -13,9 +13,9 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
       width: window.innerWidth * 0.8,
       height: window.innerHeight * 0.65,
       plugins: "gridfilters",
-      //   plugins: {
+      // plugins: {
       // gridexporter: true
-      //   },
+      // },
     
       border: 2,
       scrollable: true,
@@ -239,6 +239,15 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
           width: 40,
           xtype: "actioncolumn",
           align: "center",
+          handler: function(view, rowIndex, colIndex, item, e, record) {
+              let client=record.data.custCode;
+              let start = view.up().up()["config"]["data"]["start"];
+              let end = view.up().up()["config"]["data"]["end"];
+              view
+              .up()
+              .up()
+              .controller.showClientdetail(client, start, end);
+            },
           items: [
             {
               iconCls: "x-fa fa-list",
@@ -256,6 +265,92 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
   },
   
   
+  showClientdetail:function(client,start, end){
+	  let me = this;
+      let view = me.getView();
+      let win = Ext.create("Ext.window.Window", {
+          width: window.innerWidth * .8,
+          height: window.innerHeight * .66,
+          title:client+"业务流水表,单位:万美元,统计时间("+start+"-"+end+")",
+          scrollable: true,
+          layout: {
+              type: "table",
+              columns: 2
+          },
+
+      });
+      let store = Ext.create("Ext.data.Store", {
+
+          fields: [
+        	  "belong_branch_number", 
+        	  "belong_branch_name",
+        	  "cust_number",
+        	  "cust_name",
+        	  "product_name",
+        	  "busy_date",
+        	  "busy_currency",
+        	  "busy_amount",
+        	  "usd_rate",
+        	  ],
+          proxy: {
+              url: "/settlerecord/getClientDetail",
+              type: "ajax",
+          }
+      });
+
+      let grid = Ext.create("Ext.grid.Panel", {
+      	 width: window.innerWidth * .77,
+           height: window.innerHeight * .6,
+           plugins: "gridfilters",
+       	tbar : [ {
+      		xtype : "textfield",
+      		fieldLabel : "业务日期：",
+      		listeners : {
+      			change : function(me, newValue, oldValue, eOpts) {
+let grid=me.up().up();
+console.log(grid);
+      				me.up().up().up().up().controller.filterdate(grid, newValue);
+      			}
+      		}
+      	}, "->", {
+      		xtype : "button",
+      		text : "导出表格",
+      		handler :function(){
+      			let me=this;
+      			let detailType="exportClientDetailExcel";
+      			me.up().up().up().up().controller.exportdetailExcel(client,start,end,detailType);
+      		}
+      	} ],
+          store: store,
+          scrollable: true,
+   
+          columns: [
+              { header: "行号", dataIndex: "belong_branch_number" },
+              { header: "行名", dataIndex: "belong_branch_name" },
+              { header: "客户号", dataIndex: "cust_number" },
+              { header: "客户名", dataIndex: "cust_name",width:300,   filter: {
+                type: "string"
+              } },
+              { header: "业务种类", dataIndex: "product_name"  },
+              { header: "业务日期", dataIndex: "busy_date" ,filter:{
+                type: "string"
+              } },
+              { header: "币种", dataIndex: "busy_currency"  },
+              { header: "金额", dataIndex: "busy_amount", renderer: function(value) { return Ext.util.Format.number(value, "0,000.00") } },
+              { header: "美元折算率", dataIndex: "usd_rate", renderer: function(value) { return Ext.util.Format.number(value, "0,000.00") } },
+          ],
+
+      });
+
+      store.load({
+          params: { client, start, end },
+      });
+      win.add(grid);
+      view.add(win);
+      win.show();
+  },
+  
+  
 	  showClientProductPieChart: function(unit, start, end) {
 	        let me = this;
 	        let view = me.getView();
@@ -265,7 +360,7 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
 	            height: window.innerHeight * 0.7,
 
 	        });
-	        //测试的产品分类明细
+	        // 测试的产品分类明细
 	        let chart = {
 	            xtype: "basepie",
 	            width: window.innerWidth * 0.8,
@@ -273,25 +368,25 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
 	            scrollable: true,
 	            data: {
 	                st: "ClientProductPerformanceStore",
-	                //图表布局
+	                // 图表布局
 	                layout: "hbox",
-	                //图表的宽度
+	                // 图表的宽度
 	                width: window.innerWidth * 0.4,
-	                //图表的高度
+	                // 图表的高度
 	                height: window.innerHeight * 0.4,
-	                //图表的标题
+	                // 图表的标题
 	                title: "产品业务量表\r\n \t\t\t（单位：万美元）",
 	                xtitle: "产品",
 	                ytitle: "国际结算产品业务量",
-	                //横轴绑定的字段
+	                // 横轴绑定的字段
 	                xAxis: "产品",
-	                //竖轴绑定的字段
+	                // 竖轴绑定的字段
 	                yAxis: "金额",
-	                //柱状图的类型：分产品柱状图，分时柱状图
+	                // 柱状图的类型：分产品柱状图，分时柱状图
 	                pieChartType: "productPieChart",
 	                exportUrl: "/settlerecord/exportClientProductPerformance",
-	                //柱状图显示的数据对象：全行、经营单位、客户、产品
-	                //对象的结构如下
+	                // 柱状图显示的数据对象：全行、经营单位、客户、产品
+	                // 对象的结构如下
 	                unit: { name: unit.name, code: unit.id, unitType: "client" },
 	                start: start,
 	                end: end
@@ -308,13 +403,29 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
 	    let view = me.getView();
 	    let startDay = me.getView()["config"]["data"]["start"];
 	    let endDay = me.getView()["config"]["data"]["end"];
-//	    let clientId=me.getView()["config"]["data"]["clientId"];
+// let clientId=me.getView()["config"]["data"]["clientId"];
 	    let url =
 	      "/settlerecord/exportAllClientPerformance?start=" +
 	      startDay +
 	      "&end=" +
 	      endDay +
 	      "&clientType=c"
+	      ;
+	      
+	    window.open(url);
+  },
+  
+  
+  // 导出表格
+  exportdetailExcel: function(client,start,end,detailType) {
+
+	    let url =
+	      "/settlerecord/"+detailType+"?start=" +
+	      start +
+	      "&end=" +
+	      end +
+	      "&client="+
+	      client
 	      ;
 	      
 	    window.open(url);
@@ -328,32 +439,32 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
       width: window.innerWidth * 0.8,
       height: window.innerHeight * 0.5
     });
-    //测试的分月明细
+    // 测试的分月明细
     let chart = {
       xtype: "basebar",
       width: window.innerWidth * 0.8,
-      //layout:"fit",
+      // layout:"fit",
       scrollable: true,
       data: {
         st: "ClientSettleMonthPerformanceStore",
-        //图表布局
+        // 图表布局
         layout: "hbox",
-        //图表的宽度
+        // 图表的宽度
         width: 400,
-        //图表的高度
+        // 图表的高度
         height: 500,
-        //图表的标题
+        // 图表的标题
         title: "分月国际结算量统计表\r\n \t\t\t（单位：万美元）",
         xtitle: "月份",
         ytitle: "国际结算业务量",
-        //横轴绑定的字段
+        // 横轴绑定的字段
         xAxis: "<center>月份</center>",
-        //竖轴绑定的字段
+        // 竖轴绑定的字段
         yAxis: "<center>金额</center>",
-        //柱状图的类型：分产品柱状图，分时柱状图
+        // 柱状图的类型：分产品柱状图，分时柱状图
         barChartType: "timeRangeBarChart",
-        //柱状图显示的数据对象：全行、经营单位、客户、产品
-        //对象的结构如下
+        // 柱状图显示的数据对象：全行、经营单位、客户、产品
+        // 对象的结构如下
         unit: { name: unit.name, code: unit.id, unitType: "unit" },
         start: start,
         end: end
@@ -387,6 +498,23 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
 
   
   
+  filterdate:function(view,newDate){
+  	
+  	 
+  	  let store=view.getStore();
+  	  if(newDate=="" ){
+  		   store.clearFilter();
+  	
+  		 console.log(store.getFilters());
+  		 return;
+  	  }
+  	  store.setFilters({
+  		  "operator":"like",
+  		  "value":newDate,
+  		  "property":"busy_date"
+  	  });
+  	  console.log(store.getFilters());
+    },
 
 	
 });

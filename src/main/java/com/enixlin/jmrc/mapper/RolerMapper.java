@@ -45,5 +45,16 @@ public interface RolerMapper {
     
     @Delete("delete from roler_rule where roler_id=#{id} and rule_id=#{id}")
     public int deleteRolerRule(@Param("roler")Roler roler,@Param("rule")Rule rule);
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param userId
+	 * @return
+	 *ArrayList<Roler>
+	 * 创建时间：2019年10月17日
+	 */
+    @Select("select * from user_roler left join roler on user_roler.roler_id=roler.id  where user_roler.user_id=#{userId}")
+	public ArrayList<Roler> getRolerByUserId(@Param("userId")int userId);
     
 }

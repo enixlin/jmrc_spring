@@ -46,9 +46,18 @@ Ext.define("jmrc.view.main.Main", {
 		
 		items : [ {
 			region : "north",
-			height : 100,
+			height :50,
 			width : "100%",
 			border:true,
+			margin:0,
+			id:"topPart",
+			items:[
+				{xtype:"image",src:"/images/jmrc_logo.jpg"},
+				
+				{xtype:"button",text:"退出",handler:"logout"},
+				{xtype:"button",text:"选择角色",handler:"choiceRoler"},
+				
+				]
 		}, {
 			region : "west",
 			xtype : 'navitree',

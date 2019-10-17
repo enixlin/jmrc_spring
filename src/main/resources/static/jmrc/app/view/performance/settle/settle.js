@@ -56,13 +56,7 @@ Ext.define('jmrc.view.performance.settle.settle', {
                 }, {
                     "code": 3,
                     "name": "客户"
-                }, {
-                    "code": 4,
-                    "name": "产品"
-                }, {
-                    "code": 5,
-                    "name": "测试"
-                }]
+                }, ]
             },
 
         },
@@ -71,7 +65,7 @@ Ext.define('jmrc.view.performance.settle.settle', {
             xtype: "textfield",
             fieldLabel: "开始日期：",
             labelWidth: 70,
-            value: "2019-01-01",
+            //value: "2019-01-01",
             inputType: "date",
             name: "start",
             margin: "5 5 5 5 ",

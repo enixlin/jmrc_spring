@@ -782,4 +782,40 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 
 	@Select("select busy_date from settle_record order by busy_date desc limit 1")
 	Date getLastBusyDate();
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param client
+	 * @param start
+	 * @param end
+	 * @return
+	 *ArrayList<LinkedHashMap<String,Object>>
+	 * 创建时间：2019年10月17日
+	 */
+	@Select("<script> "
+			+ "select "
+			+ "belong_branch_code as belong_branch_number,"
+			+ "belong_branch_name,"
+			+ "cust_number , "
+			+ "cust_name , "
+			+ "product_name , "
+			+ "busy_date , "
+			+ "busy_currency,"
+			+ "busy_amount,"
+			+ "usd_rate "
+			+ "from settle_record "
+			+ "where "
+			+ "product_Name in "
+			+ "<foreach collection='products' item='item' open='(' close=')' separator=','>"
+			+ "'${item.getName}'"
+			+ "</foreach> "
+			+ " and "
+			+ "cust_number ='${client}' "
+			+ " and "
+			+ "busy_date&gt;=${start} and busy_date&lt;=${end} "
+			+ " order by busy_date asc "
+			+ "</script>")
+	ArrayList<LinkedHashMap<String, Object>> getClientDetail(@Param("client")String client,
+			@Param("start")String start, @Param("end")String end,@Param("products")ArrayList<Product> products);
 }

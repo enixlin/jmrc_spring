@@ -20,6 +20,16 @@ Ext.define('jmrc.view.performance.detail.clientlistModel', {
                     type: "number",
                     mapping: function(data) { return data.amount; }
                 },
+                {
+                    name: "times_compare",
+                    type: "number",
+                    mapping: function(data) { return data.times; }
+                },
+                {
+                    name: "amount_compare",
+                    type: "number",
+                    mapping: function(data) { return data.amount; }
+                },
 
             ],
             proxy: {

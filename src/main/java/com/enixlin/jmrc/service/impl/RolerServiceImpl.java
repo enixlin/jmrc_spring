@@ -58,4 +58,10 @@ public class RolerServiceImpl implements RolerService {
 	return rolerMapper.deleteRolerRule(roler, rule) ;
     }
 
+	@Override
+	public ArrayList<Roler> getRolerByUserId(int userId) {
+		// TODO Auto-generated method stub
+		return rolerMapper.getRolerByUserId(userId);
+	}
+
 }

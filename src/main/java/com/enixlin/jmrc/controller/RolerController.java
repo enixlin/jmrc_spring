@@ -58,6 +58,15 @@ public class RolerController {
 	roler.setId(Integer.parseInt(req.getParameter("id")));
 	return rolerService.getRolerById(roler);
     }
+    
+    
+    @RequestMapping("/getRolerByUserId")
+    public ArrayList<Roler> getRolerByUserId(HttpServletRequest req, HttpServletResponse res) {
+    	
+    	int UserId=Integer.parseInt(req.getParameter("userId"));
+	return rolerService.getRolerByUserId(UserId);
+    }
+
 
     @RequestMapping("/getAllRuleByRoler")
     public ArrayList<Rule> getAllRuleByRoler(HttpServletRequest req, HttpServletResponse res,HttpSession session) {

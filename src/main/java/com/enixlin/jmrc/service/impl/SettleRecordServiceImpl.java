@@ -619,8 +619,70 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 			Unit unit, String start, String end) {
 		// TODO Auto-generated method stub
 		ArrayList<Product> products = this.getSettleRangeProduct();
-		return settleRecordMapper.getUnitProductPerformance(unit, start, end,
-				products);
+		String start_pre = this.compareDate(start);
+		String end_pre = this.compareDate(end);
+
+		ArrayList<LinkedHashMap<String, Object>> detail_current = settleRecordMapper
+				.getUnitProductPerformance(unit, start, end,products);
+		ArrayList<LinkedHashMap<String, Object>> detail_pre = settleRecordMapper
+				.getUnitProductPerformance(unit, start_pre, end_pre,products);
+		
+		
+//		历遍当期的产品列表
+			for (LinkedHashMap<String, Object> element_currenct : detail_current) {
+				int exist = 0;
+//				历遍前期的客户列表
+				for (LinkedHashMap<String, Object> element_pre : detail_pre) {
+					if (element_currenct.get("product_name")
+							.equals(element_pre.get("product_name"))) {
+						element_currenct.put("amount_pre",
+								element_pre.get("amount"));
+						element_currenct.put("times_pre", element_pre.get("times"));
+						exist = 1;
+					}
+				}
+				if (exist == 0) {
+					element_currenct.put("amount_pre", new BigDecimal(0));
+					element_currenct.put("times_pre", 0);
+				}
+			}
+			for (LinkedHashMap<String, Object> element_pre : detail_pre) {
+				int exist = 0;
+//				历遍前期的客户列表
+				for (LinkedHashMap<String, Object> element_currenct : detail_current) {
+					if (element_currenct.get("product_name")
+							.equals(element_pre.get("product_name"))) {
+						exist = 1;
+					}
+				}
+				if (exist == 0) {
+					LinkedHashMap<String, Object> new_element = new LinkedHashMap<>();
+					// 注意插入的字段要按顺序，否则会影响Excel文件的列顺序
+					new_element.put("product_name", element_pre.get("product_name"));
+					new_element.put("amount", new BigDecimal(0));
+					new_element.put("times", 0);
+					new_element.put("amount_pre", element_pre.get("amount"));
+					new_element.put("times_pre", element_pre.get("times"));
+					detail_current.add(new_element);
+
+				}
+			}
+
+			for (LinkedHashMap<String, Object> element_current : detail_current) {
+				BigDecimal amount = (BigDecimal) element_current.get("amount");
+				BigDecimal amount_pre = (BigDecimal) element_current
+						.get("amount_pre");
+				long times = Long
+						.parseLong(element_current.get("times").toString());
+				long times_pre = Long
+						.parseLong(element_current.get("times_pre").toString());
+
+				element_current.put("amount_compare", amount.subtract(amount_pre));
+				element_current.put("times_compare", times - times_pre);
+			}
+			return detail_current;
+		
+
 	}
 
 	/*
@@ -635,8 +697,72 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 			Unit unit, String start, String end) {
 		// TODO Auto-generated method stub
 		ArrayList<Product> products = this.getSettleRangeProduct();
-		return settleRecordMapper.getUnitClientPerformance(unit, start, end,
-				products);
+		
+		String start_pre = this.compareDate(start);
+		String end_pre = this.compareDate(end);
+
+		ArrayList<LinkedHashMap<String, Object>> detail_current = settleRecordMapper
+				.getUnitClientPerformance(unit, start, end,products);
+		ArrayList<LinkedHashMap<String, Object>> detail_pre = settleRecordMapper
+				.getUnitClientPerformance(unit, start_pre, end_pre,products);
+		
+		
+//		历遍当期的产品列表
+			for (LinkedHashMap<String, Object> element_currenct : detail_current) {
+				int exist = 0;
+//				历遍前期的客户列表
+				for (LinkedHashMap<String, Object> element_pre : detail_pre) {
+					if (element_currenct.get("cust_number")
+							.equals(element_pre.get("cust_number"))) {
+						element_currenct.put("amount_pre",
+								element_pre.get("amount"));
+						element_currenct.put("times_pre", element_pre.get("times"));
+						exist = 1;
+					}
+				}
+				if (exist == 0) {
+					element_currenct.put("amount_pre", new BigDecimal(0));
+					element_currenct.put("times_pre", 0);
+				}
+			}
+			for (LinkedHashMap<String, Object> element_pre : detail_pre) {
+				int exist = 0;
+//				历遍前期的客户列表
+				for (LinkedHashMap<String, Object> element_currenct : detail_current) {
+					if (element_currenct.get("cust_number")
+							.equals(element_pre.get("cust_number"))) {
+						exist = 1;
+					}
+				}
+				if (exist == 0) {
+					LinkedHashMap<String, Object> new_element = new LinkedHashMap<>();
+					// 注意插入的字段要按顺序，否则会影响Excel文件的列顺序
+					new_element.put("cust_number", element_pre.get("cust_number"));
+					new_element.put("cust_name", element_pre.get("cust_name"));
+					new_element.put("amount", new BigDecimal(0));
+					new_element.put("times", 0);
+					new_element.put("amount_pre", element_pre.get("amount"));
+					new_element.put("times_pre", element_pre.get("times"));
+					detail_current.add(new_element);
+
+				}
+			}
+
+			for (LinkedHashMap<String, Object> element_current : detail_current) {
+				BigDecimal amount = (BigDecimal) element_current.get("amount");
+				BigDecimal amount_pre = (BigDecimal) element_current
+						.get("amount_pre");
+				long times = Long
+						.parseLong(element_current.get("times").toString());
+				long times_pre = Long
+						.parseLong(element_current.get("times_pre").toString());
+
+				element_current.put("amount_compare", amount.subtract(amount_pre));
+				element_current.put("times_compare", times - times_pre);
+			}
+			return detail_current;
+		
+	
 	}
 
 	@Override
@@ -815,14 +941,82 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 			Unit unit, String start, String end) {
 		// TODO Auto-generated method stub
 		ArrayList<Product> products = this.getSettleRangeProduct();
-		return settleRecordMapper.getClientProductPerformance(unit, start, end,
-				products);
+		String start_pre = this.compareDate(start);
+		String end_pre = this.compareDate(end);
+
+		ArrayList<LinkedHashMap<String, Object>> detail_current = settleRecordMapper
+				.getClientProductPerformance(unit, start, end,products);
+		ArrayList<LinkedHashMap<String, Object>> detail_pre = settleRecordMapper
+				.getClientProductPerformance(unit, start_pre, end_pre,products);
+
+//	历遍当期的客户列表
+		for (LinkedHashMap<String, Object> element_currenct : detail_current) {
+			int exist = 0;
+//			历遍前期的客户列表
+			for (LinkedHashMap<String, Object> element_pre : detail_pre) {
+				if (element_currenct.get("product_name")
+						.equals(element_pre.get("product_name"))) {
+					element_currenct.put("amount_pre",
+							element_pre.get("amount"));
+					element_currenct.put("times_pre", element_pre.get("times"));
+					exist = 1;
+				}
+			}
+			if (exist == 0) {
+				element_currenct.put("amount_pre", new BigDecimal(0));
+				element_currenct.put("times_pre", 0);
+			}
+		}
+		for (LinkedHashMap<String, Object> element_pre : detail_pre) {
+			int exist = 0;
+//			历遍前期的客户列表
+			for (LinkedHashMap<String, Object> element_currenct : detail_current) {
+				if (element_currenct.get("product_name")
+						.equals(element_pre.get("product_name"))) {
+					exist = 1;
+				}
+			}
+			if (exist == 0) {
+				LinkedHashMap<String, Object> new_element = new LinkedHashMap<>();
+				// 注意插入的字段要按顺序，否则会影响Excel文件的列顺序
+				new_element.put("product_name", element_pre.get("product_name"));
+				new_element.put("amount", new BigDecimal(0));
+				new_element.put("times", 0);
+				new_element.put("amount_pre", element_pre.get("amount"));
+				new_element.put("times_pre", element_pre.get("times"));
+				detail_current.add(new_element);
+
+			}
+		}
+
+		for (LinkedHashMap<String, Object> element_current : detail_current) {
+			BigDecimal amount = (BigDecimal) element_current.get("amount");
+			BigDecimal amount_pre = (BigDecimal) element_current
+					.get("amount_pre");
+			long times = Long
+					.parseLong(element_current.get("times").toString());
+			long times_pre = Long
+					.parseLong(element_current.get("times_pre").toString());
+
+			element_current.put("amount_compare", amount.subtract(amount_pre));
+			element_current.put("times_compare", times - times_pre);
+		}
+		return detail_current;
+		
 	}
 
 	@Override
 	public Date getLastBusyDate() {
 		// TODO Auto-generated method stub
 		return settleRecordMapper.getLastBusyDate();
+	}
+
+	@Override
+	public ArrayList<LinkedHashMap<String, Object>> getClientDetail(
+			String client, String start, String end) {
+		// TODO Auto-generated method stub
+		ArrayList<Product> products=this.getSettleRangeProduct();
+		return settleRecordMapper.getClientDetail(client, start, end,products);
 	}
 
 

@@ -19,7 +19,15 @@ Ext.define('jmrc.view.performance.chart.BasePie.BasePieModel', {
 				name : '金额',
 				type : 'number',
 				mapping : "amount",
-			}, ],
+			}, {
+				name : '笔数<br>同比',
+				type : 'number',
+				mapping : "times_compare",
+			}, {
+				name : '金额<br>同比',
+				type : 'number',
+				mapping : "amount_compare",
+			},],
 			// autoLoad : true,
 			proxy : {
 				url : "/settlerecord/getUnitProductPerformance",
@@ -40,7 +48,15 @@ Ext.define('jmrc.view.performance.chart.BasePie.BasePieModel', {
 				name : '金额',
 				type : 'number',
 				mapping : "amount",
-			}, ],
+			}, {
+				name : '笔数<br>同比',
+				type : 'number',
+				mapping : "times_compare",
+			}, {
+				name : '金额<br>同比',
+				type : 'number',
+				mapping : "amount_compare",
+			},],
 			// autoLoad : true,
 			proxy : {
 				url : "/settlerecord/getClientProductPerformance",

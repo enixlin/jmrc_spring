@@ -132,34 +132,34 @@ public class SettleRecordController {
 
 	// 执行定时任务，每十分钟检查一次数据更新的日期与当前日期，如果当前日期先于数据库的日期，则执行更新
 	// 更新的频率为每十分钟
-	@Scheduled(fixedRate = 6000)
+	//@Scheduled(fixedRate = 6000)
 	public   void updateProcess() {
-		Date date = new Date();
-		SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat ft_s = new SimpleDateFormat("yyyyMMddhhmmss");
-		SimpleDateFormat ft_LastLogDate = new SimpleDateFormat("yyyy-MM-dd");
-		String lastLogDate = this.getLastUpdateDate();
-		try {
-			Date logDate=ft_s.parse(lastLogDate);
-			Date lastBusyDate=this.getLastBusyDate();
-			System.out.println(ft_s.format(lastBusyDate));
-			
-			if(date.after(logDate)) {
-				this.updatelog(ft_s.format(date));
-				System.out.println("数据库日期比较旧");
-				System.out.println("数据库日期:"+ft_s.format(logDate));
-			
-				//
-			
-			}else {
-				System.out.println("数据日期比较新");
-				
-			}
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+//		Date date = new Date();
+//		SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+//		SimpleDateFormat ft_s = new SimpleDateFormat("yyyyMMddhhmmss");
+//		SimpleDateFormat ft_LastLogDate = new SimpleDateFormat("yyyy-MM-dd");
+//		String lastLogDate = this.getLastUpdateDate();
+//		try {
+//			//Date logDate=ft_s.parse(lastLogDate);
+//			Date lastBusyDate=this.getLastBusyDate();
+//			System.out.println(ft_s.format(lastBusyDate));
+//			
+//			if(date.after(logDate)) {
+//				this.updatelog(ft_s.format(date));
+//				System.out.println("数据库日期比较旧");
+//				System.out.println("数据库日期:"+ft_s.format(logDate));
+//			
+//				//
+//			
+//			}else {
+//				System.out.println("数据日期比较新");
+//				
+//			}
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
 //		this.updatelog(ft.format(date));
 
 	}
@@ -779,6 +779,16 @@ public class SettleRecordController {
 		String end = req.getParameter("end");
 		return srs.getProductDetail(product, start, end);
 	}
+	
+	
+	@RequestMapping("/getClientDetail")
+	public ArrayList<LinkedHashMap<String, Object>> getClientDetail(
+			HttpServletRequest req, HttpServletResponse res) {
+		String client = req.getParameter("client");
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+		return srs.getClientDetail(client, start, end);
+	}
 
 	/**
 	 * 生成指定时间段内所有结算产品的业务量统计,
@@ -952,6 +962,33 @@ public class SettleRecordController {
 		unit.setType(unitType);
 		return srs.getClientProductPerformance(unit, start, end);
 
+	}
+	
+	
+	@RequestMapping("/exportClientDetailExcel")
+	public ArrayList<LinkedHashMap<String, Object>> exportClientDetailExcel(
+			HttpServletRequest req, HttpServletResponse res) {
+
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+		ArrayList<LinkedHashMap<String, Object>> ProductDetailExcel = this
+				.getClientDetail(req, res);
+		String file = "国际结算产品流水表-" + start + "-" + end + ".xls";
+		String unit = "单位：万美元,笔";
+		String title = "国际结算产品流水表";
+		ExcelTool et = new ExcelTool();
+//		et.exportToexcel(allUnitPerformance, file);
+		et.exportToexcel(ProductDetailExcel, file, start, end, unit, title);
+		try {
+			et.downloadFileByOutputStream(file, res);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ProductDetailExcel;
 	}
 
 }

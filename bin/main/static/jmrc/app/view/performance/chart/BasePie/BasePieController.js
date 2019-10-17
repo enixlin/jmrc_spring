@@ -135,6 +135,7 @@ innerPadding : 10,
 					            width: (0.8 / (len - 1)) * 100 + "%",
 					            dataIndex: fields[n].name,
 					            renderer: function(value) {
+					            	
 					              return Ext.util.Format.number(value, "0,000.00");
 					            }
 					          });

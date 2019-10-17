@@ -7,10 +7,9 @@ Ext.define("jmrc.view.performance.settle.settleController", {
         let me = this;
         let view = me.getView();
         let textfield = view.query("textfield");
-        textfield[2].setValue("2019-01-01");
+        
 
         let reportType = textfield[0].getValue();
-        let start = textfield[1].getValue();
         let date = new Date();
         let year = date.getFullYear();
         let month = date.getMonth() + 1; // 返回是０-１１,所以要加一
@@ -19,6 +18,7 @@ Ext.define("jmrc.view.performance.settle.settleController", {
         month < 10 ? (month = "0" + month) : month;
         day < 10 ? (day = "0" + day) : day;
         let end = textfield[3].setValue(year + "-" + month + "-" + day);
+        let start = textfield[2].setValue(year + "-01-01" );
         // alert("info");
         me.showHelpInformation(me);
     },

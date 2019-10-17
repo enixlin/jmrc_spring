@@ -312,5 +312,18 @@ public interface SettleRecordService extends BaseService<SettleRecord> {
 
 	public Date getLastBusyDate();
 
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param client
+	 * @param start
+	 * @param end
+	 * @return
+	 *ArrayList<LinkedHashMap<String,Object>>
+	 * 创建时间：2019年10月17日
+	 */
+	public ArrayList<LinkedHashMap<String, Object>> getClientDetail(
+			String client, String start, String end);
+
 	
 }
