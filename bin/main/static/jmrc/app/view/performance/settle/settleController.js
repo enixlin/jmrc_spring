@@ -94,7 +94,7 @@ Ext.define("jmrc.view.performance.settle.settleController", {
             padding: 10,
             margin: 20,
             // border: 2,
-            html: "<b>说明</b><br>可以从不同的层次分析国际业务量情况,主题分为:<br><b>国际结算量<b><br><b>结售汇量<b><br><b>贸易融资量<b><br><b>中间业务收入<b><br><b>外币存款量</b>" +
+            html: "<b>说明</b><br>可以从不同的层次分析国际业务量情况,主题分为:<br><b>国际结算量<b><br><b>结售汇量(开发中。。。)<b><br><b>贸易融资量(开发中。。。)<b><br><b>中间业务收入(开发中。。。)<b><br><b>外币存款量(开发中。。。)</b>" +
                 "<br> 每一个分析主题下,都可以从全行,经营单位,客户,产品等四个层次进行分析" +
                 "<br><br>使用帮助:<br><br> <li> 第一步:选择 [ 分析主题 ]<br> <li>第二步:选择 [ 分析层次 ]<br> <li>第三步:确定 [ 开始和结束日期 ]<br> <li>第四步:点击 [ 查询 ]",
             renderTo: Ext.getBody()

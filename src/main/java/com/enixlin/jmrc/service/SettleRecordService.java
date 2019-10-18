@@ -310,7 +310,7 @@ public interface SettleRecordService extends BaseService<SettleRecord> {
 
 	public ArrayList<LinkedHashMap<String, Object>> getClientProductPerformance(Unit unit, String start, String end);
 
-	public Date getLastBusyDate();
+	public String getLastBusyDate();
 
 	/**
 	 * @author linzhenhuan  </br>

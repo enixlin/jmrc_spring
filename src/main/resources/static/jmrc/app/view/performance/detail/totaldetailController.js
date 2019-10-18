@@ -73,7 +73,7 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
             layout: "form",
             border: 2,
             width: window.innerWidth * 0.4,
-            height: window.innerHeight * .5,
+            height: window.innerHeight * .6,
             margin: 5,
             scrollable: true,
             // bind: { store: "{getSettleTypeProformanceByDate}" },

@@ -782,6 +782,7 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 	@Override
 	public void updatelog(String datatime) {
 		// TODO Auto-generated method stub
+		settleRecordMapper.truncateUpdateLog();
 		settleRecordMapper.updatelog(datatime);
 	}
 
@@ -1006,7 +1007,7 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 	}
 
 	@Override
-	public Date getLastBusyDate() {
+	public String getLastBusyDate() {
 		// TODO Auto-generated method stub
 		return settleRecordMapper.getLastBusyDate();
 	}

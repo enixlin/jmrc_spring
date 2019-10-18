@@ -781,7 +781,7 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 	ArrayList<LinkedHashMap<String, Object>> getClientProductPerformance(@Param("unit")Unit unit,@Param("start") String start, @Param("end")String end,@Param("products")ArrayList<Product> products);
 
 	@Select("select busy_date from settle_record order by busy_date desc limit 1")
-	Date getLastBusyDate();
+	String getLastBusyDate();
 
 	/**
 	 * @author linzhenhuan  </br>
@@ -818,4 +818,13 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 			+ "</script>")
 	ArrayList<LinkedHashMap<String, Object>> getClientDetail(@Param("client")String client,
 			@Param("start")String start, @Param("end")String end,@Param("products")ArrayList<Product> products);
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 *void
+	 * 创建时间：2019年10月18日
+	 */
+	@Delete("delete from updatelog")
+	void truncateUpdateLog();
 }

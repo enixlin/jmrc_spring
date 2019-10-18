@@ -47,12 +47,10 @@ public class SettleRecordController {
 	/**
 	 * 从自助分析抓取数据，并写入本地数据库
 	 */
-	@RequestMapping("/batchInsert")
-	public void add(HttpServletRequest req, HttpServletResponse res) {
+	
+	public void add(String start,String end,String getMax) {
 
-		String start = req.getParameter("start");
-		String end = req.getParameter("end");
-		String getMax = req.getParameter("getMax");
+		
 		String StartDayChn = changeChineseDateFormat(start);
 		String endDayChn = changeChineseDateFormat(end);
 		String startDayNum = changeLineDateFormat(start);
@@ -120,6 +118,7 @@ public class SettleRecordController {
 
 		System.out.println(" 所有的记录插入完成");
 		fixedSettleRecord();
+		
 	}
 
 	public void fixedSettleRecord() {
@@ -132,35 +131,37 @@ public class SettleRecordController {
 
 	// 执行定时任务，每十分钟检查一次数据更新的日期与当前日期，如果当前日期先于数据库的日期，则执行更新
 	// 更新的频率为每十分钟
-	//@Scheduled(fixedRate = 6000)
+	@Scheduled(fixedRate = 600000)
 	public   void updateProcess() {
-//		Date date = new Date();
-//		SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-//		SimpleDateFormat ft_s = new SimpleDateFormat("yyyyMMddhhmmss");
-//		SimpleDateFormat ft_LastLogDate = new SimpleDateFormat("yyyy-MM-dd");
-//		String lastLogDate = this.getLastUpdateDate();
-//		try {
-//			//Date logDate=ft_s.parse(lastLogDate);
-//			Date lastBusyDate=this.getLastBusyDate();
-//			System.out.println(ft_s.format(lastBusyDate));
-//			
-//			if(date.after(logDate)) {
-//				this.updatelog(ft_s.format(date));
-//				System.out.println("数据库日期比较旧");
-//				System.out.println("数据库日期:"+ft_s.format(logDate));
-//			
-//				//
-//			
-//			}else {
-//				System.out.println("数据日期比较新");
-//				
-//			}
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		this.updatelog(ft.format(date));
+		//	取得当前的日期
+		Date date_current = new Date();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
+		String date_current_str=sdf.format(date_current);
+		int date_current_int=Integer.parseInt(date_current_str);
+		
+		//取得最近的业务日期
+		String date_log_str= this.getLastUpdateDate().replace("-","");
+		Date date_log = null;
+		try {
+			date_log = sdf.parse(date_log_str);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		int date_log_int=Integer.parseInt(date_log_str);
+		
+		
+		if(date_current_int>date_log_int) {
+			//执行更新
+			String start= sdf.format(new Date(date_log.getTime()+24*3600*1000));
+			String end=date_current_str;
+			String getMax="50000";
+			this.add(start, end, getMax);
+			this.updatelog(this.getLastBusyDate());
+			
+		}
+	
 
 	}
 
@@ -722,7 +723,7 @@ public class SettleRecordController {
 	}
 	
 
-	public Date getLastBusyDate() {
+	public String getLastBusyDate() {
 		return srs.getLastBusyDate();
 	}
 	// getTotalSettlePerformance

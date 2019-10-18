@@ -18,7 +18,7 @@ Ext.define('jmrc.view.login.InformationBar', {
 		layout : "vbox",
 		items : [ {
 			xtype : 'label',
-			text : '江门农商银行国际业务部信息处理系统',
+			text : '江门农商银行国际业务部信息查询系统',
 			style:{font:"30px bold",color:"gray"}
 		}, 
 		{
@@ -28,7 +28,7 @@ Ext.define('jmrc.view.login.InformationBar', {
 		},
 		{
 			xtype : 'label',
-			text : 'ALL RIGHT RELEASE @2018',
+			text : 'ALL RIGHT RELEASE @2019',
 			style:{font:"10px bold",color:"gray",align:"right"}
 		} ]
 	}
