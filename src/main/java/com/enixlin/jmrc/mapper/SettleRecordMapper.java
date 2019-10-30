@@ -19,6 +19,8 @@ import com.enixlin.jmrc.entity.SettleRange;
 import com.enixlin.jmrc.entity.SettleRecord;
 import com.enixlin.jmrc.entity.Unit;
 import com.enixlin.jmrc.entity.UnitPerformance;
+import com.google.gson.JsonArray;
+
 import tk.mybatis.mapper.common.BaseMapper;
 
 @Mapper
@@ -827,4 +829,22 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 	 */
 	@Delete("delete from updatelog")
 	void truncateUpdateLog();
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param ja
+	 * @return
+	 *Object
+	 * 创建时间：2019年10月29日
+	 */
+	@Insert("<script>"
+			+ "insert into tf_middle  values "
+			+ "<foreach collection='records' item='item' open=' ' close=' ' separator=','>"
+			+ 		"<foreach collection='item' item='itemIN' open=' (' close=' )' separator=','>"
+			+ 			"${itemIN}"
+			+ 		"</foreach> "
+			+ "</foreach> "
+			+ "</script>")
+	int addTF(@Param("records")JsonArray ja);
 }

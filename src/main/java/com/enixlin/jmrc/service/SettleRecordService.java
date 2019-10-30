@@ -13,6 +13,7 @@ import com.enixlin.jmrc.entity.SettleRange;
 import com.enixlin.jmrc.entity.SettleRecord;
 import com.enixlin.jmrc.entity.Unit;
 import com.enixlin.jmrc.entity.UnitPerformance;
+import com.google.gson.JsonArray;
 
 public interface SettleRecordService extends BaseService<SettleRecord> {
 
@@ -324,6 +325,16 @@ public interface SettleRecordService extends BaseService<SettleRecord> {
 	 */
 	public ArrayList<LinkedHashMap<String, Object>> getClientDetail(
 			String client, String start, String end);
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param ja
+	 *void
+	 * 创建时间：2019年10月29日
+	 * @return 
+	 */
+	public int addTF(JsonArray ja);
 
 	
 }

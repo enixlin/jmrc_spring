@@ -22,6 +22,7 @@ import com.enixlin.jmrc.entity.Unit;
 import com.enixlin.jmrc.entity.UnitPerformance;
 import com.enixlin.jmrc.mapper.SettleRecordMapper;
 import com.enixlin.jmrc.service.SettleRecordService;
+import com.google.gson.JsonArray;
 
 @Service
 public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
@@ -1018,6 +1019,15 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 		// TODO Auto-generated method stub
 		ArrayList<Product> products=this.getSettleRangeProduct();
 		return settleRecordMapper.getClientDetail(client, start, end,products);
+	}
+
+	@Override
+	public int addTF(JsonArray ja) {
+		// TODO Auto-generated method stub
+		
+		
+		return settleRecordMapper.addTF(ja);
+		
 	}
 
 

@@ -43,6 +43,38 @@ import com.google.gson.JsonParser;
 public class SettleRecordController {
 	@Autowired
 	SettleRecordService srs;
+	
+	
+	@RequestMapping("/tf")
+	public void addTF(HttpServletRequest req,HttpServletResponse res) {
+
+		String start=req.getParameter("start");
+		String end=req.getParameter("end");
+		String getMax=req.getParameter("getMax");
+		String StartDayChn = changeChineseDateFormat(start);
+		String endDayChn = changeChineseDateFormat(end);
+		String startDayNum = changeLineDateFormat(start);
+		String endDayNum = changeLineDateFormat(end);
+		
+		ODS ods = new ODS();
+
+		JsonArray ja = ods.getAllFTRecordFromMiddleTable(startDayNum, endDayNum,getMax);
+		
+	
+		srs.addTF(ja);
+		
+	
+		System.out.println("tf");
+	
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	 * 从自助分析抓取数据，并写入本地数据库
@@ -131,7 +163,7 @@ public class SettleRecordController {
 
 	// 执行定时任务，每十分钟检查一次数据更新的日期与当前日期，如果当前日期先于数据库的日期，则执行更新
 	// 更新的频率为每十分钟
-	@Scheduled(fixedRate = 600000)
+	//@Scheduled(fixedRate = 600000)
 	public   void updateProcess() {
 		//	取得当前的日期
 		Date date_current = new Date();

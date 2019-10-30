@@ -4,7 +4,14 @@
  */
 package com.enixlin.jmrc.smartbi;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,65 +38,64 @@ import org.apache.http.util.EntityUtils;
  */
 public class NetService {
 
-    private CloseableHttpClient httpClient;
-    private HttpGet  httpGet;
-    private HttpPost httpPost;
+	private CloseableHttpClient httpClient;
+	private HttpGet httpGet;
+	private HttpPost httpPost;
 
-    public CloseableHttpClient getHttpClient() {
-	return httpClient;
-    }
-
-
-    /**
-     * 网络连接服务实现类NetService构造函数
-     */
-    public NetService() {
-	super();
-	// TODO Auto-generated constructor stub
-	this.httpClient = this.createHttpClient();
-    }
-
-    /**
-     * 创建一个http连接客户端，整个应用程序都会使用户个客户端进行http请求<br>
-     * 主要是用户登录验证和用户查询等操作
-     * 
-     * @return
-     */
-    public CloseableHttpClient createHttpClient() {
-	this.httpClient = HttpClients.createDefault();
-	return this.httpClient;
-    }
-
-    /**
-     * 使用 get方法提交HTTP请求
-     * 
-     * @param requestUrl请求的地址
-     * @return 结果字符串
-     */
-    public String HttpGet(String requestUrl) {
-	String result = null;
-
-	HttpGet httpGet = new HttpGet(requestUrl);
-	try {
-	    CloseableHttpResponse response = this.httpClient.execute(httpGet);
-	    HttpEntity entity = response.getEntity();
-	    result = EntityUtils.toString(entity);
-
-	} catch (ClientProtocolException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	} catch (IOException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
+	public CloseableHttpClient getHttpClient() {
+		return httpClient;
 	}
-	return result;
 
-    }
-    
-    
-    public String HttpPost(String url,Map<String,String> map,String encoding) {
-    	
-    	String result=null;
+	/**
+	 * 网络连接服务实现类NetService构造函数
+	 */
+	public NetService() {
+		super();
+		// TODO Auto-generated constructor stub
+		this.httpClient = this.createHttpClient();
+	}
+
+	/**
+	 * 创建一个http连接客户端，整个应用程序都会使用户个客户端进行http请求<br>
+	 * 主要是用户登录验证和用户查询等操作
+	 * 
+	 * @return
+	 */
+	public CloseableHttpClient createHttpClient() {
+		this.httpClient = HttpClients.createDefault();
+		return this.httpClient;
+	}
+
+	/**
+	 * 使用 get方法提交HTTP请求
+	 * 
+	 * @param requestUrl请求的地址
+	 * @return 结果字符串
+	 */
+	public String HttpGet(String requestUrl) {
+		String result = null;
+
+		HttpGet httpGet = new HttpGet(requestUrl);
+		try {
+			CloseableHttpResponse response = this.httpClient.execute(httpGet);
+			HttpEntity entity = response.getEntity();
+			result = EntityUtils.toString(entity);
+
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+
+	}
+
+	public String HttpPost(String url, Map<String, String> map,
+			String encoding) {
+
+		String result=null;
     	String body="";
     	
     	HttpPost httpPost=new HttpPost(url);
@@ -129,8 +135,6 @@ public class NetService {
         
    
     	return result;
-    }
-    
-    
-    
+	}
+
 }
