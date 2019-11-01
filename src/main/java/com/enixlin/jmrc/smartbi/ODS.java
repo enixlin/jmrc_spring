@@ -59,7 +59,9 @@ public class ODS {
 		String urlString = "http://110.0.170.88:9083/smartbi/vision/QueryView.jsp?queryId=Iee801fbd037361f4014688c9cb301d4a&browserType=chrome";
 		String temp = ns.HttpGet(urlString);
 		int start = temp.indexOf("clientId=") + 10;
+		int parameterPanelId = temp.indexOf("parameterPanelId") + 20;
 		String ClientId = temp.substring(start, start + 41);
+		String panelId = temp.substring(start, start + 41);
 
 		map.clear();
 		map.put("className", "ClientReportService");
@@ -83,7 +85,7 @@ public class ODS {
 		map.clear();
 		map.put("className", "CompositeService");
 		map.put("methodName", "setParamValuesWithRelated");
-		map.put("params", "[" + ClientId + "," + param_date + "," + queryDate1
+		map.put("params", "[" + panelId + "," + param_date + "," + queryDate1
 				+ "," + queryDate2 + " ]");
 		result = ns.HttpPost(url_query, map, encoding);
 
@@ -121,8 +123,6 @@ public class ODS {
 					.get(0).getAsJsonArray();
 			// System.out.println("");
 			// 提取贸易融资、和出口退税、保函、信用证等业务,按科目提取
-
-			
 
 //			科目号	科目名称
 //			1050101	即期信用证
