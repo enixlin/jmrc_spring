@@ -847,4 +847,7 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 			+ "</foreach> "
 			+ "</script>")
 	int addTF(@Param("records")JsonArray ja);
+	
+	@Delete("delete from tf_middle")
+	void truncateTFMiddle();
 }

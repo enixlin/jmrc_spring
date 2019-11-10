@@ -58,10 +58,14 @@ public class SettleRecordController {
 		
 		ODS ods = new ODS();
 
-		JsonArray ja = ods.getAllFTRecordFromMiddleTable(startDayNum, endDayNum,getMax);
-		
+		JsonArray ja = ods.getAllFTRecordFromMiddleTable(startDayNum, endDayChn,getMax);
+		System.out.println("共有融资记录："+ja.size());
+		System.out.println(ja.size());
+		if(ja.size()>0) {
+			
+			srs.addTF(ja);
+		}
 	
-		srs.addTF(ja);
 		
 	
 		System.out.println("tf");

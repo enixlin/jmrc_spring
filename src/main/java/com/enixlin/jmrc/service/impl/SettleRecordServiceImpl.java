@@ -1025,7 +1025,8 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 	public int addTF(JsonArray ja) {
 		// TODO Auto-generated method stub
 		
-		
+		//先清空融资表格
+		settleRecordMapper.truncateTFMiddle();
 		return settleRecordMapper.addTF(ja);
 		
 	}
