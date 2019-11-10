@@ -60,7 +60,7 @@ public interface SettleRecordService extends BaseService<SettleRecord> {
 	 * @param product 纳入国际结算量统计口径的产品（这是一个数组类型）
 	 * @return List<IndexPerformance> 创建时间：2019年6月27日
 	 */
-	List<IndexPerformance> getMonthPerformance(String start, String end);
+	ArrayList<LinkedHashMap<String, Object>> getMonthPerformance(String start, String end);
 
 	/**
 	 * @author linzhenhuan </br>

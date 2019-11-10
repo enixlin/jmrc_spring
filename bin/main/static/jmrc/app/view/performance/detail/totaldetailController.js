@@ -28,22 +28,28 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
 	 * 生成全行业务总览
 	 */
     makeTotalReport: function(scope, view, data) {
+    	
+    	let height=window.innerHeight*0.9;
+    	let width=window.innerWidth;
         let summypanel = Ext.create("Ext.panel.Panel", {
-            width: window.innerWidth * 0.7,
-            height: window.innerHeight * .6,
-            // renderTo: Ext.getBody(),
+            width: width* 0.65,
+            height: height ,
+       // renderTo: Ext.getBody(),
+            
             layout: {
                 type: "table",
                 columns: 2
             },
-            margin: 20,
+            margin: 5,
+            scrollable:true,
 
             items: [{
                 xtype: "panel",
                 layout: "form",
+                columns:1,
                 border: 2,
-                width: window.innerWidth * 0.20,
-                height: window.innerHeight * .5,
+                width: width* 0.2,
+                height: height*0.5 ,
                 margin: 5,
                 html: "<h3>数据更新日期：<font color=red>" + data.updatedate +
                     "</font></h3><br><h3>国际结算业务量：<font color=blue >" +
@@ -64,6 +70,12 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
                         margin: 10,
                         handler: "clientAnalyis"
                     },
+                    {
+                        xtype: "button",
+                        text: "分月明细",
+                        margin: 10,
+                        handler: "getAllMonthDetail"
+                    },
                 ]
             }]
         });
@@ -71,9 +83,11 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
         let productGrid = Ext.create({
             xtype: "grid",
             layout: "form",
+            float:"right",
             border: 2,
-            width: window.innerWidth * 0.4,
-            height: window.innerHeight * .6,
+            grid:true,
+            width: width* 0.4,
+            height: height*0.5 ,
             margin: 5,
             scrollable: true,
             // bind: { store: "{getSettleTypeProformanceByDate}" },
@@ -195,9 +209,9 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
 
             ],
         });
+
         productGrid.bindStore(scope.getViewModel().getStore(
             "getAllProductDetail"));
-        console.log(productGrid.getStore());
         productGrid.getStore().load({
             params: {
                 start: data.start,
@@ -205,7 +219,15 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
             },
         });
         summypanel.add(productGrid);
+        
         view.add(summypanel);
+       // this.getAllMonthDetail(summypanel,data.start,data.end);
+
+      
+        // 设定bar图的store
+
+
+
     },
 
     getProductMonthDetail: function(product, start, end) {
@@ -326,7 +348,7 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
             label: {
                 field: "amount",
                 display: "insideEnd",
-                renderer: "onSeriesLabelRender"
+                renderer: function(v){return Ext.util.Format.number(v, "0,000")}
             },
             tooltip: {
                 trackMouse: true,
@@ -353,6 +375,164 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
         win.show();
 
     },
+    
+    getAllMonthDetail: function() {
+        // alert("getProductMonthDetail");
+        // alert(product);
+        let me = this;
+        let view = me.getView();
+        let data = view.config.data;
+        let start = view.up().query("textfield")[2].getValue()
+            .replace(/-/g, "");
+        let end = view.up().query("textfield")[3].getValue().replace(/-/g, "");
+        data.start = start;
+        data.end = end;
+        let container=view.query("panel")[2];
+        let win = Ext.create("Ext.window.Window", {
+            width: window.innerWidth * .7,
+            height: window.innerHeight * .6,
+            scrollable: true,
+            layout: {
+                type: "table",
+                columns: 2
+            },
+
+        });
+
+        let store = Ext.create("Ext.data.Store", {
+
+            fields: ["month", "times", "amount"],
+            proxy: {
+                url: "/settlerecord/getMonthPerformance",
+                type: "ajax",
+            }
+        });
+
+        let grid = Ext.create("Ext.grid.Panel", {
+            width: 400,
+            store: store,
+            scrollable: true,
+           	tbar : [  "->", {
+          		xtype : "button",
+          		text : "导出表格",
+          		handler :function(){
+          			let me=this;
+          			let detailType="exportProductMonthDetailExcel";
+          			me.up().up().up().up().controller.exportExcel(product,start,end,detailType);
+          		}
+          	} ],
+            columns: [
+                { header: "月份", dataIndex: "month" },
+                { header: "笔数", dataIndex: "times", renderer: function(value) { return Ext.util.Format.number(value, "0,000") } },
+                { header: "金额", dataIndex: "amount", renderer: function(value) { return Ext.util.Format.number(value, "0,000.00") } },
+            ],
+
+        });
+
+
+        // 插入柱状图的框架
+        win.add({
+            xtype: "cartesian",
+            width: window.innerWidth * 0.4,
+            height: window.innerHeight * 0.4,
+            reference: "chart",
+            border: 2,
+            margin: 20,
+            innerPadding: "50 0 0 10",
+            tbar: [{
+                text: "生成图像",
+                platformConfig: {
+                    desktop: {
+                        text: "生成图像"
+                    }
+                },
+                handler: "onPreview"
+            }]
+        });
+
+        // 取得图型对象，绑定数据集
+        let cartesian = win.query("cartesian")[0];
+
+        // 设定图表内图型中的标题
+        let sprites = {
+            type: "text",
+            text: "业务量分月明细图",
+            fontSize: 15,
+            width: 100,
+            height: 30,
+
+            x: 100,
+            y: 30
+        };
+        let axes = [{
+                type: "numeric",
+                position: "left",
+                title: {
+                    text: "业务量",
+                    fontSize: 15
+                },
+                fields: "amount",
+                // margin:"60 5 5 5 ",
+                minimum: 0
+            },
+            {
+                type: "category",
+                position: "bottom",
+                margin: 10,
+                title: {
+                    text: "月份",
+                    fontSize: 12
+                },
+                fields: "month"
+            }
+        ];
+        let series = {
+            type: "bar",
+            subStyle: {
+                fill: ["#abcdef"],
+                stroke: "#1F6D91"
+            },
+            xField: "month",
+            yField: "amount",
+            yValue: "amount",
+            highlight: {
+                strokeStyle: "light",
+                fillStyle: "gold"
+            },
+            label: {
+                field: "amount",
+                display: "insideEnd",
+                renderer: function(v){return Ext.util.Format.number(v, "0,000")}
+            },
+            tooltip: {
+                trackMouse: true,
+                renderer: "onTooltipRender"
+            }
+        };
+        // 加入轴
+        cartesian.setAxes(axes);
+        // 设定轴的标题
+        cartesian.setSeries(series);
+
+        cartesian.setSprites(sprites);
+        // 设定bar图的store
+
+        // 设定柱型图的数据集
+        cartesian.bindStore(store);
+
+
+        store.load({
+            params: {  start, end },
+        });
+        win.add(grid);
+        container.add(win);
+        win.show();
+       
+    
+
+    },
+    
+    
     getProductClientDetail: function(product,start, end) {
 
         let me = this;
@@ -639,7 +819,7 @@ console.log(grid);
         let me = this;
         let view = me.getView();
         let config = view.config.data;
-        let perform = Ext.util.Format.number(record.get(config["yAxis"]), "0,000");
+        let perform = Ext.util.Format.number(record.get("amount"), "0,000");
         tooltip.setHtml(
             record.get("month") +
             "业务量为：" +

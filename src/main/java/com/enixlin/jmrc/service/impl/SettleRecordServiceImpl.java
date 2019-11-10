@@ -223,14 +223,14 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 	 * lang.String, java.lang.String)
 	 */
 	@Override
-	public List<IndexPerformance> getMonthPerformance(String start,
+	public ArrayList<LinkedHashMap<String, Object>> getMonthPerformance(String start,
 			String end) {
 		// TODO Auto-generated method stub
 
 		ArrayList<Product> products = settleRecordMapper
 				.getSettleRangeProduct();
 
-		List<IndexPerformance> mi = settleRecordMapper
+		ArrayList<LinkedHashMap<String, Object>> mi = settleRecordMapper
 				.getMonthPerformance(start, end, products);
 		return mi;
 	}

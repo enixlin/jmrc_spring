@@ -75,9 +75,9 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 	 * @param end
 	 * @return List<IndexPerformance> 创建时间：2019年6月11日 @
 	 */
-	@Select("<script> select sum(busy_amount * usd_rate)/10000 as performance,"
+	@Select("<script> select sum(busy_amount * usd_rate)/10000 as amount,"
 			+ "count(busy_amount) as times, "
-			+ "left(busy_date,6) as name "
+			+ "left(busy_date,6) as month "
 			+ "from settle_record "
 			+ " where "
 			+ "product_name in  "
@@ -86,10 +86,10 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 			+ "</foreach> "
 			+ " and "
 			+ "busy_date&gt;=${start} and busy_date&lt;=${end} "
-			+ " group by name "
-			+ " order by name asc "
+			+ " group by month "
+			+ " order by month asc "
 			+ "</script>")
-	List<IndexPerformance> getMonthPerformance(@Param("start") String start,
+	ArrayList<LinkedHashMap<String, Object>> getMonthPerformance(@Param("start") String start,
 			@Param("end") String end,
 			@Param("products") ArrayList<Product> products);
 

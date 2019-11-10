@@ -28,9 +28,7 @@ Ext.define("jmrc.view.main.MainController", {
 		console.log(CFG.getUserInfo().rolerName);
 		console.log(user_id);
 		me.choiceRoler();
-		//        	  
-		// this.initAuthor(roler_id,roler_name);
-		// }
+	
 
 	},
 

@@ -20,13 +20,6 @@ Ext.define("jmrc.view.main.Main", {
 	"Ext.window.MessageBox",//
 	"jmrc.view.main.MainController", //
 	"jmrc.view.main.MainModel",//
-	// "jmrc.view.user.admin.User",//
-	// "jmrc.view.found.Found",
-	// "jmrc.view.found.FoundList",
-	// "jmrc.view.user.user_add",
-	// "jmrc.view.main.navitree.NaviTree",//
-	// "jmrc.view.main.content.Content",//
-
 	],
 
 	controller : "main",
@@ -49,13 +42,14 @@ Ext.define("jmrc.view.main.Main", {
 			height :50,
 			width : "100%",
 			border:true,
+			style:"line-height: 50px;",
 			margin:0,
 			id:"topPart",
 			items:[
 				{xtype:"image",src:"/images/jmrc_logo.jpg"},
 				
-				{xtype:"button",text:"退出",handler:"logout"},
-				{xtype:"button",text:"选择角色",handler:"choiceRoler"},
+				{xtype:"button",text:"退出",handler:"logout",style:"float:right;margin:0px 3px 0px 3px;"},
+				{xtype:"button",text:"选择角色",handler:"choiceRoler",style:"float:right;margin:0px 3px 0px 3px"},
 				
 				]
 		}, {

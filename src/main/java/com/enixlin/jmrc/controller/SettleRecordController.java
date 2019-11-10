@@ -266,7 +266,7 @@ public class SettleRecordController {
 	 * @return
 	 */
 	@RequestMapping("/getMonthPerformance")
-	public List<IndexPerformance> getMonthPerformance(HttpServletRequest req,
+	public ArrayList<LinkedHashMap<String, Object>> getMonthPerformance(HttpServletRequest req,
 			HttpServletResponse res) {
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
