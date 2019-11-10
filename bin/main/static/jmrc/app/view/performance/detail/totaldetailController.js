@@ -471,7 +471,7 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
                     text: "业务量",
                     fontSize: 15
                 },
-                fields: "amount",
+                fields: ["amount","amount"],
                 // margin:"60 5 5 5 ",
                 minimum: 0
             },
