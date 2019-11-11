@@ -1,5 +1,6 @@
 package com.enixlin.jmrc.smartbi;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +14,212 @@ public class ODS {
 	public ODS() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * 查询科目余额表，用于国际业务收入、支出，存款数据等
+	 * 
+	 * @param queryDate1 格式： "2019-05-01"
+	 * @param queryDate2 格式： "2019年5月1日"
+	 * @param ExportNum  单次最大提取记录数，建议不要大于5000笔每/次
+	 * @return
+	 */
+	public JsonArray getSubjectsBalance(String queryDate1,
+			 String ExportNum) {
+
+		NetService ns = new NetService();
+
+		ns.createHttpClient();
+
+		String url_query = "http://110.0.170.88:9083/smartbi/vision/RMIServlet?debug=true";
+		Map<String, String> map = new HashMap<String, String>();
+		String encoding = "utf8";
+		String result = "";
+
+		/**
+		 * 用户登录，传入用户编号和密码 返回的结果是用户信息，是否已登录等内容
+		 */
+		map.clear();
+		map.put("className", "CompositeService");
+		map.put("methodName", "compositeLogin");
+		map.put("params", "[\"32311\",\"123\"]");
+		result = ns.HttpPost(url_query, map, encoding);
+
+		// 打开报表资源
+		map.clear();
+		map.put("className", "CatalogService");
+		map.put("methodName", "getCatalogElementById");
+		map.put("params", "[Iee801fbd14166fed0155421af6ad0f77]");
+		result = ns.HttpPost(url_query, map, encoding);
+
+		// 打开报表查询
+		map.clear();
+		map.put("className", "CombinedQueryService");
+		map.put("methodName", "openCombinedQuery");
+		map.put("params", "[Iee801fbd14166fed0155421af6ad0f77,null]");
+		result = ns.HttpPost(url_query, map, encoding);
+		// 从responseText中取得 result[0]
+		JsonService js = new JsonService(result);
+		JsonArray ja = js.getJsonArray("result");
+		
+		String reportID1 = ja.get(0).toString();
+		String reportID2 = ja.get(1).toString();
+		String reportID3 = ja.get(8).toString();
+		String BizTheme = ja.get(4).toString();
+
+		// 打开资源路径
+		map.clear();
+		map.put("className", "CatalogService");
+		map.put("methodName", "getCatalogElementPath");
+		map.put("params", "[Iee801fbd14166fed0155421af6ad0f77]");
+		result = ns.HttpPost(url_query, map, encoding);
+
+		// 创建报表
+		map.clear();
+		map.put("className", "CombinedQueryService");
+		map.put("methodName", "createSimpleReport");
+		map.put("params", "[" + reportID1 + "]");
+		result = ns.HttpPost(url_query, map, encoding);
+		js = new JsonService(result);
+		JsonObject jo = js.getJsonObject("result");
+		String clientId = jo.get("clientId").toString();
+		String parameterPanelId = jo.get("parameterPanelId").toString();
+
+		// BizViewOutField= jo.getAsJsonObject("reportBean");
+		JsonObject reportBean = jo.getAsJsonObject("reportBean");
+		String clientConfig = reportBean.get("clientConfig").getAsString();
+
+		JsonService jss = new JsonService(clientConfig);
+		JsonObject BizViewOutField = jss.getJsonObject().get("gridProp").getAsJsonObject()
+				.get("fieldProps").getAsJsonObject();
+		JsonArray opParameter = jss.getJsonObject().get("paramSetting")
+				.getAsJsonObject().get("applyDefaultValueParams")
+				.getAsJsonArray();
+		String account_cd = opParameter.get(1).toString();
+		String current_all = opParameter.get(0).toString();
+		String reportdate = opParameter.get(2).toString();
+	
+		
+		
+		
+		
+		// 取得过滤器
+		map.clear();
+		map.put("className", "CombinedQueryService");
+		map.put("methodName", "getLocalFilterElements");
+		map.put("params", "[" + reportID1 + "]");
+		result = ns.HttpPost(url_query, map, encoding);
+		
+		
+		map.clear();
+		map.put("className", "ClientReportService");
+		map.put("methodName", "getFunctionValue");
+		map.put("params", "[ " + clientId + ",CurrentReportName()]");
+		result = ns.HttpPost(url_query, map, encoding);
+		
+		
+		map.clear();
+		map.put("className", "CombinedQueryService");
+		map.put("methodName", "initFromBizViewEx");
+		map.put("params",
+				"[" + reportID1 + "," + clientId + "," + reportID2 + ",true]");
+		result = ns.HttpPost(url_query, map, encoding);
+		
+		map.clear();
+		map.put("className", "CombinedQueryService");
+		map.put("methodName", "setSimpleReportClientId");
+		map.put("params", "[" + reportID1 + "," + clientId + "]");
+		result = ns.HttpPost(url_query, map, encoding);
+		// System.out.println(result);
+
+		map.clear();
+		map.put("className", "ConfigClientService");
+		map.put("methodName", "getSystemConfig");
+		map.put("params", "[REPORT_BROWSE_AUTO_REFRESH]");
+		result = ns.HttpPost(url_query, map, encoding);
+		
+		
+		/**
+		  * 设定科目号
+		  * 存款相关科目
+		 * 单位活期：2001
+		 * 保证金 ：2014
+		 * 个人活期：2003
+		 * 个人定期：2004
+		 */
+		map.clear();
+		map.put("className", "CompositeService");
+		map.put("methodName", "setParamValuesWithRelated");
+		String subjects="2001,2014,2003,2004";
+		map.put("params", "[" + parameterPanelId + "," + account_cd + "," + queryDate1
+				+ "," + subjects+ "," + subjects+ " ]");
+		result = ns.HttpPost(url_query, map, encoding);
+		
+		/**
+		 * 设定币种
+		 */
+		map.clear();
+		map.put("className", "CompositeService");
+		map.put("methodName", "setParamValuesWithRelated");
+		String currency="CNY,HKD,USD,EUR,GBP,JPY,RMB,USX,MOP,AUD,CAD";
+		String currency_chn="人民币 CNY,港    币 HKD,美    元 USD,欧    元 EUR,英    镑 GBP,日    元 JPY,综合人民币 RMB,综合美元 USX,澳门元 MOP,澳    元 AUD,加    元 CAD";
+		map.put("params", "[" + parameterPanelId + "," + current_all + "," + queryDate1
+				+ "," + currency+ "," + currency_chn+ " ]");
+		result = ns.HttpPost(url_query, map, encoding);
+		
+		
+		/**
+		 * 设定日期
+		 */
+		map.clear();
+		map.put("className", "CompositeService");
+		map.put("methodName", "setParamValuesWithRelated");
+		map.put("params", "[" + parameterPanelId + "," + reportdate + "," + queryDate1
+				+ "," + queryDate1+ "," + queryDate1+ " ]");
+		result = ns.HttpPost(url_query, map, encoding);
+		
+		
+		
+		
+		
+		map.clear();
+		map.put("className", "ClientReportService");
+		map.put("methodName", "clearSQLResultStore");
+		map.put("params", "[" + clientId + "]");
+		result = ns.HttpPost(url_query, map, encoding);
+		
+
+		map.clear();
+		map.put("className", "ClientReportService");
+		map.put("methodName", "setRowsPerPage");
+		map.put("params", "[" + clientId + "," + ExportNum + "]");
+		result = ns.HttpPost(url_query, map, encoding);
+		
+		
+		map.clear();
+		map.put("className", "ClientReportService");
+		map.put("methodName", "getTotalRowsCountWithFuture");
+		map.put("params", "[" + clientId + ",0]");
+		result = ns.HttpPost(url_query, map, encoding);
+		js = new JsonService(result);
+		JsonObject objResult = js.getJsonObject();
+		
+		
+		map.clear();
+		map.put("className", "ClientReportService");
+		map.put("methodName", "getReportDataWithFuture");
+		map.put("params", "[" + clientId + ",0]");
+		result = ns.HttpPost(url_query, map, encoding);
+		js = new JsonService(result);
+		JsonObject objRusult = js.getJsonObject();
+		JsonArray array_result = objRusult.get("result").getAsJsonArray().get(0)
+				.getAsJsonArray();
+		
+		
+		
+
+		return array_result;
+
 	}
 
 	/**
@@ -149,7 +356,8 @@ public class ODS {
 						subject.equals("1110101") ||
 						subject.equals("1120101") ||
 						subject.equals("1140101") ||
-						(subject.equals("13040301") && !currency.equals("CNY")) ||
+						(subject.equals("13040301") && !currency.equals("CNY"))
+						||
 						subject.equals("13070101") ||
 						subject.equals("13070201") ||
 						subject.equals("13070301") ||
@@ -161,7 +369,7 @@ public class ODS {
 					fixedArray.add(array_result.get(j));
 				}
 			}
-			System.out.println("第："+i +"次请求完成");
+			System.out.println("第：" + i + "次请求完成");
 
 		}
 
@@ -241,7 +449,6 @@ public class ODS {
 		// BizViewOutField= jo.getAsJsonObject("reportBean");
 		JsonObject reportBean = jo.getAsJsonObject("reportBean");
 		String clientConfig = reportBean.get("clientConfig").getAsString();
-
 		JsonService jss = new JsonService(clientConfig);
 		JsonObject BizViewOutField = jss.getJsonObject().get("gridProp")
 				.getAsJsonObject().get("fieldProps").getAsJsonObject();

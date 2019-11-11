@@ -65,17 +65,31 @@ public class SettleRecordController {
 			
 			srs.addTF(ja);
 		}
-	
-		
-	
+
 		System.out.println("tf");
 	
 	}
 	
 	
+//	getSubjectsBalance
 	
+	@RequestMapping("/getSubjectsBalance")
+	public void getSubjectsBalance(HttpServletRequest req,HttpServletResponse res) {
+
+		String start=req.getParameter("start");
+		
+		String getMax=req.getParameter("getMax");
 	
+		
+		ODS ods = new ODS();
+
+		JsonArray ja = ods.getSubjectsBalance(start,getMax);
+		
+		
 	
+		System.out.println("getSubjectsBalance");
+	
+	}
 	
 	
 	
