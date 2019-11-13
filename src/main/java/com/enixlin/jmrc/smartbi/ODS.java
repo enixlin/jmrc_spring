@@ -302,7 +302,7 @@ public class ODS {
 		map.clear();
 		map.put("className", "ClientReportService");
 		map.put("methodName", "setRowsPerPage");
-		map.put("params", "[" + ClientId + "," + ExportNum + "]");
+		map.put("params", "[" + ClientId + ",5000]");
 		result = ns.HttpPost(url_query, map, encoding);
 		// System.out.println(result);
 
@@ -316,7 +316,7 @@ public class ODS {
 
 		int recordCount = objResult.get("result").getAsInt();
 		System.out.println("中间表的总记录数：" + result);
-		int round = recordCount / Integer.parseInt(ExportNum);
+		int round = recordCount / 5000;
 		System.out.println(round);
 		System.out.println("需要提交请求的次数：" + round);
 
@@ -331,7 +331,7 @@ public class ODS {
 			JsonObject objRusult = js.getJsonObject();
 			JsonArray array_result = objRusult.get("result").getAsJsonArray()
 					.get(0).getAsJsonArray();
-			// System.out.println("");
+			System.out.println("");
 			// 提取贸易融资、和出口退税、保函、信用证等业务,按科目提取
 
 //			科目号	科目名称
