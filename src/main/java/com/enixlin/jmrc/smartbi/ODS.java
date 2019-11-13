@@ -150,10 +150,11 @@ public class ODS {
 		map.clear();
 		map.put("className", "CompositeService");
 		map.put("methodName", "setParamValuesWithRelated");
-		String subjects="2001,2014,2003,2004";
-		map.put("params", "[" + parameterPanelId + "," + account_cd + "," + queryDate1
-				+ "," + subjects+ "," + subjects+ " ]");
+		String subjects="2001,2014,2003,2004,6411,64210301,64210401,3301,6012,6412";
+		map.put("params", "[" + parameterPanelId + "," + account_cd 
+				+ ",'" + subjects+ "','" + subjects+ "' ]");
 		result = ns.HttpPost(url_query, map, encoding);
+		System.out.println(result);
 		
 		/**
 		 * 设定币种
@@ -163,10 +164,10 @@ public class ODS {
 		map.put("methodName", "setParamValuesWithRelated");
 		String currency="CNY,HKD,USD,EUR,GBP,JPY,RMB,USX,MOP,AUD,CAD";
 		String currency_chn="人民币 CNY,港    币 HKD,美    元 USD,欧    元 EUR,英    镑 GBP,日    元 JPY,综合人民币 RMB,综合美元 USX,澳门元 MOP,澳    元 AUD,加    元 CAD";
-		map.put("params", "[" + parameterPanelId + "," + current_all + "," + queryDate1
-				+ "," + currency+ "," + currency_chn+ " ]");
+		map.put("params", "[" + parameterPanelId + "," + current_all 
+				+ ",'" + currency+ "','" + currency_chn+ "' ]");
 		result = ns.HttpPost(url_query, map, encoding);
-		
+		System.out.println(result);
 		
 		/**
 		 * 设定日期
@@ -174,10 +175,10 @@ public class ODS {
 		map.clear();
 		map.put("className", "CompositeService");
 		map.put("methodName", "setParamValuesWithRelated");
-		map.put("params", "[" + parameterPanelId + "," + reportdate + "," + queryDate1
-				+ "," + queryDate1+ "," + queryDate1+ " ]");
+		map.put("params", "[" + parameterPanelId + "," + reportdate 
+				+ ",'" + queryDate1+ "','" + queryDate1+ "' ]");
 		result = ns.HttpPost(url_query, map, encoding);
-		
+		System.out.println(result);
 		
 		
 		
@@ -201,8 +202,8 @@ public class ODS {
 		map.put("methodName", "getTotalRowsCountWithFuture");
 		map.put("params", "[" + clientId + ",0]");
 		result = ns.HttpPost(url_query, map, encoding);
-		js = new JsonService(result);
-		JsonObject objResult = js.getJsonObject();
+	
+		System.out.println("总的科目余额记录数："+result);
 		
 		
 		map.clear();
@@ -214,6 +215,8 @@ public class ODS {
 		JsonObject objRusult = js.getJsonObject();
 		JsonArray array_result = objRusult.get("result").getAsJsonArray().get(0)
 				.getAsJsonArray();
+		System.out.println("result array size is:" + array_result.size());
+		System.out.println("result to object");
 		
 		
 		
@@ -230,8 +233,8 @@ public class ODS {
 	 * @param ExportNum  单次最大提取记录数，建议不要大于5000笔每/次
 	 * @return
 	 */
-	public JsonArray getAllFTRecordFromMiddleTable(String queryDate1,
-			String queryDate2, String ExportNum) {
+	public JsonArray getAllFTRecordFromMiddleTable(String dateLineFormat,
+			String dateChineseFormat, String ExportNum) {
 		NetService ns = new NetService();
 
 		ns.createHttpClient();
@@ -292,8 +295,8 @@ public class ODS {
 		map.clear();
 		map.put("className", "CompositeService");
 		map.put("methodName", "setParamValuesWithRelated");
-		map.put("params", "[" + panelId + "," + param_date + "," + queryDate1
-				+ "," + queryDate2 + " ]");
+		map.put("params", "[" + panelId + "," + param_date + "," + dateLineFormat
+				+ "," + dateChineseFormat + " ]");
 		result = ns.HttpPost(url_query, map, encoding);
 
 		map.clear();

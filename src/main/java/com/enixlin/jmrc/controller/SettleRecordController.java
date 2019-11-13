@@ -43,64 +43,55 @@ import com.google.gson.JsonParser;
 public class SettleRecordController {
 	@Autowired
 	SettleRecordService srs;
-	
-	
-	@RequestMapping("/tf")
-	public void addTF(HttpServletRequest req,HttpServletResponse res) {
 
-		String start=req.getParameter("start");
-		String end=req.getParameter("end");
-		String getMax=req.getParameter("getMax");
-		String StartDayChn = changeChineseDateFormat(start);
-		String endDayChn = changeChineseDateFormat(end);
-		String startDayNum = changeLineDateFormat(start);
-		String endDayNum = changeLineDateFormat(end);
-		
+	public void addTF(String end, String getMax) {
 		ODS ods = new ODS();
+		String dateLineFormat=this.changeLineDateFormat(end);
+		String dateChineseFormat=this.changeChineseDateFormat(end);
+		JsonArray ja = ods.getAllFTRecordFromMiddleTable(dateLineFormat, dateChineseFormat,
+				getMax);
+		System.out.println("共有融资记录：" + ja.size());
 
-		JsonArray ja = ods.getAllFTRecordFromMiddleTable(startDayNum, endDayChn,getMax);
-		System.out.println("共有融资记录："+ja.size());
-		System.out.println(ja.size());
-		if(ja.size()>0) {
-			
+		if (ja.size() > 0) {
+
 			srs.addTF(ja);
 		}
 
 		System.out.println("tf");
-	
-	}
-	
-	
-//	getSubjectsBalance
-	
-	@RequestMapping("/getSubjectsBalance")
-	public void getSubjectsBalance(HttpServletRequest req,HttpServletResponse res) {
 
-		String start=req.getParameter("start");
+	}
+
+	@RequestMapping("/testupdate")
+	public void testupdate(HttpServletRequest req, HttpServletResponse res) {
+		String end =req.getParameter("date");
+		String getMax =req.getParameter("getMax");
+		this.addSubjectsBalance(end, getMax);
 		
-		String getMax=req.getParameter("getMax");
-	
-		
+	}
+	/**
+	 * 添加收入、存款科目
+	 * 
+	 * @author linzhenhuan </br>
+	 *         方法说明： </br>
+	 * @param start  报表日期
+	 * @param getMax void 创建时间：2019年11月12日
+	 */
+	public void addSubjectsBalance(String end, String getMax) {
 		ODS ods = new ODS();
+		JsonArray ja = ods.getSubjectsBalance(end, getMax);
+		if (ja.size() > 0) {
+			srs.addSubjects(ja);
+		}
+		System.out.println("添加收入、存款科目完成");
 
-		JsonArray ja = ods.getSubjectsBalance(start,getMax);
-		
-		
-	
-		System.out.println("getSubjectsBalance");
-	
 	}
-	
-	
-	
 
 	/**
 	 * 从自助分析抓取数据，并写入本地数据库
 	 */
-	
-	public void add(String start,String end,String getMax) {
 
-		
+	public void add(String start, String end, String getMax) {
+
 		String StartDayChn = changeChineseDateFormat(start);
 		String endDayChn = changeChineseDateFormat(end);
 		String startDayNum = changeLineDateFormat(start);
@@ -168,15 +159,15 @@ public class SettleRecordController {
 
 		System.out.println(" 所有的记录插入完成");
 		fixedSettleRecord();
-		
+
 	}
 
 	public void fixedSettleRecord() {
 		srs.fixedSettleRecord();
 	}
-	
-	public Date getAfterDays(Date start,int afterdays) {
-		return new Date(start.getTime()+afterdays*24*60*60*1000);
+
+	public Date getAfterDays(Date start, int afterdays) {
+		return new Date(start.getTime() + afterdays * 24 * 60 * 60 * 1000);
 	}
 
 	// 执行定时任务，每十分钟检查一次数据更新的日期与当前日期，如果当前日期先于数据库的日期，则执行更新
@@ -207,9 +198,17 @@ public class SettleRecordController {
 			String start= sdf.format(new Date(date_log.getTime()+24*3600*1000));
 			String end=date_current_str;
 			String getMax="50000";
+			//添加国际结算和结售汇业务到数据库
 			this.add(start, end, getMax);
+			//添加贸易融资业务到数据库
+			this.addTF(end, getMax);
+			//
+			this.addSubjectsBalance(end, getMax);
+			
 			this.updatelog(this.getLastBusyDate());
 			
+		}else {
+			System.out.println("no update");
 		}
 	
 
@@ -284,7 +283,8 @@ public class SettleRecordController {
 	 * @return
 	 */
 	@RequestMapping("/getMonthPerformance")
-	public ArrayList<LinkedHashMap<String, Object>> getMonthPerformance(HttpServletRequest req,
+	public ArrayList<LinkedHashMap<String, Object>> getMonthPerformance(
+			HttpServletRequest req,
 			HttpServletResponse res) {
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
@@ -771,7 +771,6 @@ public class SettleRecordController {
 	public String getLastUpdateDate() {
 		return srs.getLastUpdateDate();
 	}
-	
 
 	public String getLastBusyDate() {
 		return srs.getLastBusyDate();
@@ -830,8 +829,7 @@ public class SettleRecordController {
 		String end = req.getParameter("end");
 		return srs.getProductDetail(product, start, end);
 	}
-	
-	
+
 	@RequestMapping("/getClientDetail")
 	public ArrayList<LinkedHashMap<String, Object>> getClientDetail(
 			HttpServletRequest req, HttpServletResponse res) {
@@ -1014,8 +1012,7 @@ public class SettleRecordController {
 		return srs.getClientProductPerformance(unit, start, end);
 
 	}
-	
-	
+
 	@RequestMapping("/exportClientDetailExcel")
 	public ArrayList<LinkedHashMap<String, Object>> exportClientDetailExcel(
 			HttpServletRequest req, HttpServletResponse res) {
