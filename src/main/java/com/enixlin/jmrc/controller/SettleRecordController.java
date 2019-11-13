@@ -44,6 +44,7 @@ public class SettleRecordController {
 	@Autowired
 	SettleRecordService srs;
 
+
 	public void addTF(String end, String getMax) {
 		ODS ods = new ODS();
 		String dateLineFormat=this.changeLineDateFormat(end);
@@ -172,12 +173,15 @@ public class SettleRecordController {
 
 	// 执行定时任务，每十分钟检查一次数据更新的日期与当前日期，如果当前日期先于数据库的日期，则执行更新
 	// 更新的频率为每十分钟
-	//@Scheduled(fixedRate = 600000)
+	@Scheduled(fixedRate = 600000)
 	public   void updateProcess() {
 		//	取得当前的日期
 		Date date_current = new Date();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
 		String date_current_str=sdf.format(date_current);
+		//ODS的业务数据一般为
+		String tf_date=sdf.format(new Date(date_current.getTime()-3*24*3600*1000));
+		String subject_date=sdf.format(new Date(date_current.getTime()-2*24*3600*1000));
 		int date_current_int=Integer.parseInt(date_current_str);
 		
 		//取得最近的业务日期
@@ -201,9 +205,9 @@ public class SettleRecordController {
 			//添加国际结算和结售汇业务到数据库
 			this.add(start, end, getMax);
 			//添加贸易融资业务到数据库
-			this.addTF(end, getMax);
-			//
-			this.addSubjectsBalance(end, getMax);
+			this.addTF(tf_date, getMax);
+			//添加收入支出、存款类科目余额信息
+			this.addSubjectsBalance(subject_date, getMax);
 			
 			this.updatelog(this.getLastBusyDate());
 			

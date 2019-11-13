@@ -269,9 +269,9 @@ public class ODS {
 		String urlString = "http://110.0.170.88:9083/smartbi/vision/QueryView.jsp?queryId=Iee801fbd037361f4014688c9cb301d4a&browserType=chrome";
 		String temp = ns.HttpGet(urlString);
 		int start = temp.indexOf("clientId=") + 10;
-		int parameterPanelId = temp.indexOf("parameterPanelId") + 20;
+		int parameterPanelId = temp.indexOf("parameterPanelId") + 19;
 		String ClientId = temp.substring(start, start + 41);
-		String panelId = temp.substring(start, start + 41);
+		String panelId = temp.substring(parameterPanelId, parameterPanelId + 41);
 
 		map.clear();
 		map.put("className", "ClientReportService");
@@ -295,8 +295,8 @@ public class ODS {
 		map.clear();
 		map.put("className", "CompositeService");
 		map.put("methodName", "setParamValuesWithRelated");
-		map.put("params", "[" + panelId + "," + param_date + "," + dateLineFormat
-				+ "," + dateChineseFormat + " ]");
+		map.put("params", "[" + panelId + "," + param_date + ",'" + dateLineFormat
+				+ "','" + dateChineseFormat + "' ]");
 		result = ns.HttpPost(url_query, map, encoding);
 
 		map.clear();
