@@ -8,6 +8,8 @@ public interface ExchangeService {
 	public void getExchangeReportType() ;
 
 	public ArrayList<LinkedHashMap<String, Object>> getTotalExchangePerformance(String start, String end);
+
+	public ArrayList<LinkedHashMap<String, Object>> getTypeTotal(String start, String end);
 	
 	
 }

@@ -50,18 +50,87 @@ Ext.define('jmrc.view.performance.exchange.totaldetailController', {
 			width : width * 0.5,
 			height : height * 0.5,
 			border : 2,
+			scrollable:true,
 			margin : "25 0 0 25",
 			columns:[
 				{text:"<center>结售汇种类</center>",dataIndex:"product_name"},
-				{text:"<center>笔数</center>",dataIndex:"times"},
-				{text:"<center>金额</center>",dataIndex:"amount"},
-				{text:"<center>笔数<br>（同比）</center>",dataIndex:"times_compare"},
-				{text:"<center>金额<br>（同比）</center>",dataIndex:"amount_compare"},
+				{text:"<center>笔数</center>",dataIndex:"times",renderer:function(v){return Ext.util.Format.number(v,"0,000")}},
+				{text:"<center>金额<br>(万美元)</center>",dataIndex:"amount",renderer:function(v){return Ext.util.Format.number(v/10000,"0,000.00")}},
+				{text:"<center>笔数<br>（同比）</center>",dataIndex:"times_compare",renderer:function(v){
+					if(v>0){
+						return "<font color=green>"+Ext.util.Format.number(v,"0,000")+"</font>";
+					}else{
+						return "<font color=red>"+Ext.util.Format.number(v,"0,000")+"</font>";
+						
+					}
+				}},
+				{text:"<center>金额<br>（同比）</center>",dataIndex:"amount_compare",renderer:function(v){
+					if(v>0){
+						return "<font color=green>"+Ext.util.Format.number(v/10000,"0,000.00")+"</font>";
+					}else{
+						return "<font color=red>"+Ext.util.Format.number(v/10000,"0,000.00")+"</font>";
+					}
+				}},
+				{width: 40,
+                    xtype: "actioncolumn",
+                    align: "center",
+                    items: [{
+                        iconCls: "x-fa fa-bar-chart",
+                        tooltip: "分月明细",
+                        handler: function(view, rowIndex, colIndex, item, e, record) {
+                            let start = view.up().up().up().config.data.start;
+                            let end = view.up().up().up().config.data.end;
+                            let product = record.data.product_name;
+                            view
+                                .up()
+                                .up()
+                                .up()
+                                .controller.getProductMonthDetail(product, start, end);
+
+                        }
+                    }]},
+                    {width: 40,
+                        xtype: "actioncolumn",
+                        align: "center",
+                        items: [{
+                            iconCls: "x-fa fa-users",
+                            tooltip: "客户明细",
+                            handler: function(view, rowIndex, colIndex, item, e, record) {
+                                let start = view.up().up().up().config.data.start;
+                                let end = view.up().up().up().config.data.end;
+                                let product = record.data.product_name;
+                                view
+                                    .up()
+                                    .up()
+                                    .up()
+                                    .controller.getProductClientDetail(product, start, end);
+
+                            }
+                        }]},
+                        {width: 40,
+                            xtype: "actioncolumn",
+                            align: "center",
+                            items: [{
+                                iconCls: "x-fa fa-list",
+                                tooltip: "业务流水",
+                                handler: function(view, rowIndex, colIndex, item, e, record) {
+                                    let start = view.up().up().up().config.data.start;
+                                    let end = view.up().up().up().config.data.end;
+                                    let product = record.data.product_name;
+                                    view
+                                        .up()
+                                        .up()
+                                        .up()
+                                        .controller.getProductDetail(product, start, end);
+
+                                }
+                            }]},
 				],
 			store:Ext.create("Ext.data.Store",{
 				fields:['product_name',"amount","times"],
+				
 				proxy:{
-					url:"exchange/getTypeTotal",
+					url:"/exchange/getTypeTotal",
 					type:"ajax"
 				},
 			
@@ -81,6 +150,14 @@ Ext.define('jmrc.view.performance.exchange.totaldetailController', {
 		summypanel.add(grid);
 		summypanel.add(chart);
 		view.add(summypanel);
+		
+		
+		grid.getStore().load({
+			params:{
+				start : data.start,
+				end : data.end
+			}
+		});
 
 	},
 

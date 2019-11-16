@@ -49,5 +49,20 @@ public class ExchangeController {
 		String end = req.getParameter("end");
 		return es.getTotalExchangePerformance(start,end);
 	}
+	
+	
+	/**
+	 * 取得指定时间段的结售汇业务产品分细统计
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("/getTypeTotal")
+	public ArrayList<LinkedHashMap<String, Object>> getTypeTotal(HttpServletRequest req,
+			HttpServletResponse res) {
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+		return es.getTypeTotal(start,end);
+	}
 
 }
