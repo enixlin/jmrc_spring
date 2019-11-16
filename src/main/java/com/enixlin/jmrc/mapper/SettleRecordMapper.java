@@ -850,4 +850,31 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 	
 	@Delete("delete from tf_middle")
 	void truncateTFMiddle();
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 *void
+	 * 创建时间：2019年11月12日
+	 */
+	@Delete("delete from subject_balance")
+	void truncateSubjectBalance();
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param record 
+	 * @return
+	 *Object
+	 * 创建时间：2019年11月12日
+	 */
+	@Insert("<script>"
+			+ "insert into subject_balance  values "
+			+ "<foreach collection='records' item='item' open=' ' close=' ' separator=','>"
+			+ 		"<foreach collection='item' item='itemIN' open=' (' close=' )' separator=','>"
+			+ 			"'${itemIN}'"
+			+ 		"</foreach> "
+			+ "</foreach> "
+			+ "</script>")
+	int addSubjectBalance(@Param("records")ArrayList<LinkedHashMap<String, Object>> record);
 }

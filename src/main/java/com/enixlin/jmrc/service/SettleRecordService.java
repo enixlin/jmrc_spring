@@ -336,5 +336,14 @@ public interface SettleRecordService extends BaseService<SettleRecord> {
 	 */
 	public int addTF(JsonArray ja);
 
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param ja
+	 *void
+	 * 创建时间：2019年11月12日
+	 */
+	public int addSubjects(JsonArray ja);
+
 	
 }
