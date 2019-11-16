@@ -180,8 +180,8 @@ public class SettleRecordController {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
 		String date_current_str=sdf.format(date_current);
 		//ODS的业务数据一般为
-		String tf_date=sdf.format(new Date(date_current.getTime()-3*24*3600*1000));
-		String subject_date=sdf.format(new Date(date_current.getTime()-2*24*3600*1000));
+		String tf_date=sdf.format(new Date(date_current.getTime()-24*3600*1000));
+		String subject_date=sdf.format(new Date(date_current.getTime()-24*3600*1000));
 		int date_current_int=Integer.parseInt(date_current_str);
 		
 		//取得最近的业务日期

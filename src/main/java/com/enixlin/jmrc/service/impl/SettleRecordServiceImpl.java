@@ -1036,7 +1036,7 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 	@Override
 	public int addSubjects(JsonArray ja) {
 
-		settleRecordMapper.truncateSubjectBalance();
+		//settleRecordMapper.truncateSubjectBalance();
 		ArrayList<LinkedHashMap<String, Object>> record =new ArrayList<LinkedHashMap<String,Object>>();
 		
 		// 过滤数据中的逗号
