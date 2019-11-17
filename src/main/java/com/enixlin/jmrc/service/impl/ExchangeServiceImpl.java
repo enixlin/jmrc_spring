@@ -95,4 +95,11 @@ public class ExchangeServiceImpl implements ExchangeService {
 		return arr_current;
 	}
 
+	@Override
+	public ArrayList<LinkedHashMap<String, Object>> getTypeTotalMonth(
+			String start, String end) {
+		// TODO Auto-generated method stub
+		return em.getTypeTotalMonth(start,end);
+	}
+
 }

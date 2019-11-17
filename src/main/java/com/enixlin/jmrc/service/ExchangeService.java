@@ -10,6 +10,18 @@ public interface ExchangeService {
 	public ArrayList<LinkedHashMap<String, Object>> getTotalExchangePerformance(String start, String end);
 
 	public ArrayList<LinkedHashMap<String, Object>> getTypeTotal(String start, String end);
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param start
+	 * @param end
+	 * @return
+	 *ArrayList<LinkedHashMap<String,Object>>
+	 * 创建时间：2019年11月17日
+	 */
+	public ArrayList<LinkedHashMap<String, Object>> getTypeTotalMonth(
+			String start, String end);
 	
 	
 }

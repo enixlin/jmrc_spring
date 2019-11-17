@@ -64,5 +64,20 @@ public class ExchangeController {
 		String end = req.getParameter("end");
 		return es.getTypeTotal(start,end);
 	}
+	
+	
+	/**
+	 * 取得指定时间段的结售汇业务产品分月分细统计
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("/getTypeTotalMonth")
+	public ArrayList<LinkedHashMap<String, Object>> getTypeTotalMonth(HttpServletRequest req,
+			HttpServletResponse res) {
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+		return es.getTypeTotalMonth(start,end);
+	}
 
 }
