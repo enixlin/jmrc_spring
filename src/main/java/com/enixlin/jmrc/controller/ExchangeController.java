@@ -79,5 +79,36 @@ public class ExchangeController {
 		String end = req.getParameter("end");
 		return es.getTypeTotalMonth(start,end);
 	}
-
+//	getProductMonthPerformance
+	/**
+	 * 取得指定时间段的单项结售汇产品分月分细统计
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("/getProductMonthPerformance")
+	public ArrayList<LinkedHashMap<String, Object>> getProductMonthPerformance(HttpServletRequest req,
+			HttpServletResponse res) {
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+		String product = req.getParameter("product_name");
+		
+		return es.getProductMonthPerformance(product,start,end);
+	}
+//	getProductClientDetail
+	/**
+	 * 取得指定时间段的单项结售汇客户业务统计
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("/getProductClientDetail")
+	public ArrayList<LinkedHashMap<String, Object>> getProductClientDetail(HttpServletRequest req,
+			HttpServletResponse res) {
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+		String product = req.getParameter("product_name");
+		
+		return es.getProductClientDetail(product,start,end);
+	}
 }
