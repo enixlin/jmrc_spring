@@ -877,4 +877,25 @@ public interface SettleRecordMapper extends BaseMapper<SettleRecord> {
 			+ "</foreach> "
 			+ "</script>")
 	int addSubjectBalance(@Param("records")ArrayList<LinkedHashMap<String, Object>> record);
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @return
+	 *String
+	 * 创建时间：2019年11月21日
+	 */
+	@Select("select `平台日期` from subject_balance order by `平台日期` asc limit 1 ")
+	ArrayList<String> getLastSubjectDate();
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param end
+	 * @return
+	 *boolean
+	 * 创建时间：2019年11月21日
+	 */
+	@Select("select * from subject_balance where `平台日期` =${date}")
+	ArrayList<LinkedHashMap<String, Object>> isSubjectDateExist(@Param("date")String end);
 }

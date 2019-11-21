@@ -46,7 +46,7 @@ public interface ExchangeMapper {
 	@Select("<script>"
 			+ "select "
 			+ "left(busy_date,6) as month ,"
-			+ "sum(busy_amount*usd_rate) as amount,"
+			+ "sum(busy_amount*usd_rate)/10000 as amount,"
 			+ "count(product_name) as times "
 			+ "from settle_record "
 			+ "where "

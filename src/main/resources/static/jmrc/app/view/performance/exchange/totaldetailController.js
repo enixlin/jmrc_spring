@@ -29,23 +29,19 @@ Ext.define("jmrc.view.performance.exchange.totaldetailController", {
   },
   makeTotalReport: function(me, view, data) {
     let width = window.innerWidth * 0.65;
-    let height = window.innerHeight * 0.7;
+    let height = window.innerHeight * 0.8;
     let summypanel = Ext.create({
       xtype: "panel",
       width: width,
       height: height,
-      layout: {
-        type: "table",
-        columns: 2
-      }
-      // border:2,
+     layout:"column",
     });
     let information = Ext.create({
       xtype: "panel",
       width: width * 0.4,
       height: height * 0.4,
-      // border:2,
-      margin: "25 0 0 25",
+      columnWidth:0.3,
+      margin: 5,
       html:
         "<center><h3>数据更新日期：<font size=3px color=red>" +
         data.updatedate.substring(0, 10) +
@@ -56,11 +52,12 @@ Ext.define("jmrc.view.performance.exchange.totaldetailController", {
     });
     let grid = Ext.create({
       xtype: "grid",
-      width: width * 0.5,
-      height: height * 0.5,
+//      width: width * 0.5,
+      height: height * 0.4,
+      columnWidth:0.7,
       border: 2,
       scrollable: true,
-      margin: "25 0 0 25",
+      margin:5,
       columns: [
         { text: "<center>结售汇种类</center>", dataIndex: "product_name" },
         {
@@ -206,109 +203,130 @@ Ext.define("jmrc.view.performance.exchange.totaldetailController", {
         }
       })
     });
-
-    /**
-     * 分月明细的柱状图
-     */
-    let chart = Ext.create({
-      xtype: "cartesian",
-      width: width * 0.96,
-      height: height ,
-      colspan: 2,
-      border: 2,
-	  margin: "25 0 0 35",
-	  store:{
-		  fields:["month","amount","times"],
-		  proxy:{
-			  url:"/exchange/getTypeTotalMonth",
-			  type:"ajax"
-		  }
-	  },
-      axes: [
-        {
-          type: "numeric",
-          position: "left",
-          title: {
-            text: "结售汇业务量（万美元）",
-            fontSize: 15
-          },
-          fields: "amount"
-        },
-        {
-          type: "category",
-          position: "bottom",
-          title: {
-            text: "月份",
-            fontSize: 15
-          },
-          fields: "month"
-        }
-	  ],
-	  series: {
-		type: 'bar',
-		subStyle: {
-			fill: ['#388FAD'],
-			stroke: '#1F6D91'
-		},
-		xField: 'month',
-		yField: 'amount'
-	}
-
-	});
     
-    let axes=[{
-        type: "numeric",
-        position: "left",
-        title: {
-          text: "结售汇业务量（万美元）",
-          fontSize: 15
-        },
-        fields: "amount"
-      },
-      {
-        type: "category",
-        position: "bottom",
-        title: {
-          text: "月份",
-          fontSize: 15
-        },
-        fields: "month"
-      }];
-    chart.setAxes(axes);
-	
-
-//	let win=Ext.create("Ext.window.Window",{
-//		width:1000,
-//		height:400,
-//		layout:"auto"
-//	});
-//	win.add(chart);
-//	summypanel.add(win);
-//	win.show();
-
-//    chart.show();
-    summypanel.add(information);
-    summypanel.add(grid);
-    
-    view.add(summypanel);
-    view.add(chart);
-    
-    
-  
-    chart.getStore().load({
-		params: {
-		  start: data.start,
-		  end: data.end
-		}
-	  });
-    chart.show();
-
+   //取得各项结售汇产品的业务统计
     grid.getStore().load({
       params: {
         start: data.start,
         end: data.end
       }
     });
+
+    /**
+     * 分月明细的柱状图
+     *   url:"/exchange/getTypeTotalMonth",
+     */
+    let chart=Ext.create({
+    	xtype: 'cartesian',
+    	   renderTo: document.body,
+    	   width: "100%",
+    	   height: 400,
+    	   reference: "chart",
+    	     tbar: [
+    	         {
+    	           text: "生成图像",
+    	           platformConfig: {
+    	             desktop: {
+    	               text: "生成图像"
+    	             }
+    	           },
+    	           handler: "onPreview"
+    	         }
+    	       ],
+    	       insetPadding: {
+    	            top: 50,
+    	            bottom: 40,
+    	            left: 20,
+    	            right: 40
+    	        },
+    	    
+    
+    	   store: {
+    	       fields: ['month', 'amount','times'],
+    	       proxy:{
+        		   url:"/exchange/getTypeTotalMonth",
+        		   type:"ajax"
+    	       }
+    	   },
+    	   sprites: {
+               type: 'text',
+               text: '全行结售汇量分月明细图（'+data.start+"-"+data.end+')',
+               fontSize: 26,
+               width: 300,
+               height: 30,
+               x: 240, // the sprite x position
+               y: 25  // the sprite y position
+           },
+    	   axes: [{
+    	       type: 'numeric',
+    	       position: 'left',
+    	       title: {
+    	           text: '结售汇（万美元）',
+    	           fontSize: 15
+    	       },
+    	       grid: true,
+    	       fields: 'amount'
+    	   }, {
+    	       type: 'category',
+    	       position: 'bottom',
+    	       title: {
+    	           text: '月份',
+    	           fontSize: 15
+    	       },
+    	       fields: 'month'
+    	   }],
+    	   series: {
+    	       type: 'bar',
+    	       subStyle: {
+    	           fill: ['#388FAD'],
+    	           stroke: '#1F6D91'
+    	       },
+    	       xField: 'month',
+    	       yField: 'amount',
+    	       highlight: {
+    	           strokeStyle: "light",
+    	           fillStyle: "gold"
+    	         },
+    	         label: {
+    	           field: "amount",
+    	           display: "insideEnd",
+    	           renderer: "onSeriesLabelRender"
+    	         },
+    	         tooltip: {
+    	           trackMouse: true,
+    	           renderer: "onTooltipRender"
+    	         }
+    	   }
+    });
+    chart.getStore().load({
+    	params:{
+    		start:data.start,
+    		end:data.end
+    	}
+    });
+    
+    
+    let chartPanel=Ext.create({
+    	xtype:"panel",
+    	border:2,
+    	width:1000,
+    	height:400,
+    	columnWidth:1,
+    	margin:5
+    });
+    chart.show();
+    
+    chartPanel.add(chart);
+
+    summypanel.add(information);
+    summypanel.add(grid);
+    summypanel.add(chartPanel);
+    
+    view.add(summypanel);
+   
+    
+    
+ 
   },
 
   getLastUpdateDate: function() {
@@ -345,5 +363,67 @@ Ext.define("jmrc.view.performance.exchange.totaldetailController", {
         }
       });
     });
-  }
+  },
+  
+  
+  
+  onPreview: function() {
+      if (Ext.isIE8) {
+        Ext.Msg.alert(
+          "Unsupported Operation",
+          "This operation requires a newer version of Internet Explorer."
+        );
+        return;
+      }
+      var chart = this.lookupReference("chart");
+      chart.preview();
+    },
+
+    onDownload: function() {
+      if (Ext.isIE8) {
+        Ext.Msg.alert(
+          "Unsupported Operation",
+          "This operation requires a newer version of Internet Explorer."
+        );
+        return;
+      }
+      var chart = this.lookupReference("chart");
+      if (Ext.os.is.Desktop) {
+        chart.download({
+          filename: "Redwood City Climate Data Chart"
+        });
+      } else {
+        chart.preview();
+      }
+    },
+    // 格式化柱形图的数据标签
+    onSeriesLabelRender: function(v) {
+      return Ext.util.Format.number(v, "0,000");
+    },
+
+    onTooltipRender: function(tooltip, record, item) {
+      let me = this;
+      let view = me.getView();
+      let config = view.config.data;
+      let perform = Ext.util.Format.number(record.get("amount"), "0,000");
+      tooltip.setHtml(
+        record.get("month") +
+          "业务量为：" +
+          perform +
+          "万美元,业务笔数为：" +
+          record.get("times")
+      );
+    },
+    onAxisLabelRender: function(axis, label, layoutContext) {
+      return Ext.util.Format.number(
+        layoutContext.renderer(label) / 1000,
+        "0,000"
+      );
+    },
+  
+  
+  
+  
+  
+  
 });

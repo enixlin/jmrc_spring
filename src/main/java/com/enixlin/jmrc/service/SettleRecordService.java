@@ -224,13 +224,7 @@ public interface SettleRecordService extends BaseService<SettleRecord> {
 	public ArrayList<LinkedHashMap<String, Object>> getClientSettleMonthPerformance(
 			Unit unit, String start, String end);
 
-	/**
-	 * @author linzhenhuan  </br>
-	 *　方法说明：　　　　　　　　　　　</br>
-	 *void
-	 * 创建时间：2019年9月3日
-	 */
-	public void fixedSettleRecord();
+
 
 
     ArrayList<LinkedHashMap<String, Object>> getAllProductsFromSettleRecord();
@@ -272,11 +266,11 @@ public interface SettleRecordService extends BaseService<SettleRecord> {
 	public ArrayList<LinkedHashMap<String, Object>> getUnitClientPerformance(
 			Unit unit, String start, String end);
 
-	public String getLastUpdateDate();
+
 
 	public String getTotalSettlePerformance(String start, String end);
 
-	public void updatelog(String datatime);
+	
 
 	/**
 	 * @author linzhenhuan  </br>
@@ -311,7 +305,6 @@ public interface SettleRecordService extends BaseService<SettleRecord> {
 
 	public ArrayList<LinkedHashMap<String, Object>> getClientProductPerformance(Unit unit, String start, String end);
 
-	public String getLastBusyDate();
 
 	/**
 	 * @author linzhenhuan  </br>
@@ -326,24 +319,37 @@ public interface SettleRecordService extends BaseService<SettleRecord> {
 	public ArrayList<LinkedHashMap<String, Object>> getClientDetail(
 			String client, String start, String end);
 
-	/**
-	 * @author linzhenhuan  </br>
-	 *　方法说明：　　　　　　　　　　　</br>
-	 * @param ja
-	 *void
-	 * 创建时间：2019年10月29日
-	 * @return 
-	 */
-	public int addTF(JsonArray ja);
+
+
+
 
 	/**
 	 * @author linzhenhuan  </br>
 	 *　方法说明：　　　　　　　　　　　</br>
-	 * @param ja
-	 *void
-	 * 创建时间：2019年11月12日
+	 * @return
+	 *String
+	 * 创建时间：2019年11月21日
 	 */
-	public int addSubjects(JsonArray ja);
+	public ArrayList<String> getLastSubjectDate();
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param end
+	 * @return
+	 *boolean
+	 * 创建时间：2019年11月21日
+	 */
+	public ArrayList<LinkedHashMap<String, Object>> isSubjectDateExist(String end);
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @return
+	 *String
+	 * 创建时间：2019年11月21日
+	 */
+	String getLastBusyDate();
 
 	
 }
