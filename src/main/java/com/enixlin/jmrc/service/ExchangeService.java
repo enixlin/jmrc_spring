@@ -22,6 +22,11 @@ public interface ExchangeService {
 	 */
 	public ArrayList<LinkedHashMap<String, Object>> getTypeTotalMonth(
 			String start, String end);
+
+	public ArrayList<LinkedHashMap<String, Object>> getProductMonthPerformance(String product, String start,
+			String end);
+
+	public ArrayList<LinkedHashMap<String, Object>> getProductClientDetail(String product, String start, String end);
 	
 	
 }
