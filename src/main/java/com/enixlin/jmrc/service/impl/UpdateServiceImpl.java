@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.enixlin.jmrc.entity.SettleRecord;
 import com.enixlin.jmrc.mapper.UpdateMapper;
@@ -16,6 +17,7 @@ import com.google.gson.JsonArray;
  * @author linzhenhuan
  *
  */
+@Service
 public class UpdateServiceImpl implements UpdateService{
 
 	@Autowired
@@ -42,22 +44,16 @@ public class UpdateServiceImpl implements UpdateService{
 	@Override
 	public String getLastUpdateDate(String type) {
 		// TODO Auto-generated method stub
-		if(type.equals("settle")) {
-			return um.getLastSettleUpdateDate();
-		}
-		if(type.equals("tf")) {
-			return um.getLastTfUpdateDate();
-		}
-		if(type.equals("subject")) {
-			return um.getLastSubjectUpdateDate();
-		}
-		return null;
+			//um.deleteUpdatelelog(type);
+			return um.getLastUpdateDate(type);
+		
 	}
 	
 	
 	@Override
-	public void addSettle(SettleRecord reocrd) {
-		um.insert(reocrd);
+	public void addSettle(SettleRecord record) {
+//		um.addSettle(reocrd);
+		um.insert(record);
 		
 	}
 	
@@ -131,6 +127,9 @@ public class UpdateServiceImpl implements UpdateService{
 
 	@Override
 	public void updatelog(String datatime, String type) {
+		//将表中原业的该类的更新时间删除
+		um.deleteUpdatelelog(type);
+		um.updatelog(datatime,type);
 		// TODO Auto-generated method stub
 		
 	}

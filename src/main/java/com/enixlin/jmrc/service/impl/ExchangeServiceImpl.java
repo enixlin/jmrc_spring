@@ -166,4 +166,20 @@ public class ExchangeServiceImpl implements ExchangeService {
 		return arr_cur;
 	}
 
+	@Override
+	public ArrayList<LinkedHashMap<String, Object>> getUnitDetail(
+			String start, String end) {
+		// TODO Auto-generated method stub
+		 ArrayList<String> products = this.getExchangeProduct();
+		return em.getUnitDetail(products,start,end);
+	}
+	
+	@Override
+	public ArrayList<String> getExchangeProduct() {
+		// TODO Auto-generated method stub
+		return em.getExchangeProduct();
+	}
+	
+	
+
 }

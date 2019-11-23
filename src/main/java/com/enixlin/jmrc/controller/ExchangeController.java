@@ -111,4 +111,21 @@ public class ExchangeController {
 		
 		return es.getProductClientDetail(product,start,end);
 	}
+	
+	
+//	getUnitDetail
+	/**
+	 * 取得指定时间段的所有经营单位结售汇业务量统计
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("/getUnitDetail")
+	public ArrayList<LinkedHashMap<String, Object>> getUnitDetail(HttpServletRequest req,
+			HttpServletResponse res) {
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+		
+		return es.getUnitDetail(start,end);
+	}
 }
