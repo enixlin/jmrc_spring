@@ -887,6 +887,7 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 		ArrayList<LinkedHashMap<String, Object>> productPerformance = new ArrayList<>();
 
 		for (LinkedHashMap<String, Object> element : productPerformance_current) {
+			int flag=0;
 			for (LinkedHashMap<String, Object> element_p : productPerformance_pre) {
 				if (element.get("product_name")
 						.equals(element_p.get("product_name"))) {
@@ -900,9 +901,14 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 					element.put("amount_pre", amount.subtract(amount_pre));
 					element.put("times_pre", (long) element.get("times")
 							- (long) element_p.get("times"));
-					productPerformance.add(element);
 				}
 			}
+			if(flag==0) {
+				
+				element.put("amount_pre",0);
+				element.put("times_pre",0);
+			}
+			productPerformance.add(element);
 		}
 
 		return productPerformance;

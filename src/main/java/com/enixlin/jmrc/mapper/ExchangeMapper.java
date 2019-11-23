@@ -106,4 +106,44 @@ public interface ExchangeMapper {
 			+ "</script>")
 	ArrayList<LinkedHashMap<String, Object>> getProductClientDetail(@Param("product")String product,@Param("start") String start, @Param("end")String end);
 
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param products 
+	 * @param start
+	 * @param end
+	 * @return
+	 *ArrayList<LinkedHashMap<String,Object>>
+	 * 创建时间：2019年11月22日
+	 */
+	@Select("<script>"
+			+ "select "
+			+ "belong_branch_code as branchId ,"
+			+ "belong_branch_name as branchName ,"
+			+ "sum(busy_amount*usd_rate)/10000 as amount,"
+			+ "count(product_name) as times "
+			+ "from settle_record "
+			+ "where "
+			+ "product_name in "
+			+ "<foreach collection='products' item='item' open='(' close=')' separator=','>"
+			+ "'${item}'"
+			+ "</foreach> "
+			+ " and "
+			+ "busy_date&gt;=${start} and busy_date&lt;=${end} "
+			+ " group by branchId "
+			+ "order by branchId asc "
+			+ "</script>")
+	ArrayList<LinkedHashMap<String, Object>> getUnitDetail(@Param("products")ArrayList<String> products,@Param("start") String start,@Param("end")
+			String end);
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @return
+	 *ArrayList<LinkedHashMap<String,Object>>
+	 * 创建时间：2019年11月22日
+	 */
+	@Select("Select name from product where settlerange=0 ")
+	ArrayList<String> getExchangeProduct();
+
 }

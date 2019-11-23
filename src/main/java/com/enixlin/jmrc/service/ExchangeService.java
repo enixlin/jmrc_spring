@@ -27,6 +27,28 @@ public interface ExchangeService {
 			String end);
 
 	public ArrayList<LinkedHashMap<String, Object>> getProductClientDetail(String product, String start, String end);
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param product
+	 * @param start
+	 * @param end
+	 * @return
+	 *ArrayList<LinkedHashMap<String,Object>>
+	 * 创建时间：2019年11月22日
+	 */
+	public ArrayList<LinkedHashMap<String, Object>> getUnitDetail(
+			 String start, String end);
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @return
+	 *ArrayList<LinkedHashMap<String,Object>>
+	 * 创建时间：2019年11月22日
+	 */
+	ArrayList<String> getExchangeProduct();
 	
 	
 }

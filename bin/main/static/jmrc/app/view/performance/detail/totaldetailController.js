@@ -820,7 +820,10 @@ console.log(grid);
     getLastUpdateDate: function() {
         return new Promise(function(resolve, reject) {
             Ext.Ajax.request({
-                url: "/settlerecord/getLastUpdateDate",
+                url: "/update/getLastUpdateDate",
+                params:{
+                	type:"settle"
+                },
                 success: function(result) {
                     resolve(result.responseText);
                 }

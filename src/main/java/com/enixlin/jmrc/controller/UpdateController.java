@@ -36,20 +36,32 @@ import com.google.gson.JsonArray;
  *
  */
 @RestController()
-@EnableScheduling
+//@EnableScheduling
 @RequestMapping("update")
 public class UpdateController {
 	@Autowired
 	SettleRecordService ss;
 	@Autowired
 	UpdateService us;
-	
 
 	@RequestMapping("/test")
 	public void updateTest(HttpServletRequest req, HttpServletResponse res) {
-		String end = req.getParameter("date");
-		String getMax = req.getParameter("getMax");
-		this.addSubjectsBalance(end, getMax);
+		this.updateProcess();
+		// 插入科目余额
+//		String end = req.getParameter("date");
+//		String getMax = req.getParameter("getMax");
+//		this.addSubjectsBalance(end, getMax);
+
+		// 插入贸易融资
+//		String end = req.getParameter("date");
+//		 String getMax = req.getParameter("getMax");
+//		 this.addTF(end, getMax);
+
+		// 插入国际结算
+//		String start = req.getParameter("start");
+//		String end = req.getParameter("end");
+//		String getMax = req.getParameter("getMax");
+//		this.addSettle(start, end, getMax);
 	}
 
 	public void addTF(String end, String getMax) {
@@ -64,6 +76,8 @@ public class UpdateController {
 		if (ja.size() > 0) {
 
 			us.addTF(ja);
+			String datatime = this.getLastBusyDate("tf");
+			this.updatelog(datatime, "tf");
 		}
 
 		System.out.println("tf");
@@ -80,6 +94,7 @@ public class UpdateController {
 	 */
 	public void addSubjectsBalance(String end, String getMax) {
 		ODS ods = new ODS();
+		String dateLineFormat = this.changeLineDateFormat(end);
 		ArrayList<LinkedHashMap<String, Object>> sb_date_exist = ss
 				.isSubjectDateExist(end);
 		if (sb_date_exist.size() == 0) {
@@ -87,6 +102,8 @@ public class UpdateController {
 			JsonArray ja = ods.getSubjectsBalance(end, getMax);
 			if (ja.size() > 0) {
 				int recordInsertCount = us.addSubjects(ja);
+				String datatime = this.getLastBusyDate("subject");
+				this.updatelog(datatime, "subject");
 				System.out.println("更新收入、存款科目完成");
 				System.out.println("共插入记录：" + recordInsertCount + "条");
 			}
@@ -193,6 +210,9 @@ public class UpdateController {
 
 		System.out.println(" 所有的记录插入完成");
 		fixedSettleRecord();
+		String datatime = this.getLastBusyDate("settle");
+		this.updatelog(datatime, "settle");
+//		updatelog(endDayNum,"settle");
 
 	}
 
@@ -246,7 +266,7 @@ public class UpdateController {
 			this.addSettle(start, end, getMax);
 			String type = "settle";
 			String datatime = this.getLastBusyDate(type);
-			this.updatelog(datatime, type);
+//			this.updatelog(datatime, type);
 		} else {
 			System.out.println("结算和结售汇记录无需更新");
 		}
@@ -260,7 +280,7 @@ public class UpdateController {
 			this.addTF(end, getMax);
 			String type = "tf";
 			String datatime = this.getLastBusyDate(type);
-			this.updatelog(datatime, type);
+//			this.updatelog(datatime, type);
 		} else {
 			System.out.println("贸易融资记录无需更新");
 		}
@@ -274,7 +294,7 @@ public class UpdateController {
 			this.addSubjectsBalance(end, getMax);
 			String type = "subject";
 			String datatime = this.getLastBusyDate(type);
-			this.updatelog(datatime, type);
+//			this.updatelog(datatime, type);
 		} else {
 			System.out.println("贸易融资记录无需更新");
 		}
@@ -287,8 +307,8 @@ public class UpdateController {
 	}
 
 	public String getLastBusyDate(String type) {
-		//TODO Auto-generated catch block
-		
+		// TODO Auto-generated catch block
+
 		return ss.getLastBusyDate();
 	}
 
