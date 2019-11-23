@@ -128,4 +128,55 @@ public class ExchangeController {
 		
 		return es.getUnitDetail(start,end);
 	}
+	
+//	getUnitMonth
+	/**
+	 * 取得指定时间段的指定经营单位结售汇业务量分月统计
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("/getUnitMonth")
+	public ArrayList<LinkedHashMap<String, Object>> getUnitMonth(HttpServletRequest req,
+			HttpServletResponse res) {
+		String unit=req.getParameter("unit");
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+		
+		return es.getUnitMonth(unit,start,end);
+	}
+	
+	
+	/**
+	 * 取得指定时间段的指定经营单位各种结售汇产品的业务量统计
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("/getUnitProduct")
+	public ArrayList<LinkedHashMap<String, Object>> getUnitProduct(HttpServletRequest req,
+			HttpServletResponse res) {
+		String unit=req.getParameter("unit");
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+		return es.getUnitProduct(unit,start,end);
+	}
+	
+	
+	
+//	getUnitClientList
+	/**
+	 * 取得指定时间段的指定经营单位各种结售汇产品的业务量统计
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("/getUnitClientList")
+	public ArrayList<LinkedHashMap<String, Object>> getUnitClientList(HttpServletRequest req,
+			HttpServletResponse res) {
+		String unit=req.getParameter("unit");
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+		return es.getUnitClientList(unit,start,end);
+	}
 }

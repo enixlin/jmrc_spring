@@ -49,6 +49,12 @@ public interface ExchangeService {
 	 * 创建时间：2019年11月22日
 	 */
 	ArrayList<String> getExchangeProduct();
+
+	public ArrayList<LinkedHashMap<String, Object>> getUnitMonth(String unit, String start, String end);
+
+	public ArrayList<LinkedHashMap<String, Object>> getUnitProduct(String unit, String start, String end);
+
+	public ArrayList<LinkedHashMap<String, Object>> getUnitClientList(String unit, String start, String end);
 	
 	
 }
