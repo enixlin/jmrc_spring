@@ -228,6 +228,8 @@ public interface ExchangeMapper {
 	+ "'${item}'"
 	+ "</foreach> "
 	+ "and "
+	+ "cust_type='c' "
+	+ "and "
 	+ "busy_date&gt;=${start} and busy_date&lt;=${end} "
 	+ " group by clientId "
 	+ "order by branchId,amount asc "

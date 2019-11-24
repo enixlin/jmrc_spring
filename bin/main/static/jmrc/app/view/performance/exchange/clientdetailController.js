@@ -14,6 +14,7 @@ Ext.define("jmrc.view.performance.exchange.clientdetailController", {
             width: width * 0.7,
             height: height * 0.7,
             border: 2,
+            plugins: "gridfilters",
             store: {
                 fields: [
                     "branchId",
@@ -42,6 +43,9 @@ Ext.define("jmrc.view.performance.exchange.clientdetailController", {
                 { header: "<center>客户号</center>", dataIndex: "clientId" },
                 {
                     header: "<center>客户名</center>",
+                    filter: {
+                        type: "string"
+                    },
                     dataIndex: "clientName",
                     renderer: function(v) {
                         return v.replace("本部", "").replace("（一级支行）", "");
@@ -110,5 +114,35 @@ Ext.define("jmrc.view.performance.exchange.clientdetailController", {
         });
 
         view.add(grid);
-    }
+    },
+
+
+
+    filterclient: function(client) {
+        // alert("filter run");
+        console.log(client);
+        let me = this;
+        let view = me.getView();
+        let grid = view.query("grid")[0];
+        let store = grid.getStore();
+        console.log("grid is ");
+        console.log(grid);
+        console.log("store is ");
+        console.log(store);
+
+        if (client == "") {
+            // console.log("emptyu");
+            store.clearFilter();
+
+            // console.log(store.getFilters());
+            return;
+        }
+        store.setFilters({
+            "operator": "like",
+            "value": client,
+            //注意这里要指定过滤的表格列名
+            "property": "clientName"
+        });
+        console.log(store.getFilters());
+    },
 });

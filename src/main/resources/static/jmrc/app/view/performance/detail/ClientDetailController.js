@@ -281,6 +281,7 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
             proxy: {
                 url: "/settlerecord/getClientDetail",
                 type: "ajax",
+
             }
         });
 
