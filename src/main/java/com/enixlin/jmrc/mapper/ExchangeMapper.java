@@ -212,4 +212,26 @@ public interface ExchangeMapper {
 			+ "</script>")
 	ArrayList<LinkedHashMap<String, Object>> getUnitClientList(@Param("unit")String unit,@Param("products") ArrayList<String> products, @Param("start")String start,@Param("end") String end);
 
+	@Select("<script>"
+	+ "select "
+	+ "belong_branch_code as branchId ,"
+	+ "belong_branch_name as branchName ,"
+	+ "cust_number as clientId ,"
+	+ "cust_name as clientName ,"
+	+ "product_name as product ,"
+	+ "sum(busy_amount*usd_rate)/10000 as amount,"
+	+ "count(product_name) as times "
+	+ "from settle_record "
+	+ "where "
+	+ "product_name in "
+	+ "<foreach collection='products' item='item' open='(' close=')' separator=','>"
+	+ "'${item}'"
+	+ "</foreach> "
+	+ "and "
+	+ "busy_date&gt;=${start} and busy_date&lt;=${end} "
+	+ " group by clientId "
+	+ "order by branchId,amount asc "
+	+ "</script>")
+	ArrayList<LinkedHashMap<String, Object>> getClientDetail(@Param("products") ArrayList<String> products, @Param("start")String start,@Param("end") String end);
+
 }

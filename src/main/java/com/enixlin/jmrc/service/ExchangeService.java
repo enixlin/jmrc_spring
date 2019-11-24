@@ -55,6 +55,9 @@ public interface ExchangeService {
 	public ArrayList<LinkedHashMap<String, Object>> getUnitProduct(String unit, String start, String end);
 
 	public ArrayList<LinkedHashMap<String, Object>> getUnitClientList(String unit, String start, String end);
+
+	public ArrayList<LinkedHashMap<String, Object>> getClientDetail(String start, String end);
+
 	
 	
 }

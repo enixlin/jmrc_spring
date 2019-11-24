@@ -6,11 +6,11 @@ import java.util.LinkedHashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.enixlin.jmrc.service.ExchangeService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.enixlin.jmrc.service.ExchangeService;
 
 @RestController
 @RequestMapping("exchange")
@@ -177,6 +177,23 @@ public class ExchangeController {
 		String unit=req.getParameter("unit");
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
+	    
 		return es.getUnitClientList(unit,start,end);
+	}
+	
+		/**
+	 * 取得指定时间段的指定所有客户结售汇的业务量统计
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("/getClientDetail")
+	public ArrayList<LinkedHashMap<String, Object>> getClientDetail(HttpServletRequest req,
+			HttpServletResponse res) {
+		String unit=req.getParameter("unit");
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+	    
+		return es.getClientDetail(start,end);
 	}
 }

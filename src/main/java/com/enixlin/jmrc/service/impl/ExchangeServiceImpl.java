@@ -4,12 +4,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import org.apache.poi.hpsf.Decimal;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.enixlin.jmrc.mapper.ExchangeMapper;
 import com.enixlin.jmrc.service.ExchangeService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ExchangeServiceImpl implements ExchangeService {
@@ -17,6 +16,7 @@ public class ExchangeServiceImpl implements ExchangeService {
 	@Autowired
 	ExchangeMapper em;
 
+	
 	public String compareDate(String date) {
 		String s = "";
 		int year = Integer.parseInt(date.substring(0, 4));
@@ -318,6 +318,13 @@ public class ExchangeServiceImpl implements ExchangeService {
 			}
 		}
 		return arr_cur;
+	}
+
+	@Override
+	public ArrayList<LinkedHashMap<String, Object>> getClientDetail(String start, String end) {
+		// TODO Auto-generated method stub
+		ArrayList<String> products = this.getExchangeProduct();
+		return em.getClientDetail(products,start,end);
 	}
 	
 

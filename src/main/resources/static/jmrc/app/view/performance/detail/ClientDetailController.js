@@ -39,16 +39,7 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
 
                 // 现在开始历遍store的所有字段
                 for (let n = 0, len = fields.length; n < len; n++) {
-                    // 跳过id 和xuhao
-                    // if (fields[n].name ==
-                    // "id") {
-                    // continue;
-                    // }
-                    // if (fields[n].name ==
-                    // "xuhao") {
-                    // continue;
-                    // }
-                    // 选从字段的数据类型开始分类：字符类和数字类
+
                     // 一、字符类
                     if (fields[n].type == "string") {
                         if (fields[n].name == "<center>机构号</center>") {
@@ -61,9 +52,7 @@ Ext.define("jmrc.view.performance.detail.ClientDetailController", {
                                     type: "string"
                                 }
                             });
-                            Ext.create({
-                                xtype: ""
-                            })
+
                             continue;
                         }
                         if (fields[n].name == "<center>机构名称</center>") {

@@ -81,5 +81,6 @@ public class AuthController {
     @RequestMapping("/doLogout")
     public void doLogout(HttpSession session) {
         authService.doLogout(session);
+        
     }
 }
