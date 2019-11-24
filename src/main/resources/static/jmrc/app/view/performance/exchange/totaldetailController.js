@@ -282,8 +282,8 @@ Ext
                         // margin:60,
 
                         subStyle: {
-                            fill: ['#abcdef'],
-                            stroke: '#1F6D91'
+                            fill: ['#0fc835'],
+                            stroke: 'blue'
                         },
                         xField: 'month',
                         yField: 'amount',

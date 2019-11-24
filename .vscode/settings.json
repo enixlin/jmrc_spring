@@ -1,0 +1,7 @@
+{
+
+
+    "java.jdt.ls.vmargs": "-noverify -Xmx1G -XX:+UseG1GC -XX:+UseStringDeduplication",
+    "git.ignoreLimitWarning": true,
+
+}

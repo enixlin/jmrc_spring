@@ -1,13 +1,14 @@
 package com.enixlin.jmrc.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.enixlin.jmrc.mapper.ExchangeMapper;
 import com.enixlin.jmrc.service.ExchangeService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ExchangeServiceImpl implements ExchangeService {
@@ -15,6 +16,7 @@ public class ExchangeServiceImpl implements ExchangeService {
 	@Autowired
 	ExchangeMapper em;
 
+	
 	public String compareDate(String date) {
 		String s = "";
 		int year = Integer.parseInt(date.substring(0, 4));
@@ -171,15 +173,162 @@ public class ExchangeServiceImpl implements ExchangeService {
 			String start, String end) {
 		// TODO Auto-generated method stub
 		 ArrayList<String> products = this.getExchangeProduct();
-		return em.getUnitDetail(products,start,end);
+		String start_pre = this.compareDate(start);
+		String end_pre = this.compareDate(end);
+
+		ArrayList<LinkedHashMap<String, Object>> arr_cur = em.getUnitDetail(products, start, end);
+		ArrayList<LinkedHashMap<String, Object>> arr_pre = em.getUnitDetail(products, start_pre, end_pre);
+		for(LinkedHashMap<String, Object> e_cur : arr_cur) {
+			int existFlag=0;
+			for(LinkedHashMap<String, Object> e_pre : arr_pre) {
+				if(e_cur.get("branchId").equals(e_pre.get("branchId"))) {
+					long times_compare=(long)e_cur.get("times")-(long)e_pre.get("times");
+					float amount_compare=Float.parseFloat(e_cur.get("amount").toString())-Float.parseFloat(e_pre.get("amount").toString());
+					e_cur.put("times_pre", e_pre.get("times"));
+					e_cur.put("amount_pre", e_pre.get("amount"));
+					e_cur.put("times_compare", times_compare);
+					e_cur.put("amount_compare", amount_compare);
+					existFlag=1;
+				}
+			}
+			if(existFlag==0) {
+				e_cur.put("times_pre", 0);
+				e_cur.put("amount_pre",0);
+				e_cur.put("times_compare", e_cur.get("times"));
+				e_cur.put("amount_compare", e_cur.get("amount"));
+			}
+		}
+		
+		
+		for(LinkedHashMap<String, Object> e_pre : arr_pre) {
+			int existFlag=0;
+			for(LinkedHashMap<String, Object> e_cur : arr_cur) {
+				if(e_cur.get("branchId").equals(e_pre.get("branchId"))) {
+					existFlag=1;
+				}
+			}
+			if(existFlag==0) {
+				long times_compare=0-(long)e_pre.get("times");
+				float amount_compare=0-Float.parseFloat(e_pre.get("amount").toString());
+				LinkedHashMap<String, Object> newHM=new LinkedHashMap<>();
+				newHM.put("branchId", e_pre.get("branchId"));
+				newHM.put("branchName", e_pre.get("branchName"));
+				newHM.put("times", 0);
+				newHM.put("amount", 0);
+				newHM.put("times_pre", e_pre.get("times"));
+				newHM.put("amount_pre", e_pre.get("amount"));
+				newHM.put("times_compare", times_compare);
+				newHM.put("amount_compare", amount_compare);
+				arr_cur.add(newHM);
+			}
+		}
+		return arr_cur;
 	}
+	
+	
+
 	
 	@Override
 	public ArrayList<String> getExchangeProduct() {
 		// TODO Auto-generated method stub
 		return em.getExchangeProduct();
 	}
+
+	@Override
+	public ArrayList<LinkedHashMap<String, Object>> getUnitMonth(String unit, String start, String end) {
+		// TODO Auto-generated method stub
+		ArrayList<String> products = this.getExchangeProduct();
+		return em.getUnitMonth(unit,products,start,end);
+	}
+
+	@Override
+	public ArrayList<LinkedHashMap<String, Object>> getUnitProduct(String unit, String start, String end) {
+		// TODO Auto-generated method stub
+		ArrayList<String> products = this.getExchangeProduct();
+		this.getTotalExchangePerformance(start, end);
+		ArrayList<LinkedHashMap<String, Object>> arr_em = em.getUnitProduct(unit,products,start,end);
+		float total=0;
+		for(LinkedHashMap<String, Object> element: arr_em) {
+			BigDecimal bd= (BigDecimal) element.get("amount");
+			total=total+ bd.floatValue();
+		}
+		int n=0;
+		for(LinkedHashMap<String, Object> element: arr_em) {
+			BigDecimal bd= (BigDecimal) element.get("amount");
+			element.put("percent",  bd.floatValue()/total*100);
+//			element.put("id",  n++);
+		}
+		return arr_em;
+	}
+
+	@Override
+	public ArrayList<LinkedHashMap<String, Object>> getUnitClientList(String unit, String start, String end) {
+		// TODO Auto-generated method stub
+		 ArrayList<String> products = this.getExchangeProduct();
+		String start_pre = this.compareDate(start);
+		String end_pre = this.compareDate(end);
+
+		ArrayList<LinkedHashMap<String, Object>> arr_cur = em.getUnitClientList(unit,products, start, end);
+		ArrayList<LinkedHashMap<String, Object>> arr_pre = em.getUnitClientList(unit,products, start_pre, end_pre);
+		for(LinkedHashMap<String, Object> e_cur : arr_cur) {
+			int existFlag=0;
+			for(LinkedHashMap<String, Object> e_pre : arr_pre) {
+				if(e_cur.get("clientId").equals(e_pre.get("clientId"))) {
+					long times_compare=(long)e_cur.get("times")-(long)e_pre.get("times");
+					float amount_compare=Float.parseFloat(e_cur.get("amount").toString())-Float.parseFloat(e_pre.get("amount").toString());
+					e_cur.put("times_pre", e_pre.get("times"));
+					e_cur.put("amount_pre", e_pre.get("amount"));
+					e_cur.put("times_compare", times_compare);
+					e_cur.put("amount_compare", amount_compare);
+					existFlag=1;
+				}
+			}
+			if(existFlag==0) {
+				e_cur.put("times_pre", 0);
+				e_cur.put("amount_pre",0);
+				e_cur.put("times_compare", e_cur.get("times"));
+				e_cur.put("amount_compare", e_cur.get("amount"));
+			}
+		}
+		
+		
+		for(LinkedHashMap<String, Object> e_pre : arr_pre) {
+			int existFlag=0;
+			for(LinkedHashMap<String, Object> e_cur : arr_cur) {
+				if(e_cur.get("clientId")!=null && e_cur.get("clientId").equals(e_pre.get("clientId"))) {
+					existFlag=1;
+				}
+			}
+			if(existFlag==0) {
+				long times_compare=0-(long)e_pre.get("times");
+				float amount_compare=0-Float.parseFloat(e_pre.get("amount").toString());
+				LinkedHashMap<String, Object> newHM=new LinkedHashMap<>();
+				newHM.put("branchId", e_pre.get("branchId"));
+				newHM.put("branchName", e_pre.get("branchName"));
+				newHM.put("clientId", e_pre.get("clientId"));
+				newHM.put("clientName", e_pre.get("clientName"));
+				newHM.put("product", e_pre.get("product"));
+				newHM.put("times", 0);
+				newHM.put("amount", 0);
+				newHM.put("times_pre", e_pre.get("times"));
+				newHM.put("amount_pre", e_pre.get("amount"));
+				newHM.put("times_compare", times_compare);
+				newHM.put("amount_compare", amount_compare);
+				arr_cur.add(newHM);
+			}
+		}
+		return arr_cur;
+	}
+
+	@Override
+	public ArrayList<LinkedHashMap<String, Object>> getClientDetail(String start, String end) {
+		// TODO Auto-generated method stub
+		ArrayList<String> products = this.getExchangeProduct();
+		return em.getClientDetail(products,start,end);
+	}
 	
+
+
 	
 
 }

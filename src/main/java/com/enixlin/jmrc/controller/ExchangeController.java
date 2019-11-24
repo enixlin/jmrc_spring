@@ -6,11 +6,11 @@ import java.util.LinkedHashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.enixlin.jmrc.service.ExchangeService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.enixlin.jmrc.service.ExchangeService;
 
 @RestController
 @RequestMapping("exchange")
@@ -126,5 +126,73 @@ public class ExchangeController {
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
 		return es.getUnitDetail(start,end);
+	}
+	
+//	getUnitMonth
+	/**
+	 * 取得指定时间段的指定经营单位结售汇业务量分月统计
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("/getUnitMonth")
+	public ArrayList<LinkedHashMap<String, Object>> getUnitMonth(HttpServletRequest req,
+			HttpServletResponse res) {
+		String unit=req.getParameter("unit");
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+		
+		return es.getUnitMonth(unit,start,end);
+	}
+	
+	
+	/**
+	 * 取得指定时间段的指定经营单位各种结售汇产品的业务量统计
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("/getUnitProduct")
+	public ArrayList<LinkedHashMap<String, Object>> getUnitProduct(HttpServletRequest req,
+			HttpServletResponse res) {
+		String unit=req.getParameter("unit");
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+		return es.getUnitProduct(unit,start,end);
+	}
+	
+	
+	
+//	getUnitClientList
+	/**
+	 * 取得指定时间段的指定经营单位各种结售汇产品的业务量统计
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("/getUnitClientList")
+	public ArrayList<LinkedHashMap<String, Object>> getUnitClientList(HttpServletRequest req,
+			HttpServletResponse res) {
+		String unit=req.getParameter("unit");
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+	    
+		return es.getUnitClientList(unit,start,end);
+	}
+	
+		/**
+	 * 取得指定时间段的指定所有客户结售汇的业务量统计
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("/getClientDetail")
+	public ArrayList<LinkedHashMap<String, Object>> getClientDetail(HttpServletRequest req,
+			HttpServletResponse res) {
+		String unit=req.getParameter("unit");
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+	    
+		return es.getClientDetail(start,end);
 	}
 }
