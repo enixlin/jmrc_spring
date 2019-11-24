@@ -125,7 +125,6 @@ public class ExchangeController {
 			HttpServletResponse res) {
 		String start = req.getParameter("start");
 		String end = req.getParameter("end");
-		
 		return es.getUnitDetail(start,end);
 	}
 }

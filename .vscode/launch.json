@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-JmrcSpringApplication<jmrc_spring>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.enixlin.jmrc.JmrcSpringApplication",
+            "projectName": "jmrc_spring",
+            "args": ""
+        }
+    ]
+}
