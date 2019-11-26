@@ -3,24 +3,13 @@ package com.enixlin.jmrc.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.enixlin.jmrc.entity.IndexPerformance;
 import com.enixlin.jmrc.entity.MonthPerformace;
@@ -31,11 +20,14 @@ import com.enixlin.jmrc.entity.Task;
 import com.enixlin.jmrc.entity.Unit;
 import com.enixlin.jmrc.entity.UnitPerformance;
 import com.enixlin.jmrc.service.SettleRecordService;
-import com.enixlin.jmrc.smartbi.ODS;
 import com.enixlin.jmrc.util.ExcelTool;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("settlerecord")

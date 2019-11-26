@@ -117,7 +117,7 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
                     }
                 }, {
                     header: "笔数<br>同比",
-                    dataIndex: "times_pre",
+                    dataIndex: "times_compare",
                     width: 50,
                     renderer: function(value) {
                         if (value < 0) {
@@ -129,7 +129,7 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
                     }
                 }, {
                     header: "金额<br>同比",
-                    dataIndex: "amount_pre",
+                    dataIndex: "amount_compare",
                     width: 100,
                     renderer: function(value) {
                         if (value < 0) {

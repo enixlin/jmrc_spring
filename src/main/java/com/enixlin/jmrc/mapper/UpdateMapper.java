@@ -150,4 +150,14 @@ public interface UpdateMapper extends BaseMapper<SettleRecord> {
 	@Insert("Insert into updatelog (updatedate,type) values('${date}','${type}')")
 	void updatelog(@Param("date")String datatime, @Param("type")String type);
 
+	
+	@Delete("delete from settle_record where  busy_Date>=#{start} and busy_Date<=#{end}  ")
+	void deleteSettleRecord(@Param("start")String start, @Param("end")String end);
+
+	@Delete("delete from subject_balance where  `平台日期`>=#{start} and `平台日期`<=#{end}  ")
+	void deleteSubjectRecord(@Param("start")String start, @Param("end")String end);
+
+	@Delete("delete from tf_middle  ")
+	void deleteTFRecord(@Param("start")String start, @Param("end")String end);
+
 }

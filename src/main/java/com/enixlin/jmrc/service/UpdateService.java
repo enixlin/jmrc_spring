@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.enixlin.jmrc.service.impl;
+package com.enixlin.jmrc.service;
 
 import com.enixlin.jmrc.entity.SettleRecord;
 import com.google.gson.JsonArray;
@@ -63,4 +63,13 @@ public interface UpdateService {
 	 * 创建时间：2019年11月21日
 	 */
 	public void addSettle(SettleRecord sr);
+
+
+
+
+	public void deleteSettleRecord(String start,String end);
+	public void deleteSubjectRecord(String start,String end);
+	public void deleteTFRecord(String start,String end);
+
+	public String getLastBusyDate(String type);
 }

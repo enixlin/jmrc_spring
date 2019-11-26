@@ -3,15 +3,9 @@ package com.enixlin.jmrc.service.impl;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 
 import com.enixlin.jmrc.entity.IndexPerformance;
 import com.enixlin.jmrc.entity.MonthPerformace;
@@ -22,9 +16,9 @@ import com.enixlin.jmrc.entity.Unit;
 import com.enixlin.jmrc.entity.UnitPerformance;
 import com.enixlin.jmrc.mapper.SettleRecordMapper;
 import com.enixlin.jmrc.service.SettleRecordService;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
@@ -874,44 +868,69 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 	@Override
 	public ArrayList<LinkedHashMap<String, Object>> getAllProductDetail(
 			String start, String end) {
-
-		ArrayList<Product> products = this.getSettleRangeProduct();
-
-		String pre_start = this.compareDate(start);
-		String pre_end = this.compareDate(end);
-
-		ArrayList<LinkedHashMap<String, Object>> productPerformance_pre = settleRecordMapper
-				.getAllProductDetail(products, pre_start, pre_end);
-		ArrayList<LinkedHashMap<String, Object>> productPerformance_current = settleRecordMapper
-				.getAllProductDetail(products, start, end);
-		ArrayList<LinkedHashMap<String, Object>> productPerformance = new ArrayList<>();
-
-		for (LinkedHashMap<String, Object> element : productPerformance_current) {
-			int flag=0;
-			for (LinkedHashMap<String, Object> element_p : productPerformance_pre) {
-				if (element.get("product_name")
-						.equals(element_p.get("product_name"))) {
-					BigDecimal amount = (BigDecimal) element.get("amount");
-					BigDecimal amount_pre = (BigDecimal) element_p
-							.get("amount");
-
-//					BigDecimal times=(BigDecimal) element.get("times");
-//					BigDecimal times_pre=(BigDecimal) element_p.get("times");
-
-					element.put("amount_pre", amount.subtract(amount_pre));
-					element.put("times_pre", (long) element.get("times")
-							- (long) element_p.get("times"));
+				ArrayList<Product> products = this.getSettleRangeProduct();
+				String start_pre = this.compareDate(start);
+				String end_pre = this.compareDate(end);
+		
+				ArrayList<LinkedHashMap<String, Object>> detail_current = settleRecordMapper
+						.getAllProductDetail( products ,start, end);
+				ArrayList<LinkedHashMap<String, Object>> detail_pre = settleRecordMapper
+						.getAllProductDetail(products, start_pre, end_pre);
+		
+		//	历遍当期的客户列表
+				for (LinkedHashMap<String, Object> element_currenct : detail_current) {
+					int exist = 0;
+		//			历遍前期的客户列表
+					for (LinkedHashMap<String, Object> element_pre : detail_pre) {
+						if (element_currenct.get("product_name")
+								.equals(element_pre.get("product_name"))) {
+							element_currenct.put("amount_pre",
+									element_pre.get("amount"));
+							element_currenct.put("times_pre", element_pre.get("times"));
+							exist = 1;
+						}
+					}
+					if (exist == 0) {
+						element_currenct.put("amount_pre", new BigDecimal(0));
+						element_currenct.put("times_pre", 0);
+					}
 				}
-			}
-			if(flag==0) {
-				
-				element.put("amount_pre",0);
-				element.put("times_pre",0);
-			}
-			productPerformance.add(element);
-		}
-
-		return productPerformance;
+				for (LinkedHashMap<String, Object> element_pre : detail_pre) {
+					int exist = 0;
+		//			历遍前期的客户列表
+					for (LinkedHashMap<String, Object> element_currenct : detail_current) {
+						if (element_currenct.get("product_name")
+								.equals(element_pre.get("product_name"))) {
+							exist = 1;
+						}
+					}
+					if (exist == 0) {
+						LinkedHashMap<String, Object> new_element = new LinkedHashMap<>();
+						// 注意插入的字段要按顺序，否则会影响Excel文件的列顺序
+						new_element.put("product_name",
+								element_pre.get("product_name"));
+						new_element.put("amount", new BigDecimal(0));
+						new_element.put("times", 0);
+						new_element.put("amount_pre", element_pre.get("amount"));
+						new_element.put("times_pre", element_pre.get("times"));
+						detail_current.add(new_element);
+		
+					}
+				}
+		
+				for (LinkedHashMap<String, Object> element_current : detail_current) {
+					BigDecimal amount = (BigDecimal) element_current.get("amount");
+					BigDecimal amount_pre = (BigDecimal) element_current
+							.get("amount_pre");
+					long times = Long
+							.parseLong(element_current.get("times").toString());
+					long times_pre = Long
+							.parseLong(element_current.get("times_pre").toString());
+		
+					element_current.put("amount_compare", amount.subtract(amount_pre));
+					element_current.put("times_compare", times - times_pre);
+				}
+				return detail_current;
 	}
 
 	@Override

@@ -15,7 +15,7 @@ Ext.define('jmrc.view.performance.detail.totaldetailModel', {
         },
 
         getAllProductDetail: {
-            fields: ["product_name", "amount", "times","amount_pre","times_pre"],
+            fields: ["product_name", "amount", "times", "amount_compare", "times_compare"],
             proxy: {
                 url: "/settlerecord/getAllProductDetail",
                 type: "ajax"
