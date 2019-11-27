@@ -102,8 +102,6 @@ public interface UpdateMapper extends BaseMapper<SettleRecord> {
 			+ "</script>")
 	int addSubjectBalance(@Param("records")ArrayList<LinkedHashMap<String, Object>> record);
 
-	@Delete("delete from tf_middle")
-	void truncateTFMiddle();
 	
 	/**
 	 * @author linzhenhuan  </br>
@@ -157,7 +155,7 @@ public interface UpdateMapper extends BaseMapper<SettleRecord> {
 	@Delete("delete from subject_balance where  `平台日期`>=#{start} and `平台日期`<=#{end}  ")
 	void deleteSubjectRecord(@Param("start")String start, @Param("end")String end);
 
-	@Delete("delete from tf_middle  ")
+	@Delete("delete from tf_middle where   `数据抽取日期`>=#{start} and `数据抽取日期`<=#{end}  ")
 	void deleteTFRecord(@Param("start")String start, @Param("end")String end);
 
 }

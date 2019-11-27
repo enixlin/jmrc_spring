@@ -14,12 +14,25 @@ public interface SubjectMapper {
     String getLastReportDate();
     
 
+    /**
+     * 查询指定时间和指定科目的时时点余额
+     */
 @Select(
-    "select  sum(`期末借方`) as income, `货币代码`,`总帐科目`"
-    +"from subject_balance "
-    +"where `总帐科目`='6411' and `平台日期`='20190930' "
-    +"GROUP BY `货币代码` "
+        "<script>"
+        +" select `货币代码` ,`总账科目`,sum(`借方余额`) "
+        +" from subject_balance "
+        +" where  "
+        +" `总账科目` in "
+        +"<foreach collection='' item='item' begin='(' end=')' sperater=',' >"
+        +"{item}"
+        +"</foreach>"
+        +" and "
+        +" `平台日期`='?{date}' "
+        +" group by `货币代码` "
+        +"</script>"
     )
-    ArrayList<LinkedHashMap<String ,Object>> getCreditBalance(@Param("currency")String currency,@Param("date")String date);
+    ArrayList<LinkedHashMap<String ,Object>> getCreditBalance(@Param("subjects")ArrayList<String> subjects,@Param("date")String date);
+
+
 
 }

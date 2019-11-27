@@ -6,15 +6,15 @@ package com.enixlin.jmrc.service.impl;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.enixlin.jmrc.entity.SettleRecord;
 import com.enixlin.jmrc.mapper.SettleRecordMapper;
 import com.enixlin.jmrc.mapper.SubjectMapper;
 import com.enixlin.jmrc.mapper.UpdateMapper;
 import com.enixlin.jmrc.service.UpdateService;
 import com.google.gson.JsonArray;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * @author linzhenhuan
@@ -67,8 +67,7 @@ public class UpdateServiceImpl implements UpdateService {
 	public int addTF(JsonArray ja) {
 		// TODO Auto-generated method stub
 
-		// 先清空融资表格
-		um.truncateTFMiddle();
+		
 		return um.addTF(ja);
 
 	}
@@ -178,9 +177,7 @@ public class UpdateServiceImpl implements UpdateService {
 
 	@Override
 	public void deleteTFRecord(String start, String end) {
-
 		um.deleteTFRecord(start, end);
-
 	}
 
 	//根据不同的类型返回不同的更新日期

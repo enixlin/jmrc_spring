@@ -284,14 +284,14 @@ public class UpdateController {
 			String dateChineseFormat = ods.changeChineseDateFormat(yesterday_str);
 			int count = ods.getTFRecordCount(dateLineFormat, dateChineseFormat, ExportNum);
 			if (count > 0) {
-				us.deleteTFRecord(data_Start_tf, data_Start_tf);
-				this.addTF(yesterday_str, "5000");
+				us.deleteTFRecord(data_Start_tf, yesterday_str);
+				this.addTF(data_Start_tf, "4000");
 			} else {
 				System.out.println(yesterday_str + "当天没有数据，贸易融资记录无需更新");
 			}
 			// 添加贸易融资记录更新到数据库
 			if (tfs.getRecordCount() != 0) {
-				us.updatelog(yesterday_str, "tf");
+				us.updatelog(data_Start_tf, "tf");
 				System.out.println(tfs.getRecordCount() + "条贸易融资记录被更新");
 			}
 		} else {
