@@ -2,16 +2,38 @@ package com.enixlin.jmrc.controller;
 
 import com.enixlin.jmrc.service.SubjectService;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("subject")
+@RestController()
+@RequestMapping("subject")
 public class SubjectController {
 
-    @Autowired SubjectService ss;
+	@Autowired
+	SubjectService ss;
 
-    public String getLastReportDate(){
-        return ss.getLastReportDate();
-    }
+	public String getLastReportDate() {
+		return ss.getLastReportDate();
+	}
+
+	/**
+	 * 取得存款的时点和日均余额
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("/getDepositSubjects")
+	public ArrayList<LinkedHashMap<String, Object>> getDepositSubjects(HttpServletRequest req,
+			HttpServletResponse res) {
+		String date = req.getParameter("date");
+		return ss.getDepositSubjects(date);
+	}
 
 }
