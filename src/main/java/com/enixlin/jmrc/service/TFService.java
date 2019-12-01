@@ -11,6 +11,7 @@ package com.enixlin.jmrc.service;
 public interface TFService {
 
 	int getRecordCount();
+	String getLastReportDate();
 
 	
 }

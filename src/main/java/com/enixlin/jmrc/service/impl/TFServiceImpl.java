@@ -22,6 +22,12 @@ public class TFServiceImpl implements TFService {
         return tfm.getRecordCount();
     }
 
+	@Override
+	public String getLastReportDate() {
+		// TODO Auto-generated method stub
+		return tfm.getLastReportDate();
+	}
+
 	
 	
 	

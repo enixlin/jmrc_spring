@@ -60,9 +60,9 @@ public class UpdateController {
 		// this.addSubjectsBalance(end, getMax);
 
 		// 插入贸易融资
-		// String end = req.getParameter("date");
-		// String getMax = req.getParameter("getMax");
-		// this.addTF(end, getMax);
+		 String end = req.getParameter("date");
+		 String getMax = req.getParameter("getMax");
+		 this.addTF(end, getMax);
 
 		// 插入国际结算
 		// String start = req.getParameter("start");
@@ -79,10 +79,8 @@ public class UpdateController {
 		System.out.println("共有融资记录：" + ja.size());
 
 		if (ja.size() > 0) {
-
 			us.addTF(ja);
-			String datatime = this.getLastBusyDate("tf");
-			this.updatelog(datatime, "tf");
+		
 		}
 
 		System.out.println("tf");
@@ -290,9 +288,10 @@ public class UpdateController {
 				System.out.println(yesterday_str + "当天没有数据，贸易融资记录无需更新");
 			}
 			// 添加贸易融资记录更新到数据库
-			if (tfs.getRecordCount() != 0) {
-				us.updatelog(data_Start_tf, "tf");
-				System.out.println(tfs.getRecordCount() + "条贸易融资记录被更新");
+			String date_update=tfs.getLastReportDate();
+			if(date_update.equals("")) {
+				us.updatelog(date_update, "tf");
+				System.out.println( "贸易融资记录被更新");
 			}
 		} else {
 			System.out.println(yesterday_str + "当天贸易融资已更新");
