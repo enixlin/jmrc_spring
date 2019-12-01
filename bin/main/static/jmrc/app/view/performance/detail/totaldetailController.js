@@ -262,6 +262,7 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
             axes: [{
                 type: 'numeric',
                 position: 'left',
+                grid: true,
                 title: {
                     text: '国际结算量（万美元）',
                     fontSize: 15
@@ -271,6 +272,7 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
             }, {
                 type: 'category',
                 position: 'bottom',
+                grid: true,
                 title: {
                     text: '月份',
                     fontSize: 15
