@@ -208,12 +208,12 @@ Ext
                     });
 
                 /**
-				 * 分月明细的柱状图
-				 */
+                 * 分月明细的柱状图
+                 */
                 let chart = Ext.create({
                     xtype: "cartesian",
                     width: width * 0.95,
-                    height: height * 0.4,
+                    height: height * 0.6,
                     reference: "chart",
                     scrollable: true,
                     tbar: ["->",
@@ -249,6 +249,7 @@ Ext
                     axes: [{
                         type: "numeric",
                         position: "left",
+                        grid: true,
                         title: {
                             text: "结售汇业务量（万美元）",
                             fontSize: 15
@@ -259,6 +260,7 @@ Ext
                     }, {
                         type: "category",
                         position: "bottom",
+                        grid: true,
                         title: {
                             text: "月份",
                             fontSize: 15
@@ -272,7 +274,7 @@ Ext
                         bottom: 0
                     },
                     insetPadding: {
-                        top: 10,
+                        top: 40,
                         left: 10,
                         right: 10,
                         bottom: 10
@@ -341,7 +343,7 @@ Ext
                 return new Promise(function(resolve, reject) {
                     Ext.Ajax.request({
                         url: "/update/getLastUpdateDate",
-                        params:{type:"settle"},
+                        params: { type: "settle" },
                         success: function(result) {
                             resolve(result.responseText);
                         }
@@ -394,6 +396,7 @@ Ext
                     width: width * 0.65,
                     height: height * 0.35,
                     reference: "chart",
+
                     innerPadding: {
                         top: 50,
                         left: 5,
@@ -429,6 +432,7 @@ Ext
                             title: product + "业务量(万美元)",
                             position: "left",
                             fields: "amount",
+                            grid: true,
                             listeners: {
 
                             }
@@ -437,6 +441,7 @@ Ext
                             type: "category",
                             title: "月份",
                             position: "bottom",
+                            grid: true,
                             fields: "month",
                         }
                     ],
@@ -588,8 +593,8 @@ Ext
             },
 
             /**
-			 * 客户筛选
-			 */
+             * 客户筛选
+             */
             filterclient: function(view, newClient) {
                 let store = view.getStore();
                 if (newClient == "") {
@@ -607,8 +612,8 @@ Ext
 
 
             /**
-			 * 日期筛选
-			 */
+             * 日期筛选
+             */
             filterdate: function(view, newDate) {
 
 
@@ -631,9 +636,9 @@ Ext
 
 
             /*
-			 * 
-			 * 以下是图形的提示等渲染函数
-			 */
+             * 
+             * 以下是图形的提示等渲染函数
+             */
             onPreview: function() {
                 if (Ext.isIE8) {
                     Ext.Msg.alert(

@@ -33,8 +33,16 @@ public class SubjectServiceImpl implements SubjectService {
 		subjects.add("2014");
 		subjects.add("2003");
 		subjects.add("2004");
-		
-		return sm.getDepositSubjects(date, subjects, "true");
+		ArrayList<LinkedHashMap<String, Object>> arr_agent=sm.getDepositSubjectsAgent(date, subjects);
+		ArrayList<LinkedHashMap<String, Object>> arr_self=sm.getDepositSubjectsSelf(date, subjects);
+		for (int j = 0; j < arr_self.size(); j++) {
+			arr_self.get(j).put("range","self");
+		}
+		for (int i = 0; i < arr_agent.size(); i++) {
+			arr_agent.get(i).put("range","agent");
+			arr_self.add(arr_agent.get(i));
+		}
+		return arr_self;
 		
 
 		
