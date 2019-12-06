@@ -48,4 +48,11 @@ public class SubjectServiceImpl implements SubjectService {
 		
 	}
 
+	@Override
+	public ArrayList<LinkedHashMap<String, Object>> getIncomeSubject(String date) {
+		// TODO Auto-generated method stub
+		sm.getIncomeSubject(date);
+		return null;
+	}
+
 }

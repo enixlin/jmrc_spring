@@ -213,7 +213,7 @@ Ext
                 let chart = Ext.create({
                     xtype: "cartesian",
                     width: width * 0.95,
-                    height: height * 0.6,
+                    height: height * 0.4,
                     reference: "chart",
                     scrollable: true,
                     tbar: ["->",
@@ -274,7 +274,7 @@ Ext
                         bottom: 0
                     },
                     insetPadding: {
-                        top: 40,
+                        top: 10,
                         left: 10,
                         right: 10,
                         bottom: 10
@@ -396,7 +396,6 @@ Ext
                     width: width * 0.65,
                     height: height * 0.35,
                     reference: "chart",
-
                     innerPadding: {
                         top: 50,
                         left: 5,
@@ -440,8 +439,8 @@ Ext
                         {
                             type: "category",
                             title: "月份",
-                            position: "bottom",
                             grid: true,
+                            position: "bottom",
                             fields: "month",
                         }
                     ],

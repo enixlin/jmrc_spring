@@ -25,6 +25,7 @@ public class SubjectController {
 
 	/**
 	 * 取得存款的时点和日均余额
+	 * 
 	 * @param req
 	 * @param res
 	 * @return
@@ -34,6 +35,19 @@ public class SubjectController {
 			HttpServletResponse res) {
 		String date = req.getParameter("date");
 		return ss.getDepositSubjects(date);
+	}
+
+	/**
+	 * 取得收入类科目的时点余额
+	 * 
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("/getIncomeSubject")
+	public ArrayList<LinkedHashMap<String, Object>> getIncomeSubject(HttpServletRequest req, HttpServletResponse res) {
+		String date = req.getParameter("date");
+		return ss.getIncomeSubject(date);
 	}
 
 }

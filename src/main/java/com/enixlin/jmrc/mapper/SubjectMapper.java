@@ -144,45 +144,49 @@ public interface SubjectMapper {
 	"" + 
 	"FROM " + 
 	"(" + 
-	"select  " + 
-	"`总帐科目` as subject," + 
-	"`货币代码` as currency," + 
-	"sum(`期末贷方`) as credit_now," + 
-	"sum(`年贷方余额累计数`/`年经过天数`) as avg_credit_now " + 
-	"from subject_balance " + 
-	"where `平台日期`='${date}'  "
-	+ " and "
-	+"`支行机构号`='08308' "
-	+ " and `总帐科目`  in "
-	+ "<foreach collection='subjects'  item='item' open='(' close=')' separator=','> "
-	+ "'${item}' "
-	+ "</foreach> " 
-	+ "GROUP BY `总帐科目`,`货币代码`" + 
-	"ORDER BY `总帐科目`" + 
+			"select  " + 
+			"`总帐科目` as subject," + 
+			"`货币代码` as currency," + 
+			"sum(`期末贷方`) as credit_now," + 
+			"sum(`年贷方余额累计数`/`年经过天数`) as avg_credit_now " + 
+			"from subject_balance " + 
+			"where `平台日期`='${date}'  "
+			+ " and "
+			+"`支行机构号`='08308' "
+			+ " and `总帐科目`  in "
+			+ "<foreach collection='subjects'  item='item' open='(' close=')' separator=','> "
+			+ "'${item}' "
+			+ "</foreach> " 
+			+ "GROUP BY `总帐科目`,`货币代码`" + 
+			"ORDER BY `总帐科目`" + 
 	") now_subject " + 
 	"" + 
 	"left join " + 
 	"" + 
 	"(" + 
-	"select  " + 
-	"`总帐科目` as subject," + 
-	"`货币代码` as currency," + 
-	"sum(`期末贷方`) as credit_lastyear," + 
-	"sum(`年贷方余额累计数`/`年经过天数`) as avg_credit_lastyear " + 
-	"from subject_balance " + 
-	"where `平台日期`='20181231' "
-	+ " and "
-	+"`支行机构号`='08308' "
-	+ " and `总帐科目`in "
-	+ "<foreach collection='subjects'  item='item' open='(' close=')' separator=','> "
-	+ "'${item}' "
-	+ "</foreach> " 
-	+"GROUP BY `总帐科目`,`货币代码`" + 
-	"ORDER BY `总帐科目`" + 
+			"select  " + 
+			"`总帐科目` as subject," + 
+			"`货币代码` as currency," + 
+			"sum(`期末贷方`) as credit_lastyear," + 
+			"sum(`年贷方余额累计数`/`年经过天数`) as avg_credit_lastyear " + 
+			"from subject_balance " + 
+			"where `平台日期`='20181231' "
+			+ " and "
+			+"`支行机构号`='08308' "
+			+ " and `总帐科目`in "
+			+ "<foreach collection='subjects'  item='item' open='(' close=')' separator=','> "
+			+ "'${item}' "
+			+ "</foreach> " 
+			+"GROUP BY `总帐科目`,`货币代码`" + 
+			"ORDER BY `总帐科目`" + 
 	") lastyear_subject " + 
 	"" + 
 	"on now_subject.subject=lastyear_subject.subject and now_subject.currency=lastyear_subject.currency </script>")
 ArrayList<LinkedHashMap<String, Object>> getDepositSubjectsAgent(@Param("date")String date, @Param("subjects")ArrayList<String> subjects);
+
+
+// getIncomeSubject
+ArrayList<LinkedHashMap<String, Object>> getIncomeSubject(@Param("date")String date, @Param("subjects")ArrayList<String> subjects);
 
 
 }
