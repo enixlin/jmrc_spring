@@ -47,7 +47,8 @@ public class SubjectController {
 	@RequestMapping("/getIncomeSubject")
 	public ArrayList<LinkedHashMap<String, Object>> getIncomeSubject(HttpServletRequest req, HttpServletResponse res) {
 		String date = req.getParameter("date");
-		return ss.getIncomeSubject(date);
+		String currency=req.getParameter("currency");
+		return ss.getIncomeSubject(date,currency);
 	}
 
 }

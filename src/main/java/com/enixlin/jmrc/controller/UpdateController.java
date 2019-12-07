@@ -207,7 +207,7 @@ public class UpdateController {
 
 	// 执行定时任务，每十分钟检查一次数据更新的日期与当前日期，如果当前日期先于数据库的日期，则执行更新
 	// 更新的频率为每十分钟
-	@Scheduled(fixedRate = 600000)
+	// @Scheduled(fixedRate = 600000)
 	public void updateProcess() {
 		// 取得当前的日期
 		Date date_current = new Date();

@@ -186,7 +186,29 @@ ArrayList<LinkedHashMap<String, Object>> getDepositSubjectsAgent(@Param("date")S
 
 
 // getIncomeSubject
-ArrayList<LinkedHashMap<String, Object>> getIncomeSubject(@Param("date")String date, @Param("subjects")ArrayList<String> subjects);
+@Select(""
++"<script> "
+	+"select "
+		+"sum(`期末贷方`) as credit_end,"
+		+"sum(`期末借方`) as debit_end,"
+		+" `总帐科目` as subject ,"
+		+"`货币代码` as currency "
+	+"from subject_balance "
+	+"where "
+			+" `总帐科目` in "
+			+"<foreach collection='subjects' item='item' open='(' close=')' separator=','>"
+				+"${item}"
+			+"</foreach>"
+		+"and "
+			+"`平台日期`=${date} "
+		+"and "
+			+"`货币代码`='${currency}' "
+	+"group by "
+		+"`货币代码`,"
+		+" `总帐科目`"
++"</script>"
++"")
+ArrayList<LinkedHashMap<String, Object>> getIncomeSubject(@Param("date")String date, @Param("subjects")ArrayList<String> subjects,@Param("currency")String currency);
 
 
 }
