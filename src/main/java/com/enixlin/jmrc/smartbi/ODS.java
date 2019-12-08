@@ -135,7 +135,7 @@ public class ODS {
 		map.clear();
 		map.put("className", "CompositeService");
 		map.put("methodName", "setParamValuesWithRelated");
-		String subjects = "2001,2014,2003,2004,6411,64210301,64210401,3301,6012,6412";
+		String subjects = "2001,2014,2003,2004,6411,60210301,64210401,3301,6012,6412";
 		map.put("params", "[" + parameterPanelId + "," + account_cd + ",'" + subjects + "','" + subjects + "' ]");
 		result = ns.HttpPost(url_query, map, encoding);
 		System.out.println(result);

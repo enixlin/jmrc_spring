@@ -8,7 +8,7 @@ public interface SubjectService {
 	String getLastReportDate();
 
 	ArrayList<LinkedHashMap<String, Object>> getDepositSubjects(String date);
-	ArrayList<LinkedHashMap<String, Object>> getIncomeSubject(String date,String currency);
+	ArrayList<LinkedHashMap<String, Object>> getIncomeSubject(String date);
 
     
 

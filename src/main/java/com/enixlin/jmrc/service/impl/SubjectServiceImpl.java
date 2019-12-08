@@ -12,7 +12,8 @@ import com.enixlin.jmrc.util.Utils;
 
 @Service
 public class SubjectServiceImpl implements SubjectService {
-@Autowired SubjectMapper sm;
+	@Autowired
+	SubjectMapper sm;
 	private String date;
 
 	public String getLastReportDate() {
@@ -46,18 +47,38 @@ public class SubjectServiceImpl implements SubjectService {
 	}
 
 	@Override
-	public ArrayList<LinkedHashMap<String, Object>> getIncomeSubject(final String date, final String currency) {
+	public ArrayList<LinkedHashMap<String, Object>> getIncomeSubject(final String date) {
 		this.date = date;
 		// TODO Auto-generated method stub
-		final ArrayList<String> subjects = new ArrayList<>();
-		subjects.add("3301");
-		subjects.add("6411");
-		subjects.add("6012");
-		subjects.add("6412");
-		subjects.add("64210301");
-		subjects.add("64210401");
-		return sm.getIncomeSubject(date, subjects,currency);
-	
+		ArrayList<LinkedHashMap<String, Object>> hm = new ArrayList<LinkedHashMap<String, Object>>();
+		// 取得汇兑收益
+		String subject = "3301";
+		String currency = "rmb";
+		ArrayList<LinkedHashMap<String, Object>> arr_exchange = sm.getIncomeSubjectByCurrency(date, subject, currency);
+		// 取得同业业务收益
+		subject = "6012";
+		currency = "usx";
+		ArrayList<LinkedHashMap<String, Object>> arr_bank = sm.getIncomeSubjectByCurrency(date, subject, currency);
+		// 取得同业业务支出
+		subject = "6412";
+		currency = "usx";
+		ArrayList<LinkedHashMap<String, Object>> arr_bank_cost = sm.getIncomeSubjectByCurrency(date, subject, currency);
+		// 取得外汇业务手续费支出
+		subject = "64210401";
+		currency = "usx";
+		ArrayList<LinkedHashMap<String, Object>> arr_charge_cost = sm.getIncomeSubjectByCurrency(date, subject, currency);
+		// 取得外汇业务手续费收入
+		subject = "60210301";
+		currency = "rmb";
+		ArrayList<LinkedHashMap<String, Object>> arr_charge_earn = sm.getIncomeSubjectByCurrency(date, subject, currency);
+
+		hm.addAll(arr_exchange);
+		hm.addAll(arr_bank);
+		hm.addAll(arr_bank_cost);
+		hm.addAll(arr_charge_cost);
+		hm.addAll(arr_charge_earn);
+		return hm;
+
 	}
 
 }
