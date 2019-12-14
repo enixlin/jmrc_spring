@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.html.parser.Entity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,8 +48,8 @@ public class SubjectController {
 	@RequestMapping("/getIncomeSubject")
 	public ArrayList<LinkedHashMap<String, Object>> getIncomeSubject(HttpServletRequest req, HttpServletResponse res) {
 		String date = req.getParameter("date");
-		//String currency=req.getParameter("currency");
-		return ss.getIncomeSubject(date);
+		ArrayList<LinkedHashMap<String, Object>> arr = ss.getIncomeSubject(date);
+		return arr;
 	}
 
 }

@@ -212,24 +212,81 @@ ArrayList<LinkedHashMap<String, Object>> getIncomeSubject(@Param("date")String d
 
 @Select(""
 +"<script> "
-	+"select "
-		+"sum(`期末贷方`) as credit_end,"
-		+"sum(`期末借方`) as debit_end,"
-		+" `总帐科目` as subject ,"
-		+"`货币代码` as currency "
-	+"from subject_balance "
-	+"where "
-			+" `总帐科目`=${subject} "
-		+"and "
-			+"`平台日期`=${date} "
-		+"and "
-			+"`货币代码`='${currency}' "
-	+"group by "
-		+"`货币代码`,"
-		+" `总帐科目`"
++" select "
+	+" c.date_c as date ,"
+	+" c.subject as subject ,"
+	+" c.currency as currency ,"
+	+" c.credit_end as credit_end_c ,"
+	+" c.debit_end as debit_end_c ,"
+	+
+	"	case" + 
+	"			WHEN p.credit_end IS NULL " + 
+	"		OR p.credit_end = 0 THEN" + 
+	"			0 ELSE p.credit_end " + 
+	"		END credit_end_p,"  
+
+	+
+	"	case" + 
+	"			WHEN p.debit_end IS NULL " + 
+	"		OR p.debit_end = 0 THEN" + 
+	"			0 ELSE p.debit_end " + 
+	"		END debit_end_p "  
+
+
++"from "
+			+"("
+				+"select "
+				+"`平台日期` as date_c,"
+					+"sum(`期末贷方`) as credit_end,"
+					+"sum(`期末借方`) as debit_end,"
+					+" `总帐科目` as subject ,"
+					+"`货币代码` as currency "
+				+"from subject_balance "
+				+"where "
+						+" `总帐科目`=${subject} "
+					+"and "
+						+"`平台日期`=${date} "
+					+"and "
+						+"`货币代码`='${currency}' "
+				+"group by "
+					+"`货币代码`,"
+					+" `总帐科目`"
+			+")  c "
++"left join "
+			+"("
+			+"select "
+			+"`平台日期` as date_c,"
+				+"sum(`期末贷方`) as credit_end,"
+				+"sum(`期末借方`) as debit_end,"
+				+" `总帐科目` as subject ,"
+				+"`货币代码` as currency "
+			+"from subject_balance "
+			+"where "
+					+" `总帐科目`=${subject} "
+				+"and "
+					+"`平台日期`=DATE_ADD(DATE_FORMAT(${date},'%Y%m%d'),INTERVAL -1 YEAR) "
+				+"and "
+					+"`货币代码`='${currency}' "
+			+"group by "
+				+"`货币代码`,"
+				+" `总帐科目`"
+			+")  p "
++" on c.subject=p.subject "
+
+
 +"</script>"
 +"")
 ArrayList<LinkedHashMap<String, Object>> getIncomeSubjectByCurrency(@Param("date")String date, @Param("subject")String subject,@Param("currency")String currency);
+
+@Select(
+	" select usd_rate "
+	+"from settle_record "
+	+" where busy_date=#{date} "
+	+" and "
+	+" busy_currency=#{currency} "
+	+" limit 1"
+)
+String getUsdRateFromSettleRecord( @Param("currency")String currency, @Param("date")String date);
 
 
 }

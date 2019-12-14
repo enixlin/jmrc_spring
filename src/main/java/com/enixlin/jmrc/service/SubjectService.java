@@ -9,6 +9,7 @@ public interface SubjectService {
 
 	ArrayList<LinkedHashMap<String, Object>> getDepositSubjects(String date);
 	ArrayList<LinkedHashMap<String, Object>> getIncomeSubject(String date);
+	String getUsdRateFromSettleRecord(String currency, String date) ;
 
     
 
