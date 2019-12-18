@@ -53,16 +53,16 @@ public class UpdateController {
 
 	@RequestMapping("/test")
 	public void updateTest(HttpServletRequest req, HttpServletResponse res) {
-		this.updateProcess();
+		//this.updateProcess();
 		// 插入科目余额
-		// String end = req.getParameter("date");
-		// String getMax = req.getParameter("getMax");
-		// this.addSubjectsBalance(end, getMax);
-
-		// 插入贸易融资
 		 String end = req.getParameter("date");
 		 String getMax = req.getParameter("getMax");
-		 this.addTF(end, getMax);
+		 this.addSubjectsBalance(end, getMax);
+
+		// 插入贸易融资
+//		 String end = req.getParameter("date");
+//		 String getMax = req.getParameter("getMax");
+//		 this.addTF(end, getMax);
 
 		// 插入国际结算
 		// String start = req.getParameter("start");
