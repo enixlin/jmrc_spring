@@ -135,7 +135,7 @@ public class ODS {
 		map.clear();
 		map.put("className", "CompositeService");
 		map.put("methodName", "setParamValuesWithRelated");
-		String subjects = "2001,2014,2003,2004,6411,601107,,13040301,13030101,60210301,60110403,64210401,3301,6012,6412";
+		String subjects = "2001,2014,2003,2004,6411,601107,13040301,13030101,60210301,60110403,64210401,3301,6012,6412";
 		map.put("params", "[" + parameterPanelId + "," + account_cd + ",'" + subjects + "','" + subjects + "' ]");
 		result = ns.HttpPost(url_query, map, encoding);
 		System.out.println(result);
@@ -319,11 +319,21 @@ public class ODS {
 				String subject = array_result.get(j).getAsJsonArray().get(21).getAsString();
 				String sub_type = array_result.get(j).getAsJsonArray().get(128).getAsString();
 				String currency = array_result.get(j).getAsJsonArray().get(88).getAsString();
-				if (subject.equals("0105") || subject.equals("1050201") || subject.equals("1110101")
-						|| subject.equals("1120101") || subject.equals("1140101")
-						|| (subject.equals("13040301") && !currency.equals("CNY")) || subject.equals("13070101")
-						|| subject.equals("13070201") || subject.equals("13070301") || subject.equals("13079901")
-						|| (subject.equals("13040301") && sub_type.equals("0749-“退税贷”出口退税应收款融资"))
+				if (
+						subject.equals("0105") 
+						|| subject.equals("1050201") 
+						|| subject.equals("1110101")
+						|| subject.equals("1120101") 
+						|| subject.equals("1140101")
+//						|| (subject.equals("13040301") && !currency.equals("CNY"))
+						|| subject.equals("13070101")
+						|| subject.equals("13070201")
+						|| subject.equals("13070301") 
+						|| subject.equals("13079901")
+						|| subject.equals("13030101")
+						||(subject.equals("13040301") && sub_type.equals("P08300201700512"))
+						||(subject.equals("13030101") && sub_type.equals("P08300201700512"))
+						||(subject.equals("13040301") && sub_type.equals("0749-“退税贷”出口退税应收款融资"))
 
 				) {
 					fixedArray.add(array_result.get(j));
