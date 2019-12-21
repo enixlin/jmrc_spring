@@ -44,6 +44,7 @@ Ext.define("jmrc.view.performance.income.incomeController", {
                 {
                     text: "期末贷方",
                     dataIndex: "期末贷方",
+
                     renderer: function(v) {
                         return Ext.util.Format.number(v, "0,000.00");
                     }
@@ -126,17 +127,22 @@ Ext.define("jmrc.view.performance.income.incomeController", {
                         items: [{
                                 xtype: "textfield",
                                 fieldLabel: "总收入:",
+                                fieldStyle: "text-align:right",
                                 value: Ext.util.Format.number(earn, "0,000.00")
                             },
                             {
                                 xtype: "textfield",
                                 fieldLabel: "总支出:",
+                                fieldStyle: "text-align:right",
                                 value: Ext.util.Format.number(cost, "0,000.00")
                             },
                             {
                                 xtype: "textfield",
                                 fieldLabel: "利润:",
+                                fieldStyle: "text-align:right",
                                 value: Ext.util.Format.number(profill, "0,000.00")
+
+
                             }
                         ]
                     });
