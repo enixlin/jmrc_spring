@@ -40,13 +40,13 @@ public class TFServiceImpl implements TFService {
 	@Override
 	public ArrayList<LinkedHashMap<String, Object>> getOrderInt(String date) {
 		// TODO Auto-generated method stub
-		return null;
+		return tfm.getOrderInt(date);
 	}
 
 	@Override
 	public ArrayList<LinkedHashMap<String, Object>> getRTInt(String date) {
 		// TODO Auto-generated method stub
-		return tfm.getTFInt(date);
+		return tfm.getRTInt(date);
 	}
 
 	

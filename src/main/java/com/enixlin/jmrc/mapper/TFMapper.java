@@ -25,10 +25,29 @@ public interface TFMapper {
     
 
     
-    @Select("select sum(replace(`本年累计收息`,',','')) as sumInt,`科目` "
+	@Select("select sum(replace(`本年累计收息`,',','')) as sumInt,`科目` "
+	
     		+ " FROM tf_middle "
     		+ " where `科目`='13040301' and `数据抽取日期`='${date}' "
     		+ " group by `科目`")
     public ArrayList<LinkedHashMap<String, Object>> getTFInt(@Param("date")String date);
 
+
+	// getRTInt
+	  
+	@Select("select sum(replace(`本年累计收息`,',','')) as sumInt,`科目` "
+	
+    		+ " FROM tf_middle "
+			+ " where `科目`='13040301' and `数据抽取日期`='${date}' "
+			+" and `特色产品` ='0749-“退税贷”出口退税应收款融资'  "
+    		+ " group by `科目`")
+	public ArrayList<LinkedHashMap<String, Object>> getRTInt(@Param("date")String date);
+
+
+	@Select("select sum(replace(`本年累计收息`,',','')) as sumInt,`科目` "
+	+ " FROM tf_middle "
+	+ " where `科目`='13040301' and `数据抽取日期`='${date}' "
+	+" and `特色产品` in ('P08300201700512') "
+	+ " group by `科目`")
+public ArrayList<LinkedHashMap<String, Object>> getOrderInt(@Param("date")String date);
 }
