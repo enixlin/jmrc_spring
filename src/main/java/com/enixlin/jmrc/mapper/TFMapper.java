@@ -35,19 +35,56 @@ public interface TFMapper {
 
 	// getRTInt
 	  
-	@Select("select sum(replace(`本年累计收息`,',','')) as sumInt,`科目` "
-	
+	@Select(
+	"select "
+	+" c.subject as subject,"
+	+" c.sumInt as sumInt_c,"
+	+" case when p.sumInt is null or p.sumInt=0 then 0 else p.sumInt end  sumInt_p"
+	+" from "
+	+"("
+	+			"select sum(replace(`本年累计收息`,',','')) as sumInt,`科目` as subject "
     		+ " FROM tf_middle "
 			+ " where `科目`='13040301' and `数据抽取日期`='${date}' "
 			+" and `特色产品` ='0749-“退税贷”出口退税应收款融资'  "
-    		+ " group by `科目`")
+			+ " group by `科目` "
+	+") c"	
+	+" left join  "	
+	+"("
+			+"select sum(replace(`本年累计收息`,',','')) as sumInt,`科目` as subject "
+    		+ " FROM tf_middle "
+			+ " where `科目`='13040301' and `数据抽取日期`=date_format(date_add('${date}',interval  -1 YEAR),'%Y%m%d' ) "
+			+" and `特色产品` ='0749-“退税贷”出口退税应收款融资'  "
+			+ " group by `科目`"
+	+") p"
+	+" on c.subject=p.subject "
+			
+			
+			)
 	public ArrayList<LinkedHashMap<String, Object>> getRTInt(@Param("date")String date);
 
 
-	@Select("select sum(replace(`本年累计收息`,',','')) as sumInt,`科目` "
-	+ " FROM tf_middle "
-	+ " where `科目`='13040301' and `数据抽取日期`='${date}' "
-	+" and `特色产品` in ('P08300201700512') "
-	+ " group by `科目`")
+	@Select(
+
+	"select "
+	+" c.subject as subject,"
+	+" c.sumInt as sumInt_c,"
+	+" case when p.sumInt is null or p.sumInt=0 then 0 else p.sumInt end  sumInt_p"
+	+" from "
+	+"("
+	+			"select sum(replace(`本年累计收息`,',','')) as sumInt,`科目` as subject "
+    		+ " FROM tf_middle "
+			+ " where `科目`='13040301' and `数据抽取日期`='${date}' "
+			+" and `特色产品` ='P08300201700512'  "
+			+ " group by `科目` "
+	+") c"	
+	+" left join  "	
+	+"("
+			+"select sum(replace(`本年累计收息`,',','')) as sumInt,`科目` as subject "
+    		+ " FROM tf_middle "
+			+ " where `科目`='13040301' and `数据抽取日期`=date_format(date_add('${date}',interval -1 YEAR),'%Y%m%d' ) "
+			+" and `特色产品` ='P08300201700512'  "
+			+ " group by `科目`"
+	+") p"
+	+" on c.subject=p.subject ")
 public ArrayList<LinkedHashMap<String, Object>> getOrderInt(@Param("date")String date);
 }

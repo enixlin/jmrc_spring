@@ -35,10 +35,11 @@ Ext.define("jmrc.view.performance.income.incomeController", {
             width: "100%",
             store: store,
             columns: [
-                { text: "科目号", dataIndex: "科目号" },
+                { text: "科目号", dataIndex: "科目号", align: "left" },
                 {
                     text: "科目名称",
                     dataIndex: "科目名称",
+                    align: "center",
                     width: 200
                 },
                 {
@@ -57,26 +58,35 @@ Ext.define("jmrc.view.performance.income.incomeController", {
                     }
                 },
                 {
-                    text: "贷方增减",
+                    text: "贷方<BR>同比增减",
                     dataIndex: "贷方增减",
                     renderer: function(v) {
                         return Ext.util.Format.number(v, "0,000.00");
                     }
                 },
                 {
-                    text: "借方增减",
+                    text: "借方<BR>同比增减",
                     dataIndex: "借方增减",
                     renderer: function(v) {
                         return Ext.util.Format.number(v, "0,000.00");
                     }
                 },
-                { text: "贷方同比", dataIndex: "贷方同比" },
-                { text: "借方同比", dataIndex: "借方同比" }
+
             ]
+        });
+        let comment = Ext.create({
+            xtype: "panel",
+            width: "100%",
+            height: 100,
+            html: "注：<font color=red>由于信贷中间表只有月末数据，查询非月末时点的收入时，不包括退税和订单融资的利息收入" +
+                "<br>由于2019年前ODS数据不含综合美元和综合人民币数据 ，上表中同比数据中<br>【存款利息支出】【手续费支出】【同业业务收入】【同业业务支出】" +
+                "同比增减数值不准确，请忽略</font>"
+
         });
 
         view.add(tbar);
         view.add(grid);
+        view.add(comment);
 
         let subject = this.getSubjectLogDate("subject");
         Promise.resolve(subject).then(function(result) {
@@ -124,6 +134,7 @@ Ext.define("jmrc.view.performance.income.incomeController", {
                     let bbar = Ext.create({
                         xtype: "toolbar",
                         dock: "bottom",
+                        style: { 'background': '#ABCDEF' },
                         items: [{
                                 xtype: "textfield",
                                 fieldLabel: "总收入:",

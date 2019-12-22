@@ -34,6 +34,7 @@ Ext.define("jmrc.view.performance.deposit.depositController", {
             xtype: "toolbar",
             width: "100%",
             docked: 'bottom',
+            style: { "background": "#abcdef" },
             items: [
                 // begin using the right-justified button container
 
@@ -102,6 +103,7 @@ Ext.define("jmrc.view.performance.deposit.depositController", {
             xtype: "grid",
             width: "100%",
             height: 500,
+            border: 2,
             plugins: "gridfilters",
             store: store,
             columns: [
@@ -149,14 +151,14 @@ Ext.define("jmrc.view.performance.deposit.depositController", {
                     }
                 },
                 {
-                    header: "时点余额<br>比年初",
+                    header: "时点余额<br>年初",
                     dataIndex: "credit_lastyear",
                     renderer: function(v) {
                         return Ext.util.Format.number(v / 10000, '0,000.00');
                     }
                 },
                 {
-                    header: "日均余额<br>比年初",
+                    header: "日均余额<br>年初",
                     dataIndex: "avg_credit_lastyear",
                     renderer: function(v) {
                         return Ext.util.Format.number(v / 10000, '0,000.00');

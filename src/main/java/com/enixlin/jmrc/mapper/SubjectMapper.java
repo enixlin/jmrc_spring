@@ -95,7 +95,7 @@ public interface SubjectMapper {
 				"sum(`期末贷方`) as credit_lastyear," + 
 				"sum(`年贷方余额累计数`/`年经过天数`) as avg_credit_lastyear " + 
 				"from subject_balance " + 
-				"where `平台日期`='20181231' "
+				"where `平台日期`=concat(left('${date}',4)-1,'1231') "
 				+ " and "
 				+"`支行机构号`!='08308' "
 				+ " and `总帐科目`in "
@@ -170,7 +170,7 @@ public interface SubjectMapper {
 			"sum(`期末贷方`) as credit_lastyear," + 
 			"sum(`年贷方余额累计数`/`年经过天数`) as avg_credit_lastyear " + 
 			"from subject_balance " + 
-			"where `平台日期`='20181231' "
+			"where `平台日期`=concat(left('${date}',4)-1,'1231') "
 			+ " and "
 			+"`支行机构号`='08308' "
 			+ " and `总帐科目`in "
@@ -227,6 +227,7 @@ ArrayList<LinkedHashMap<String, Object>> getIncomeSubject(@Param("date")String d
 
 	+
 	"	case" + 
+
 	"			WHEN p.debit_end IS NULL " + 
 	"		OR p.debit_end = 0 THEN" + 
 	"			0 ELSE p.debit_end " + 
@@ -264,7 +265,7 @@ ArrayList<LinkedHashMap<String, Object>> getIncomeSubject(@Param("date")String d
 			+"where "
 					+" `总帐科目`=${subject} "
 				+"and "
-					+"`平台日期`=DATE_ADD(DATE_FORMAT(${date},'%Y%m%d'),INTERVAL -1 YEAR) "
+					+"`平台日期`=date_format(DATE_ADD(${date},INTERVAL -1 YEAR),'%Y%m%d') "
 				+"and "
 					+"`货币代码`='${currency}' "
 			+"group by "
@@ -279,12 +280,13 @@ ArrayList<LinkedHashMap<String, Object>> getIncomeSubject(@Param("date")String d
 ArrayList<LinkedHashMap<String, Object>> getIncomeSubjectByCurrency(@Param("date")String date, @Param("subject")String subject,@Param("currency")String currency);
 
 @Select(
-	" select usd_rate "
+	" <script>select usd_rate "
 	+"from settle_record "
-	+" where busy_date=#{date} "
+	+" where busy_date&lt;=#{date} "
 	+" and "
 	+" busy_currency=#{currency} "
-	+" limit 1"
+	+" order by busy_date desc"
+	+" limit 1</script>"
 )
 String getUsdRateFromSettleRecord( @Param("currency")String currency, @Param("date")String date);
 
