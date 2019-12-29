@@ -122,7 +122,7 @@ public class SubjectServiceImpl implements SubjectService {
 		ArrayList<LinkedHashMap<String, Object>> arr_charge_cost = sm.getIncomeSubjectByCurrency(date, subject,
 				currency);
 		subject = "64210401";
-		currency = "cny";
+		currency = "CNY";
 		ArrayList<LinkedHashMap<String, Object>> arr_charge_cost_c = sm.getIncomeSubjectByCurrency(date, subject,
 				currency);
 		// 外汇业务手续费支出=外币原币支出+人民币支出
