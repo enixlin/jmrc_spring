@@ -28,6 +28,7 @@ public interface TFService {
 	 * 创建时间：2019年12月27日
 	 */
 	ArrayList<LinkedHashMap<String, Object>> getTFBalance(String date);
+	ArrayList<LinkedHashMap<String, Object>> getClientTFBalance(String date, String type);
 	
 	
 	

@@ -38,4 +38,13 @@ public class TFController {
     	String date=req.getParameter("date");
     	return tfs.getTFBalance(date);
     }
+    
+    @RequestMapping("/getClientTFBalance")
+    public ArrayList<LinkedHashMap<String, Object>> getClientTFBalance(HttpServletRequest req,HttpServletResponse res){
+    	String date=req.getParameter("date");
+    	String type=req.getParameter("type");
+    	
+    	return tfs.getClientTFBalance(date,type);
+    }
+    
 }

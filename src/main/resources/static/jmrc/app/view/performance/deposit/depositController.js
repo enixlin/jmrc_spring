@@ -10,6 +10,11 @@ Ext.define("jmrc.view.performance.deposit.depositController", {
         let year = date.getUTCFullYear();
         let month = date.getUTCMonth() + 1;
         let day = date.getUTCDate();
+        let logDate=me.getSubjectLogDate("subject");
+        Promise.resolve(logDate).then(function(result) {
+            // alert(result);
+            tbar.query("textfield")[1].setValue(result.replace(/-/g, ""));
+        });
         // 10以下的数在前面补充零
         month < 10 ? (month = "0" + month) : month;
         day < 10 ? (day = "0" + day) : day;
@@ -88,7 +93,7 @@ Ext.define("jmrc.view.performance.deposit.depositController", {
                     xtype: "textfield",
                     fieldLabel: "日期",
                     emptyText: "请输入日期（20190625）",
-                    value: "" + year + month + day
+                    value:""
 
                 },
                 {
@@ -233,5 +238,21 @@ Ext.define("jmrc.view.performance.deposit.depositController", {
         fields[2].setValue(Ext.util.Format.number(store.sum("credit_lastyear") / 10000, '0,000.00'));
         fields[3].setValue(Ext.util.Format.number(store.sum("avg_credit_lastyear") / 10000, '0,000.00'));
         console.log(store.getFilters());
+    },
+    
+    
+    
+    getSubjectLogDate: function(type) {
+        return new Promise(function(resolve, reject) {
+            Ext.Ajax.request({
+                url: "/update/getLastUpdateDate",
+                params: {
+                    type: type
+                },
+                success: function(result) {
+                    resolve(result.responseText);
+                }
+            });
+        });
     },
 });
