@@ -70,6 +70,38 @@ public class UpdateController {
 		// String getMax = req.getParameter("getMax");
 		// this.addSettle(start, end, getMax);
 	}
+	@RequestMapping("/test_tf")
+	public void updateTestTF(HttpServletRequest req, HttpServletResponse res) {
+
+
+		// 插入贸易融资
+		 String end = req.getParameter("date");
+		 String getMax = req.getParameter("getMax");
+		 this.addTF(end, getMax);
+
+	}
+	@RequestMapping("/test_subject")
+	public void updateTestSubject(HttpServletRequest req, HttpServletResponse res) {
+		//this.updateProcess();
+		// 插入科目余额
+		 String end = req.getParameter("date");
+		 String getMax = req.getParameter("getMax");
+		 this.addSubjectsBalance(end, getMax);
+
+
+	}
+	@RequestMapping("/test_settle")
+	public void updateTestSettle(HttpServletRequest req, HttpServletResponse res) {
+
+
+		// 插入国际结算
+		 String start = req.getParameter("start");
+		 String end = req.getParameter("end");
+		 String getMax = req.getParameter("getMax");
+		 this.addSettle(start, end, getMax);
+	}
+	
+	
 
 	public void addTF(String end, String getMax) {
 		ODS ods = new ODS();

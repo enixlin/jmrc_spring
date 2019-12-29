@@ -34,6 +34,7 @@ Ext.define("jmrc.view.performance.income.incomeController", {
             xtype: "grid",
             width: "100%",
             store: store,
+            border:2,
             columns: [
                 { text: "科目号", dataIndex: "科目号", align: "left" },
                 {
@@ -61,14 +62,26 @@ Ext.define("jmrc.view.performance.income.incomeController", {
                     text: "贷方<BR>同比增减",
                     dataIndex: "贷方增减",
                     renderer: function(v) {
-                        return Ext.util.Format.number(v, "0,000.00");
+                    	if(v>=0){
+                    		
+                    		return "<font color=green>"+Ext.util.Format.number(v, "0,000.00")+"</font>";
+                    	}else{
+
+                    		return "<font color=red>"+Ext.util.Format.number(v, "0,000.00")+"</font>";
+                    	}
                     }
                 },
                 {
                     text: "借方<BR>同比增减",
                     dataIndex: "借方增减",
                     renderer: function(v) {
-                        return Ext.util.Format.number(v, "0,000.00");
+                    	if(v>=0){
+                    		
+                    		return "<font color=red>"+Ext.util.Format.number(v, "0,000.00")+"</font>";
+                    	}else{
+
+                    		return "<font color=green>"+Ext.util.Format.number(v, "0,000.00")+"</font>";
+                    	}
                     }
                 },
 
