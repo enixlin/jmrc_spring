@@ -49,6 +49,29 @@ public class TFServiceImpl implements TFService {
 		return tfm.getRTInt(date);
 	}
 
+	@Override
+	public ArrayList<LinkedHashMap<String, Object>> getTFBalance(String date) {
+		// TODO Auto-generated method stub
+		
+		ArrayList<LinkedHashMap<String, Object>> balance=new ArrayList<LinkedHashMap<String,Object>>();
+		
+		
+		//添加科目
+		ArrayList<String> subjects=new ArrayList<String>();
+		ArrayList<String> special=new ArrayList<String>();
+		
+		subjects.add("13040301");
+		special.add("0452");
+		special.add("0749-“退税贷”出口退税应收款融资");
+		balance.addAll(tfm.getTFBalance(date, subjects, special));
+		
+		
+		
+		
+		
+		return balance;
+	}
+
 	
 	
 	

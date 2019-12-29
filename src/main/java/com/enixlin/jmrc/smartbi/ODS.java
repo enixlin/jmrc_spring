@@ -89,9 +89,11 @@ public class ODS {
 		String clientConfig = reportBean.get("clientConfig").getAsString();
 
 		JsonService jss = new JsonService(clientConfig);
-		JsonObject BizViewOutField = jss.getJsonObject().get("gridProp").getAsJsonObject().get("fieldProps")
+		JsonObject BizViewOutField = jss.getJsonObject().get("gridProp")
+				.getAsJsonObject().get("fieldProps")
 				.getAsJsonObject();
-		JsonArray opParameter = jss.getJsonObject().get("paramSetting").getAsJsonObject().get("applyDefaultValueParams")
+		JsonArray opParameter = jss.getJsonObject().get("paramSetting")
+				.getAsJsonObject().get("applyDefaultValueParams")
 				.getAsJsonArray();
 		String account_cd = opParameter.get(1).toString();
 		String current_all = opParameter.get(0).toString();
@@ -113,7 +115,8 @@ public class ODS {
 		map.clear();
 		map.put("className", "CombinedQueryService");
 		map.put("methodName", "initFromBizViewEx");
-		map.put("params", "[" + reportID1 + "," + clientId + "," + reportID2 + ",true]");
+		map.put("params",
+				"[" + reportID1 + "," + clientId + "," + reportID2 + ",true]");
 		result = ns.HttpPost(url_query, map, encoding);
 
 		map.clear();
@@ -136,7 +139,8 @@ public class ODS {
 		map.put("className", "CompositeService");
 		map.put("methodName", "setParamValuesWithRelated");
 		String subjects = "2001,2014,2003,2004,6411,601107,13040301,13030101,60210301,60110403,64210401,3301,6012,6412";
-		map.put("params", "[" + parameterPanelId + "," + account_cd + ",'" + subjects + "','" + subjects + "' ]");
+		map.put("params", "[" + parameterPanelId + "," + account_cd + ",'"
+				+ subjects + "','" + subjects + "' ]");
 		result = ns.HttpPost(url_query, map, encoding);
 		System.out.println(result);
 
@@ -148,7 +152,8 @@ public class ODS {
 		map.put("methodName", "setParamValuesWithRelated");
 		String currency = "CNY,HKD,USD,EUR,GBP,JPY,RMB,USX,MOP,AUD,CAD";
 		String currency_chn = "人民币 CNY,港    币 HKD,美    元 USD,欧    元 EUR,英    镑 GBP,日    元 JPY,综合人民币 RMB,综合美元 USX,澳门元 MOP,澳    元 AUD,加    元 CAD";
-		map.put("params", "[" + parameterPanelId + "," + current_all + ",'" + currency + "','" + currency_chn + "' ]");
+		map.put("params", "[" + parameterPanelId + "," + current_all + ",'"
+				+ currency + "','" + currency_chn + "' ]");
 		result = ns.HttpPost(url_query, map, encoding);
 		System.out.println(result);
 
@@ -158,7 +163,8 @@ public class ODS {
 		map.clear();
 		map.put("className", "CompositeService");
 		map.put("methodName", "setParamValuesWithRelated");
-		map.put("params", "[" + parameterPanelId + "," + reportdate + ",'" + queryDate1 + "','" + queryDate1 + "' ]");
+		map.put("params", "[" + parameterPanelId + "," + reportdate + ",'"
+				+ queryDate1 + "','" + queryDate1 + "' ]");
 		result = ns.HttpPost(url_query, map, encoding);
 		System.out.println(result);
 
@@ -189,7 +195,8 @@ public class ODS {
 		result = ns.HttpPost(url_query, map, encoding);
 		js = new JsonService(result);
 		JsonObject objRusult = js.getJsonObject();
-		JsonArray array_result = objRusult.get("result").getAsJsonArray().get(0).getAsJsonArray();
+		JsonArray array_result = objRusult.get("result").getAsJsonArray().get(0)
+				.getAsJsonArray();
 		System.out.println("result array size is:" + array_result.size());
 		System.out.println("result to object");
 
@@ -205,7 +212,8 @@ public class ODS {
 	 * @param ExportNum  单次最大提取记录数，建议不要大于5000笔每/次
 	 * @return
 	 */
-	public JsonArray getAllFTRecordFromMiddleTable(String dateLineFormat, String dateChineseFormat, String ExportNum) {
+	public JsonArray getAllFTRecordFromMiddleTable(String dateLineFormat,
+			String dateChineseFormat, String ExportNum) {
 		NetService ns = new NetService();
 
 		ns.createHttpClient();
@@ -242,7 +250,8 @@ public class ODS {
 		int start = temp.indexOf("clientId=") + 10;
 		int parameterPanelId = temp.indexOf("parameterPanelId") + 19;
 		String ClientId = temp.substring(start, start + 41);
-		String panelId = temp.substring(parameterPanelId, parameterPanelId + 41);
+		String panelId = temp.substring(parameterPanelId,
+				parameterPanelId + 41);
 
 		map.clear();
 		map.put("className", "ClientReportService");
@@ -251,7 +260,8 @@ public class ODS {
 		result = ns.HttpPost(url_query, map, encoding);
 		JsonService js = new JsonService(result);
 		JsonArray jo = js.getJsonArray("result");
-		String param_struction = jo.get(0).getAsJsonObject().get("id").toString();
+		String param_struction = jo.get(0).getAsJsonObject().get("id")
+				.toString();
 		String param_date = jo.get(1).getAsJsonObject().get("id").toString();
 		// String param_date =
 		// jo.getAsJsonArray().get(1).getAsJsonObject().get("id").toString();
@@ -265,7 +275,8 @@ public class ODS {
 		map.clear();
 		map.put("className", "CompositeService");
 		map.put("methodName", "setParamValuesWithRelated");
-		map.put("params", "[" + panelId + "," + param_date + ",'" + dateLineFormat + "','" + dateChineseFormat + "' ]");
+		map.put("params", "[" + panelId + "," + param_date + ",'"
+				+ dateLineFormat + "','" + dateChineseFormat + "' ]");
 		result = ns.HttpPost(url_query, map, encoding);
 
 		map.clear();
@@ -285,7 +296,7 @@ public class ODS {
 
 		int recordCount = objResult.get("result").getAsInt();
 		System.out.println("中间表的总记录数：" + result);
-		int round = recordCount / 5000;
+		int round = (int) Math.ceil(recordCount / (float)5000.00) ;
 		System.out.println(round);
 		System.out.println("需要提交请求的次数：" + round);
 
@@ -298,8 +309,8 @@ public class ODS {
 			result = ns.HttpPost(url_query, map, encoding);
 			js = new JsonService(result);
 			JsonObject objRusult = js.getJsonObject();
-			JsonArray array_result = objRusult.get("result").getAsJsonArray().get(0).getAsJsonArray();
-			System.out.println("");
+			JsonArray array_result = objRusult.get("result").getAsJsonArray()
+					.get(0).getAsJsonArray();
 			// 提取贸易融资、和出口退税、保函、信用证等业务,按科目提取
 
 			// 科目号 科目名称
@@ -315,32 +326,43 @@ public class ODS {
 			// 13079901 出口信用保险贷款
 			// 9999999 配平表外业务
 			// 13040301
-			for (int j = 0, len1 = array_result.size(); j < len1; j++) {
-				String subject = array_result.get(j).getAsJsonArray().get(21).getAsString();
-				String sub_type = array_result.get(j).getAsJsonArray().get(128).getAsString();
-				String currency = array_result.get(j).getAsJsonArray().get(88).getAsString();
-				if (
-						subject.equals("0105") 
-						|| subject.equals("1050201") 
-						|| subject.equals("1110101")
-						|| subject.equals("1120101") 
-						|| subject.equals("1140101")
+			if (array_result.size() > 0) {
+				for (int j = 0, len1 = array_result.size(); j < len1; j++) {
+					JsonArray jsf = array_result.get(j).getAsJsonArray();
+					String subject = array_result.get(j).getAsJsonArray()
+							.get(21).getAsString();
+					String sub_type = array_result.get(j).getAsJsonArray()
+							.get(128).getAsString();
+					String currency = array_result.get(j).getAsJsonArray()
+							.get(88).getAsString();
+					if (subject.equals("0105")
+							|| subject.equals("1050201")
+							|| subject.equals("1110101")
+							|| subject.equals("1120101")
+							|| subject.equals("1140101")
 //						|| (subject.equals("13040301") && !currency.equals("CNY"))
-						|| subject.equals("13070101")
-						|| subject.equals("13070201")
-						|| subject.equals("13070301") 
-						|| subject.equals("13079901")
-						|| subject.equals("13030101")
-						||(subject.equals("13040301") && sub_type.equals("P08300201700512"))
-						||(subject.equals("13030101") && sub_type.equals("P08300201700512"))
-						||(subject.equals("13040301") && sub_type.equals("0749-“退税贷”出口退税应收款融资"))
+							|| subject.equals("13070101")
+							|| subject.equals("13070201")
+							|| subject.equals("13070301")
+							|| subject.equals("13079901")
+							|| (subject.equals("13040301")
+									&& sub_type.equals("P08300201700509"))
+							|| (subject.equals("13040301")
+									&& sub_type.equals("0452"))
+							|| (subject.equals("13030101")
+									&& sub_type.equals("P08300201700512"))
+							|| (subject.equals("13040301")
+									&& sub_type.equals("P08300201700512"))
+							|| (subject.equals("13040301")
+									&& sub_type.equals("0749-“退税贷”出口退税应收款融资"))
 
-				) {
-					fixedArray.add(array_result.get(j));
+					) {
+						fixedArray.add(array_result.get(j));
+					}
 				}
-			}
-			System.out.println("第：" + i + "次请求完成");
+				System.out.println("第：" + i + "次请求完成");
 
+			}
 		}
 
 		return fixedArray;
@@ -354,7 +376,8 @@ public class ODS {
 	 * @return
 	 */
 	public String changeChineseDateFormat(String day) {
-		return day.substring(0, 4) + "年" + day.substring(4, 6) + "月" + day.substring(6, 8) + "日";
+		return day.substring(0, 4) + "年" + day.substring(4, 6) + "月"
+				+ day.substring(6, 8) + "日";
 
 	}
 
@@ -365,11 +388,13 @@ public class ODS {
 	 * @return
 	 */
 	public String changeLineDateFormat(String day) {
-		return day.substring(0, 4) + "-" + day.substring(4, 6) + "-" + day.substring(6, 8);
+		return day.substring(0, 4) + "-" + day.substring(4, 6) + "-"
+				+ day.substring(6, 8);
 
 	}
 
-	public int getTFRecordCount(String dateLineFormat, String dateChineseFormat, String ExportNum) {
+	public int getTFRecordCount(String dateLineFormat, String dateChineseFormat,
+			String ExportNum) {
 		NetService ns = new NetService();
 
 		ns.createHttpClient();
@@ -406,7 +431,8 @@ public class ODS {
 		int start = temp.indexOf("clientId=") + 10;
 		int parameterPanelId = temp.indexOf("parameterPanelId") + 19;
 		String ClientId = temp.substring(start, start + 41);
-		String panelId = temp.substring(parameterPanelId, parameterPanelId + 41);
+		String panelId = temp.substring(parameterPanelId,
+				parameterPanelId + 41);
 
 		map.clear();
 		map.put("className", "ClientReportService");
@@ -415,7 +441,8 @@ public class ODS {
 		result = ns.HttpPost(url_query, map, encoding);
 		JsonService js = new JsonService(result);
 		JsonArray jo = js.getJsonArray("result");
-		String param_struction = jo.get(0).getAsJsonObject().get("id").toString();
+		String param_struction = jo.get(0).getAsJsonObject().get("id")
+				.toString();
 		String param_date = jo.get(1).getAsJsonObject().get("id").toString();
 		// String param_date =
 		// jo.getAsJsonArray().get(1).getAsJsonObject().get("id").toString();
@@ -429,7 +456,8 @@ public class ODS {
 		map.clear();
 		map.put("className", "CompositeService");
 		map.put("methodName", "setParamValuesWithRelated");
-		map.put("params", "[" + panelId + "," + param_date + ",'" + dateLineFormat + "','" + dateChineseFormat + "' ]");
+		map.put("params", "[" + panelId + "," + param_date + ",'"
+				+ dateLineFormat + "','" + dateChineseFormat + "' ]");
 		result = ns.HttpPost(url_query, map, encoding);
 
 		map.clear();
@@ -460,7 +488,8 @@ public class ODS {
 	 * @param ExportNum
 	 * @return
 	 */
-	public JsonArray getAllFTRecord(String queryDate1, String queryDate2, String ExportNum) {
+	public JsonArray getAllFTRecord(String queryDate1, String queryDate2,
+			String ExportNum) {
 		NetService ns = new NetService();
 
 		ns.createHttpClient();
@@ -524,9 +553,11 @@ public class ODS {
 		JsonObject reportBean = jo.getAsJsonObject("reportBean");
 		String clientConfig = reportBean.get("clientConfig").getAsString();
 		JsonService jss = new JsonService(clientConfig);
-		JsonObject BizViewOutField = jss.getJsonObject().get("gridProp").getAsJsonObject().get("fieldProps")
+		JsonObject BizViewOutField = jss.getJsonObject().get("gridProp")
+				.getAsJsonObject().get("fieldProps")
 				.getAsJsonObject();
-		JsonArray opParameter = jss.getJsonObject().get("paramSetting").getAsJsonObject().get("applyDefaultValueParams")
+		JsonArray opParameter = jss.getJsonObject().get("paramSetting")
+				.getAsJsonObject().get("applyDefaultValueParams")
 				.getAsJsonArray();
 		String tf_type = opParameter.get(0).toString();
 		String date = opParameter.get(2).toString();
@@ -551,7 +582,8 @@ public class ODS {
 		map.clear();
 		map.put("className", "CombinedQueryService");
 		map.put("methodName", "initFromBizViewEx");
-		map.put("params", "[" + reportID1 + "," + clientId + "," + reportID2 + ",true]");
+		map.put("params",
+				"[" + reportID1 + "," + clientId + "," + reportID2 + ",true]");
 		result = ns.HttpPost(url_query, map, encoding);
 		// System.out.println(result);
 
@@ -574,7 +606,8 @@ public class ODS {
 		map.clear();
 		map.put("className", "CompositeService");
 		map.put("methodName", "setParamValuesWithRelated");
-		map.put("params", "[" + parameterPanelId + "," + date + "," + queryDate1 + "," + queryDate2 + " ]");
+		map.put("params", "[" + parameterPanelId + "," + date + "," + queryDate1
+				+ "," + queryDate2 + " ]");
 		result = ns.HttpPost(url_query, map, encoding);
 
 		/**
@@ -589,14 +622,16 @@ public class ODS {
 		map.clear();
 		map.put("className", "CompositeService");
 		map.put("methodName", "setParamValuesWithRelated");
-		map.put("params", "[" + parameterPanelId + "," + tf_type + ",'公司类贷款(不含票据贴现),贸易融资','公司类贷款(不含票据贴现),贸易融资' ]");
+		map.put("params", "[" + parameterPanelId + "," + tf_type
+				+ ",'公司类贷款(不含票据贴现),贸易融资','公司类贷款(不含票据贴现),贸易融资' ]");
 		result = ns.HttpPost(url_query, map, encoding);
 		System.out.println("设定参数");
 
 		// map.clear();
 		// map.put("className", "CatalogService");
 		// map.put("methodName", "isCatalogElementAccessible");
-		// map.put("params", "[\"Iee801fbd037361f4014688c9cb301d4a\",\"WRITE\"]");
+		// map.put("params",
+		// "[\"Iee801fbd037361f4014688c9cb301d4a\",\"WRITE\"]");
 		// result = ns.HttpPost(url_query, map, encoding);
 
 		/*
@@ -637,7 +672,8 @@ public class ODS {
 		result = ns.HttpPost(url_query, map, encoding);
 		js = new JsonService(result);
 		JsonObject objRusult = js.getJsonObject();
-		JsonArray array_result = objRusult.get("result").getAsJsonArray().get(0).getAsJsonArray();
+		JsonArray array_result = objRusult.get("result").getAsJsonArray().get(0)
+				.getAsJsonArray();
 		System.out.println("result array size is:" + array_result.size());
 		System.out.println("result to object");
 
@@ -655,7 +691,8 @@ public class ODS {
 	 * @param ExportNum   返回的最大记录数
 	 * @return 国际业务流水记录的数组
 	 */
-	public JsonArray getAllSettleRecord(String startDayNum, String startDayChn, String endDayNum, String endDayChn,
+	public JsonArray getAllSettleRecord(String startDayNum, String startDayChn,
+			String endDayNum, String endDayChn,
 			String ExportNum) {
 
 		NetService ns = new NetService();
@@ -740,8 +777,10 @@ public class ODS {
 		String clientConfig = reportBean.get("clientConfig").getAsString();
 
 		JsonService jss = new JsonService(clientConfig);
-		BizViewOutField = jss.getJsonObject().get("gridProp").getAsJsonObject().get("fieldProps").getAsJsonObject();
-		JsonArray opParameter = jss.getJsonObject().get("paramSetting").getAsJsonObject().get("applyDefaultValueParams")
+		BizViewOutField = jss.getJsonObject().get("gridProp").getAsJsonObject()
+				.get("fieldProps").getAsJsonObject();
+		JsonArray opParameter = jss.getJsonObject().get("paramSetting")
+				.getAsJsonObject().get("applyDefaultValueParams")
 				.getAsJsonArray();
 		String StartDay = opParameter.get(0).toString();
 		String EndDay = opParameter.get(1).toString();
@@ -773,7 +812,8 @@ public class ODS {
 		map.clear();
 		map.put("className", "CombinedQueryService");
 		map.put("methodName", "initFromBizViewEx");
-		map.put("params", "[" + reportID1 + "," + clientId + "," + reportID2 + ",true]");
+		map.put("params",
+				"[" + reportID1 + "," + clientId + "," + reportID2 + ",true]");
 		result = ns.HttpPost(url_query, map, encoding);
 		// System.out.println(result);
 
@@ -830,7 +870,8 @@ public class ODS {
 		map.clear();
 		map.put("className", "CombinedQueryService");
 		map.put("methodName", "initFromBizViewEx");
-		map.put("params", "[" + reportID1 + "," + clientId + "," + reportID2 + ",true]");
+		map.put("params",
+				"[" + reportID1 + "," + clientId + "," + reportID2 + ",true]");
 		result = ns.HttpPost(url_query, map, encoding);
 		// System.out.println(result);
 
@@ -852,12 +893,14 @@ public class ODS {
 		map.clear();
 		map.put("className", "CompositeService");
 		map.put("methodName", "setParamValuesWithRelated");
-		map.put("params", "[" + parameterPanelId + "," + StartDay + "," + startDayNum + "," + startDayChn + " ]");
+		map.put("params", "[" + parameterPanelId + "," + StartDay + ","
+				+ startDayNum + "," + startDayChn + " ]");
 		result = ns.HttpPost(url_query, map, encoding);
 		map.clear();
 		map.put("className", "CompositeService");
 		map.put("methodName", "setParamValuesWithRelated");
-		map.put("params", "[" + parameterPanelId + "," + EndDay + "," + endDayNum + "," + endDayChn + " ]");
+		map.put("params", "[" + parameterPanelId + "," + EndDay + ","
+				+ endDayNum + "," + endDayChn + " ]");
 		result = ns.HttpPost(url_query, map, encoding);
 		System.out.println("设定参数");
 		// System.out.println(result);
@@ -900,7 +943,8 @@ public class ODS {
 		result = ns.HttpPost(url_query, map, encoding);
 		js = new JsonService(result);
 		JsonObject objRusult = js.getJsonObject();
-		JsonArray array_result = objRusult.get("result").getAsJsonArray().get(0).getAsJsonArray();
+		JsonArray array_result = objRusult.get("result").getAsJsonArray().get(0)
+				.getAsJsonArray();
 		System.out.println("result array size is:" + array_result.size());
 		System.out.println("result to object");
 
