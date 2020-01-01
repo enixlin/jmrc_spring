@@ -88,6 +88,13 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
             height: height * 0.5,
             margin: 5,
             scrollable: true,
+            store:{
+            	   fields: ["product_name", "amount", "times", "amount_compare", "times_compare"],
+                   proxy: {
+                       url: "/settlerecord/getAllProductDetail",
+                       type: "ajax"
+                   }
+            },
             // bind: { store: "{getSettleTypeProformanceByDate}" },
             tbar: ["->", {
                 text: "导出表格",
@@ -207,10 +214,10 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
 
             ],
         });
+        
+        let store=productGrid.getStore();
 
-        productGrid.bindStore(scope.getViewModel().getStore(
-            "getAllProductDetail"));
-        productGrid.getStore().load({
+        store.load({
             params: {
                 start: data.start,
                 end: data.end,

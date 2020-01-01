@@ -64,7 +64,7 @@ public class LoginController {
 		 */
 //        String location = "http://110.0.6.100:8888/jmrc/index.html";
 //		String location = "/jmrc/build/production/jmrc/index.html";
- String location = "/jmrc/index.html";
+		String location = "/jmrc/build/production/jmrc/index.html";
 		try {
 			hsr.sendRedirect(location);
 		} catch (IOException e) {
