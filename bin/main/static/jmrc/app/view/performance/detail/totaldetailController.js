@@ -89,7 +89,7 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
             margin: 5,
             scrollable: true,
             store:{
-            	   fields: ["product_name", "amount", "times", "amount_compare", "times_compare"],
+            	   fields: ["product_name", "amount", "times", "amount_compare", "times_compare","percent"],
                    proxy: {
                        url: "/settlerecord/getAllProductDetail",
                        type: "ajax"
@@ -143,6 +143,19 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
                             return "<font color='red'>" + Ext.util.Format.number(value, "0,000.00") + "</font>";
                         } else {
                             return "<font color='green'>" + Ext.util.Format.number(value, "0,000.00") + "</font>";
+                        }
+
+                    }
+                },
+                 {
+                    header: "增减幅度<br>同比",
+                    dataIndex: "percent",
+                    width: 100,
+                    renderer: function(value) {
+                        if (value < 0) {
+                            return "<font color='red'>" + Ext.util.Format.number(value*100,"0,000.00") +"%"+ "</font>";
+                        } else {
+                            return "<font color='green'>" + Ext.util.Format.number(value*100,"0,000.00") +"%"+ "</font>";
                         }
 
                     }

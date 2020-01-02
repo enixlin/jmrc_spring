@@ -1,6 +1,7 @@
 package com.enixlin.jmrc.service.impl;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -929,6 +930,7 @@ public class SettleRecordServiceImpl extends BaseServiceImpl<SettleRecord>
 		
 					element_current.put("amount_compare", amount.subtract(amount_pre));
 					element_current.put("times_compare", times - times_pre);
+					element_current.put("percent",amount.subtract(amount_pre).divide(amount_pre,20,RoundingMode.HALF_UP));
 				}
 				return detail_current;
 	}
