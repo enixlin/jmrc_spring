@@ -39,12 +39,24 @@ public class TFController {
     	return tfs.getTFBalance(date);
     }
     
+    
+    //按统计每一个客户的贸易融资余额
     @RequestMapping("/getClientTFBalance")
     public ArrayList<LinkedHashMap<String, Object>> getClientTFBalance(HttpServletRequest req,HttpServletResponse res){
     	String date=req.getParameter("date");
+    	System.out.println("getClientTFBalance");
+    	return tfs.getClientTFBalance(date);
+    }
+    
+    
+    
+  //按业务品种统计每一个客户的贸易融资余额
+    @RequestMapping("/getClientTFBalance")
+    public ArrayList<LinkedHashMap<String, Object>> getProductClientTFBalance(HttpServletRequest req,HttpServletResponse res){
+    	String date=req.getParameter("date");
     	String type=req.getParameter("type");
-    	
-    	return tfs.getClientTFBalance(date,type);
+    	System.out.println("getClientTFBalance");
+    	return tfs.getProductClientTFBalance(date,type);
     }
     
 }

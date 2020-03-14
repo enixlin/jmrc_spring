@@ -93,7 +93,15 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
                    proxy: {
                        url: "/settlerecord/getAllProductDetail",
                        type: "ajax"
-                   }
+                   },
+           			listeners : {
+    				beforeload : function() {
+    					msgTip = Ext.MessageBox.show({
+    						title : '提示',
+    						msg : '报表统计信息刷新中,请稍候......'
+    					});
+    				},
+    			},
             },
             // bind: { store: "{getSettleTypeProformanceByDate}" },
             tbar: ["->", {
@@ -235,6 +243,9 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
                 start: data.start,
                 end: data.end,
             },
+            callback:function(){
+            	msgTip.hide();
+            }
         });
         summypanel.add(productGrid);
 
@@ -268,7 +279,15 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
                 proxy: {
                     url: "/settlerecord/getMonthPerformance",
                     type: "ajax"
-                }
+                },
+        		listeners : {
+    				beforeload : function() {
+    					msgTip = Ext.MessageBox.show({
+    						title : '提示',
+    						msg : '报表统计信息刷新中,请稍候......'
+    					});
+    				},
+    			},
             },
             sprites: {
                 type: 'text',
@@ -326,6 +345,9 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
             params: {
                 start: data.start,
                 end: data.end
+            },
+            callback:function(){
+            	msgTip.hide();
             }
         });
 
@@ -492,6 +514,9 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
 
         store.load({
             params: { product, start, end },
+            callback:function(){
+            	msgTip.hide();
+            }
         });
         win.add(grid);
         view.add(win);
@@ -646,6 +671,9 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
 
         store.load({
             params: { start, end },
+            callback:function(){
+            	msgTip.hide();
+            }
         });
         win.add(grid);
         container.add(win);
@@ -753,6 +781,9 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
 
         store.load({
             params: { product, start, end },
+            callback:function(){
+            	msgTip.hide();
+            }
         });
         win.add(grid);
         view.add(win);
@@ -852,6 +883,9 @@ Ext.define("jmrc.view.performance.detail.totaldetailController", {
 
         store.load({
             params: { product, start, end },
+            callback:function(){
+            	msgTip.hide();
+            }
         });
         win.add(grid);
         view.add(win);

@@ -33,16 +33,25 @@ Ext.define('jmrc.view.performance.tf.tfController', {
 				},
 				
 				listeners:{
+					beforeload : function() {
+						msgTip = Ext.MessageBox.show({
+							title : '提示',
+							msg : '报表统计信息刷新中,请稍候......'
+						});
+					},
+				
 					filterchange:function  (store, filters, eOpts){
 						
 					let usx = store.sum("amount_usx_c");
 			        let rmb = store.sum("amount_rmb_c");
 			        let rmb_usd = store.sum("rmb_to_usd_c");
 			        let total_usx = store.sum("total_usx_c");
+			        let total_usx_p = store.sum("total_usx_p");
 			        view.query("toolbar")[1].query("textfield")[0].setValue(Ext.util.Format.number(usx, "0,000.00"));
 			        view.query("toolbar")[1].query("textfield")[1].setValue(Ext.util.Format.number(rmb, "0,000.00"));
 			        view.query("toolbar")[1].query("textfield")[2].setValue(Ext.util.Format.number(rmb_usd, "0,000.00"));
 			        view.query("toolbar")[1].query("textfield")[3].setValue(Ext.util.Format.number(total_usx, "0,000.00"));
+			        view.query("toolbar")[1].query("textfield")[4].setValue(Ext.util.Format.number(total_usx_p, "0,000.00"));
 					}      
 				}
 		});
@@ -74,17 +83,22 @@ Ext.define('jmrc.view.performance.tf.tfController', {
 	                        return Ext.util.Format.number(v, "0,000.00");
 	                    }
 				},
-				{text:"人民币余额",dataIndex:"amount_rmb_c",width:200,
+				{text:"人民币余额",dataIndex:"amount_rmb_c",width:150,
 					 renderer: function(v) {
 	                        return Ext.util.Format.number(v, "0,000.00");
 	                    }
 				},
-				{text:"人民币余额<br>折美元",dataIndex:"rmb_to_usd_c",width:200,
+				{text:"人民币余额<br>折美元",dataIndex:"rmb_to_usd_c",width:150,
 					 renderer: function(v) {
 	                        return Ext.util.Format.number(v, "0,000.00");
 	                    }
 				},
-				{text:"余额综合<br>折美元",dataIndex:"total_usx_c",width:200,
+				{text:"余额综合<br>折美元",dataIndex:"total_usx_c",width:150,
+					 renderer: function(v) {
+	                        return Ext.util.Format.number(v, "0,000.00");
+	                    }
+				},
+				{text:"余额综合(比年初)<br>折美元",dataIndex:"total_usx_p",width:150,
 					 renderer: function(v) {
 	                        return Ext.util.Format.number(v, "0,000.00");
 	                    }
@@ -247,6 +261,8 @@ Ext.define('jmrc.view.performance.tf.tfController', {
                     view.query("toolbar")[1].query("textfield")[2].setValue(Ext.util.Format.number(total_usx, "0,000.00"));
 
                 }
+                
+                msgTip.hide();
             }
 		
 		

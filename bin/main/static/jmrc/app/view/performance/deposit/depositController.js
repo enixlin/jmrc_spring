@@ -30,6 +30,14 @@ Ext.define("jmrc.view.performance.deposit.depositController", {
                 "credit_lastyear",
                 "avg_credit_lastyear"
             ],
+        	listeners : {
+				beforeload : function() {
+					msgTip = Ext.MessageBox.show({
+						title : '提示',
+						msg : '报表统计信息刷新中,请稍候......'
+					});
+				},
+			},
             proxy: {
                 url: "/subject/getDepositSubjects",
                 type: "ajax"
@@ -209,6 +217,9 @@ Ext.define("jmrc.view.performance.deposit.depositController", {
                 fields[1].setValue(Ext.util.Format.number(store.sum("avg_credit_now") / 10000, '0,000.00'));
                 fields[2].setValue(Ext.util.Format.number(store.sum("credit_lastyear") / 10000, '0,000.00'));
                 fields[3].setValue(Ext.util.Format.number(store.sum("avg_credit_lastyear") / 10000, '0,000.00'));
+                msgTip.hide();
+                
+                
             }
 
         });

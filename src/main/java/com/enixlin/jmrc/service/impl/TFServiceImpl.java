@@ -145,15 +145,41 @@ public class TFServiceImpl implements TFService {
 			em.put("rmb_to_usd_c", rmb_to_usd);
 
 		}
+		
+		// 历遍整个数组，添加美元合计
+		for (LinkedHashMap<String, Object> em : balance) {
+			BigDecimal rmx = (BigDecimal) em.get("amount_rmx_p");
+			BigDecimal amount_rmb_p = (BigDecimal) em.get("amount_rmb_p");
+			BigDecimal rate = new BigDecimal(
+					ss.getUsdRateFromSettleRecord("cny", date));
+			BigDecimal total_usx_p = rmx.multiply(rate);
+			BigDecimal rmb_to_usd = amount_rmb_p.multiply(rate);
+			//综合总余额折美元
+			em.put("total_usx_p", total_usx_p);
+			// 人民币原币余额折美元
+			em.put("rmb_to_usd_p", rmb_to_usd);
+		}
 
 		return balance;
 	}
 
 	@Override
 	public ArrayList<LinkedHashMap<String, Object>> getClientTFBalance(
+			String date) {
+		// TODO Auto-generated method stub
+		// 添加科目
+		ArrayList<String> subjects = new ArrayList<String>();
+		ArrayList<String> special = new ArrayList<String>();
+		return tfm.getClientTFBalance(date);
+
+
+	}
+
+	@Override
+	public ArrayList<LinkedHashMap<String, Object>> getProductClientTFBalance(
 			String date, String type) {
 		// TODO Auto-generated method stub
-
+		
 		// 添加科目
 		ArrayList<String> subjects = new ArrayList<String>();
 		ArrayList<String> special = new ArrayList<String>();
@@ -164,7 +190,7 @@ public class TFServiceImpl implements TFService {
 			subjects.add("13030101");
 			subjects.add("13040301");
 			special.add("P08300201700512");
-			return tfm.getClientTFBalance(date, subjects, special);
+			return tfm.getProductClientTFBalance(date, subjects, special);
 		}
 
 		if (type.equals("出口退税")) {
@@ -173,7 +199,7 @@ public class TFServiceImpl implements TFService {
 			subjects.add("13040301");
 			special.add("0452");
 			special.add("0749-“退税贷”出口退税应收款融资");
-			return tfm.getClientTFBalance(date, subjects, special);
+			return tfm.getProductClientTFBalance(date, subjects, special);
 		}
 
 		if (type.equals("打包贷款")) {
@@ -182,15 +208,16 @@ public class TFServiceImpl implements TFService {
 			special.removeAll(special);
 			subjects.add("13070301");
 			special.add("");
-			return tfm.getClientTFBalance(date, subjects, special);
+			return tfm.getProductClientTFBalance(date, subjects, special);
 		}
 
 		if (type.equals("进口押汇")) {
+			System.out.println("getClientTFBalance-进口押汇");
 			subjects.removeAll(subjects);
 			special.removeAll(special);
 			subjects.add("13070101");
 			special.add("");
-			return tfm.getClientTFBalance(date, subjects, special);
+			return tfm.getProductClientTFBalance(date, subjects, special);
 		}
 
 		if (type.equals("出口发票融资")) {
@@ -198,7 +225,7 @@ public class TFServiceImpl implements TFService {
 			special.removeAll(special);
 			subjects.add("13070201");
 			special.add("");
-			return tfm.getClientTFBalance(date, subjects, special);
+			return tfm.getProductClientTFBalance(date, subjects, special);
 		}
 
 		if (type.equals("出口信保融资")) {
@@ -206,7 +233,7 @@ public class TFServiceImpl implements TFService {
 			special.removeAll(special);
 			subjects.add("13079901");
 			special.add("");
-			return tfm.getClientTFBalance(date, subjects, special);
+			return tfm.getProductClientTFBalance(date, subjects, special);
 		}
 
 		if (type.equals("外汇流贷")) {
@@ -214,7 +241,7 @@ public class TFServiceImpl implements TFService {
 			special.removeAll(special);
 			subjects.add("13040304");
 			special.add("P08300201700509");
-			return tfm.getClientTFBalance(date, subjects, special);
+			return tfm.getProductClientTFBalance(date, subjects, special);
 		}
 
 		if (type.equals("信用证")) {
@@ -222,12 +249,10 @@ public class TFServiceImpl implements TFService {
 			special.removeAll(special);
 			subjects.add("0105");
 			special.add("");
-			return tfm.getClientTFBalance(date, subjects, special);
-
+			return tfm.getProductClientTFBalance(date, subjects, special);
 		}
-
 		return null;
-
+		
 	}
 
 }

@@ -24,6 +24,15 @@ Ext.define("jmrc.view.performance.income.incomeController", {
                 { name: "贷方同比", mapping: "credit_compare_precent" },
                 { name: "借方同比", mapping: "debit_compare_precent" }
             ],
+            
+    		listeners : {
+				beforeload : function() {
+					msgTip = Ext.MessageBox.show({
+						title : '提示',
+						msg : '报表统计信息刷新中,请稍候......'
+					});
+				},
+			},
             proxy: {
                 url: "/subject/getIncomeSubject",
                 type: "ajax"
@@ -177,6 +186,7 @@ Ext.define("jmrc.view.performance.income.incomeController", {
                     view.query("toolbar")[1].query("textfield")[2].setValue(Ext.util.Format.number(profill, "0,000.00"));
 
                 }
+                msgTip.hide();
             }
         });
 

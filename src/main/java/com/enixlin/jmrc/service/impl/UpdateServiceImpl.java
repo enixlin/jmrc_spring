@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.enixlin.jmrc.entity.SettleRecord;
 import com.enixlin.jmrc.mapper.SettleRecordMapper;
 import com.enixlin.jmrc.mapper.SubjectMapper;
+import com.enixlin.jmrc.mapper.TFMapper;
 import com.enixlin.jmrc.mapper.UpdateMapper;
 import com.enixlin.jmrc.service.UpdateService;
 import com.google.gson.JsonArray;
@@ -29,6 +30,9 @@ public class UpdateServiceImpl implements UpdateService {
 	SettleRecordMapper sm;
 	@Autowired
 	SubjectMapper subjectm;
+	
+	@Autowired 
+	TFMapper tfm;
 
 	/*
 	 * (non-Javadoc)
@@ -188,7 +192,7 @@ public class UpdateServiceImpl implements UpdateService {
 			return sm.getLastBusyDate();
 		}
 		if (type.equals("tf")) {
-			return um.getLastUpdateDate("tf");
+			return tfm.getLastReportDate();
 		}
 		if (type.equals("subject")) {
 			return subjectm.getLastReportDate();

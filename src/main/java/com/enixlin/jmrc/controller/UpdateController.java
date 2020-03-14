@@ -256,7 +256,7 @@ public class UpdateController {
 
 	// 执行定时任务，每十分钟检查一次数据更新的日期与当前日期，如果当前日期先于数据库的日期，则执行更新
 	// 更新的频率为每十分钟
-	@Scheduled(fixedRate = 600000)
+	//@Scheduled(fixedRate = 600000)
 	public void updateProcess() {
 		// 取得当前的日期
 		Date date_current = new Date();
@@ -326,6 +326,12 @@ public class UpdateController {
 			System.out.println(yesterday_str + "当天科目余额表已更新");
 		}
 
+
+/**
+		执行贸易融资的
+
+
+*/
 		// 执行贸易融资记录更新
 		if (yesterday > date_log_tf_int) {
 			// 插入数据之前先清空相关日期段的数据，防止重复
@@ -341,10 +347,10 @@ public class UpdateController {
 				this.addTF(data_Start_tf, "4000");
 				// 添加贸易融资记录更新到数据库
 				String lastday = us.getLastBusyDate("tf");
-				if (!lastday.equals("")) {
-					us.updatelog(lastday, "tf");
+				
+					us.updatelog(data_Start_tf, "tf");
 					System.out.println("贸易融资记录被更新");
-				}
+			
 			} else {
 				System.out.println(yesterday_str + "当天没有数据，贸易融资记录无需更新");
 			}

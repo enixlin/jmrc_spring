@@ -228,157 +228,103 @@ public 	ArrayList<LinkedHashMap<String, Object>> getTFBalance(@Param("date")Stri
 
 
 
-@Select(
-		 "select " + 
-		""
-		+ ""
-		+ "	c.clientCode as clientCode," + 
-		"	c.clientName as clientName," + 
-		"	case when c.amount_usx is null or c.amount_usx=0 then 0 else CONVERT(c.amount_usx,DECIMAL(20,2)) end amount_usx_c," + 
-		"	case when c.amount_rmx is null or c.amount_rmx=0 then 0 else CONVERT(c.amount_rmx,DECIMAL(20,2)) end amount_rmx_c," + 
-		"	case when c.amount_rmb is null or c.amount_rmb=0 then 0 else CONVERT(c.amount_rmb,DECIMAL(20,2)) end amount_rmb_c," + 
-		
-		" 	case when 	p.amount_usx is null or p.amount_usx=0 then 0 else CONVERT(p.amount_usx,DECIMAL(20,2))  end  amount_usx_p," + 
-		" 	case when	p.amount_rmx is null or p.amount_rmx=0 then 0 else CONVERT(p.amount_rmx,DECIMAL(20,2)) end  amount_rmx_p," + 
-		" 	case when	p.amount_rmb is null or p.amount_rmb=0 then 0 else CONVERT(p.amount_rmb,DECIMAL(20,2)) end  amount_rmb_p " + 
-		"" + 
-		" FROM " + 
-		"		(" + 
-		"		select " 
-		+ "			a.clientCode as clientCode," + 
-		"			a.clientName as clientName," + 
-		"			a.amount_usx as amount_usx," + 
-		"			a.amount_rmx as amount_rmx," + 
-		"			b.amount as amount_rmb " + 
-		" 		FROM " + 
-		"			(" + 
-		"			select "
-		+ "				`客户代码` as clientCode," + 
-		"				`户名` as clientName," + 
-		"				sum(REPLACE(`综合人民币`,',','')) as amount_rmx," + 
-		"				sum(REPLACE(`综合美元`,',','')) as amount_usx " + 
-		"" + 
-		"			FROM "
-		+ "				tf_middle "
-		+ "			where "
-		+ "				`数据抽取日期`=${date} "
-		+ "				and "
-		+ " 			`科目` in "
-		+ "				<foreach collection='subjects' item='item' open='(' close=')' separator=','> "
-		+ "					'${item}'"
-		+ "				</foreach>"
-		+ " 			and "
-		+ "				`特色产品` in  "
-		+ "				<foreach collection='special' item='item' open='(' close=')' separator=','> "
-		+ "					'${item}'"
-		+ "				</foreach>"
-		+"				group by `客户代码`  " + 
-		"			) a " + 
-		"" + 
-		"			 left join " + 
-		"" + 
-		"			(" + 
-		"			select"
-		+ "				`客户代码` as clientCode," + 
-		"				`户名` as clientName," + 
-		"				sum(REPLACE(`余额`,',','')) as amount " + 
-		"" + 
-		"			FROM "
-		+ "				tf_middle "
-		+ "			where "
-		+ "				`数据抽取日期`=${date} "
-		+ "				and "
-		+ " 			`科目` in "
-		+ "				<foreach collection='subjects' item='item' open='(' close=')' separator=','> "
-		+ "					'${item}'"
-		+ "				</foreach>"
-		+ " 			and "
-		+ "				`特色产品` in  "
-		+ "				<foreach collection='special' item='item' open='(' close=')' separator=','> "
-		+ "					'${item}'"
-		+ "				</foreach>"
-		+ " 			and "
-		+ "				`币种`='cny' "  
-		+"				group by `客户代码`  " + 
-		"			) b " + 
-		"			on a.clientCode=b.clientCode " + 
-		" " + 
-		") c " + 
-		"" + 
-		" left join " + 
-		"" + 
-		"		(" + 
-		"		select " 
-		+ "				a.clientCode as clientCode," + 
-		"				a.clientName as clientName," + 
-		"			a.amount_usx as amount_usx," + 
-		"			a.amount_rmx as amount_rmx," + 
-		"			b.amount as amount_rmb " + 
-		"		FROM " + 
-		"			(" + 
-		"			select "  
-		+ "				`客户代码` as clientCode," + 
-		"				`户名` as clientName," + 
-		"				sum(REPLACE(`综合人民币`,',','')) as amount_rmx," + 
-		"				sum(REPLACE(`综合美元`,',','')) as amount_usx " + 
-		"" + 
-		"			FROM "
-		+ "				tf_middle "
-		+ "			where "
-		+ "				`数据抽取日期`=`数据抽取日期`=concat(left(${date},4)-1,'1231') "
-		+ "				and "
-		+ "				`科目` in "
-		+ "				<foreach collection='subjects' item='item' open='(' close=')' separator=','> "
-		+ "					'${item}'"
-		+ "				</foreach>"
-		+ " 			and "
-		+ "				`特色产品` in  "
-		+ "				<foreach collection='special' item='item' open='(' close=')' separator=','> "
-		+ "					'${item}'"
-		+ "				</foreach>"
-		+"			 	group by `客户代码`   " 
-		+"		) a " + 
-		"" + 
-		" 		left join " + 
-		"" + 
-		"		(" + 
-		"		select" 
-		+ "				`客户代码` as clientCode," + 
-		"				`户名` as clientName," + 
-		"			sum(REPLACE(`余额`,',','')) as amount " + 
-		"		FROM "
-		+ "			tf_middle "
-		+ "		where "
-		+ "			`数据抽取日期`=concat(left(${date},4)-1,'1231') "
-		+ " "
-		+ "			and "
+@Select(""
+		+ "<script> "
+		+ "select "
+		+ "a.clientId as clientId, "
+		+ "a.clientName as clientName, "
+		+ "a.usx as usx_c, "
+		+ "a.rmx as rmx_c, "
+		+ "b.usx as usx_p, "
+		+ "b.rmx as rmx_p "
+		+ " from  "
+		+ " ("
+		+" select "
+		+ " `客户代码` as clientId, "
+		+ " `户名` as clientName, "
+		+ " convert(sum(replace(`综合美元`,',','')),decimal(15,2)) as usx, "
+		+ " convert(sum(replace(`综合人民币`,',','')),decimal(15,2)) as rmx "
+		+ " from tf_middle  "
+		+ " where "
+		+ "  `数据抽取日期`= '${date}' "
+		+ " group by `客户代码`"
+
+		+ ") a  "
+	
+		+ " left join "
+		+ " ("
+		+" select "
+		+ " `客户代码` as clientId, "
+		+ " `户名` as clientName, "
+		+ " convert(sum(replace(`综合美元`,',','')),decimal(15,2)) as usx, "
+		+ " convert(sum(replace(`综合人民币`,',','')),decimal(15,2)) as rmx "
+		+ " from tf_middle  "
+		+ " where "
+		+ "  `数据抽取日期`= concat(left(${date},4)-1,'1231')  "
+		+ " group by `客户代码`"
+		+ ") b  "
+		+ " on a.clientId=b.clientId "
+		+ "</script>")
+public ArrayList<LinkedHashMap<String, Object>> getClientTFBalance(@Param("date")String date);
+	
+	
+	
+	
+	
+@Select(""
+		+ "<script> "
+		+ "select "
+		+ "a.clientId as clientId, "
+		+ "a.clientName as clientName, "
+		+ "a.usx as usx_c, "
+		+ "a.rmx as rmx_c, "
+		+ "b.usx as usx_p, "
+		+ "b.rmx as rmx_p "
+		+ " from  "
+		+ " ("
+		+" select "
+		+ " `客户代码` as clientId, "
+		+ " `户名` as clientName, "
+		+ " convert(sum(replace(`综合美元`,',','')),decimal(15,2)) as usx, "
+		+ " convert(sum(replace(`综合人民币`,',','')),decimal(15,2)) as rmx "
+		+ " from tf_middle  "
+		+ " where "
+		+ "  `数据抽取日期`= '${date}' "
+		+ " and "
 		+ "			`科目` in "
 		+ "			<foreach collection='subjects' item='item' open='(' close=')' separator=','> "
-		+ "				'${item}' "
+		+ "				'${item}'"
 		+ "			</foreach>"
-		+ " 		and `特色产品` in  "
-		+ "			<foreach collection='special' item='item' open='(' close=')' separator=','> "
-		+ "				'${item}' "
+		+ " 	and `特色产品` in  "
+		+ "		<foreach collection='special' item='item' open='(' close=')' separator=','> "
+		+ "			'${item}'"
+		+ "		</foreach> "
+		+ " group by `客户代码`"
+		+ ") a  "
+		+ " left join "
+		+ " ("
+		+" select "
+		+ " `客户代码` as clientId, "
+		+ " `户名` as clientName, "
+		+ " convert(sum(replace(`综合美元`,',','')),decimal(15,2)) as usx, "
+		+ " convert(sum(replace(`综合人民币`,',','')),decimal(15,2)) as rmx "
+		+ " from tf_middle  "
+		+ " where "
+		+ "  `数据抽取日期`= concat(left(${date},4)-1,'1231')  "
+		+ " and "
+		+ "			`科目` in "
+		+ "			<foreach collection='subjects' item='item' open='(' close=')' separator=','> "
+		+ "				'${item}'"
 		+ "			</foreach>"
-		+ " 		and `币种`='cny' "  
-		+"		group by `客户代码`   " +
-		"		) b "  + 
-		"" + 
-		"			on a.clientCode=b.clientCode " + 
-		") p " + 
-		"" + 
-		"on c.clientCode=p.clientCode "
-		+ "</script>"
-	
-		)
-public ArrayList<LinkedHashMap<String, Object>> getClientTFBalance(@Param("date")String date,@Param("subjects")ArrayList<String> subjects,@Param("special")ArrayList<String> special);
-	
-	
-	
-	
-	
-	
-	
+		+ " 	and `特色产品` in  "
+		+ "		<foreach collection='special' item='item' open='(' close=')' separator=','> "
+		+ "			'${item}'"
+		+ "		</foreach> "
+		+ " group by `客户代码`"
+		+ ") b  "
+		+ " on a.clientId=b.clientId "
+		+ "</script>")
+	public ArrayList<LinkedHashMap<String, Object>> getProductClientTFBalance(@Param("date")String date,@Param("subjects")ArrayList<String> subjects,@Param("special")ArrayList<String> special);
 	
 	
 	
