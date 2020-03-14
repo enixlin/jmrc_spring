@@ -51,7 +51,7 @@ public class TFController {
     
     
   //按业务品种统计每一个客户的贸易融资余额
-    @RequestMapping("/getClientTFBalance")
+    @RequestMapping("/getProductClientTFBalance")
     public ArrayList<LinkedHashMap<String, Object>> getProductClientTFBalance(HttpServletRequest req,HttpServletResponse res){
     	String date=req.getParameter("date");
     	String type=req.getParameter("type");
