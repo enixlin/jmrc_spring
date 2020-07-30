@@ -59,7 +59,7 @@
 		}
 	],
 	"loader": {
-		"cache": false,
+		"cache": false,
 		"cacheParam": "_dc"
 	},
 	"production": {

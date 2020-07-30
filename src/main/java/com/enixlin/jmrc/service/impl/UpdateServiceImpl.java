@@ -15,6 +15,7 @@ import com.enixlin.jmrc.mapper.SubjectMapper;
 import com.enixlin.jmrc.mapper.TFMapper;
 import com.enixlin.jmrc.mapper.UpdateMapper;
 import com.enixlin.jmrc.service.UpdateService;
+import com.enixlin.jmrc.smartbi.NetService;
 import com.google.gson.JsonArray;
 
 /**
@@ -70,9 +71,14 @@ public class UpdateServiceImpl implements UpdateService {
 	@Override
 	public int addTF(JsonArray ja) {
 		// TODO Auto-generated method stub
-
-		
-		return um.addTF(ja);
+		um.addTF(ja);
+		return um.addTF_e(ja);
+	}
+	
+	@Override
+	public int addTF_e(JsonArray ja) {
+		// TODO Auto-generated method stub
+		return um.addTF_e(ja);
 
 	}
 
@@ -198,6 +204,23 @@ public class UpdateServiceImpl implements UpdateService {
 			return subjectm.getLastReportDate();
 		}
 		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.enixlin.jmrc.service.UpdateService#Update_localToRemote()
+	 */
+	@Override
+	public String Update_localToRemote() {
+		// TODO Auto-generated method stub
+		NetService ns=new NetService();
+		String requestUrl="http://localhost:3000/update/localToRemote";
+		
+		
+		System.out.println(" * 本地数据更新完成后，推送数据到远程数据库，\r\n" + 
+				"		 * 这个过程由nodejs的微服务执行，这里只要简单的请求一下\r\n" + 
+				"		 * http://localhost:3000/update/localToRemote");
+		//
+		return ns.HttpGet(requestUrl);
 	}
 
 }

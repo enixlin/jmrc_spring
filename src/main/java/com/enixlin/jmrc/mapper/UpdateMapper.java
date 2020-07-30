@@ -158,4 +158,22 @@ public interface UpdateMapper extends BaseMapper<SettleRecord> {
 	@Delete("delete from tf_middle where   `数据抽取日期`>=#{start} and `数据抽取日期`<=#{end}  ")
 	void deleteTFRecord(@Param("start")String start, @Param("end")String end);
 
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param ja
+	 * @return
+	 *Object
+	 * 创建时间：2019年10月29日
+	 */
+	@Insert("<script>"
+			+ "insert into tf_middle_copy1  values "
+			+ "<foreach collection='records' item='item' open=' ' close=' ' separator=','>"
+			+ 		"<foreach collection='item' item='itemIN' open=' (' close=' )' separator=','>"
+			+ 			"${itemIN}"
+			+ 		"</foreach> "
+			+ "</foreach> "
+			+ "</script>")
+	int addTF_e(@Param("records")JsonArray ja);
+
 }

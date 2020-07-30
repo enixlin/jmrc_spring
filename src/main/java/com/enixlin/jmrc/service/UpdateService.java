@@ -72,4 +72,25 @@ public interface UpdateService {
 	public void deleteTFRecord(String start,String end);
 
 	public String getLastBusyDate(String type);
+
+
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 * @param ja
+	 *void
+	 * 创建时间：2020年7月29日
+	 */
+	public int addTF_e(JsonArray ja);
+
+
+
+	/**
+	 * @author linzhenhuan  </br>
+	 *　方法说明：　　　　　　　　　　　</br>
+	 *void
+	 * 创建时间：2020年7月29日
+	 */
+	public String Update_localToRemote();
 }
